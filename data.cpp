@@ -3,11 +3,11 @@
 #include <string>
 #include <vector>
 
-void loadData()
+void loadData(vector<User> &logInCredential)
 {
   logInCredential;
 }
-void saveData()
+void saveData(vector<User> &logInCredential)
 {
   
 }

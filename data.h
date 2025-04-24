@@ -5,15 +5,18 @@
 #include <vector>
 using namespace std;
 
+//general data
 struct User
 {
   int role;
+  int id;
   string username;
   string password;
 };
 
 vector<User> logInCredential;
 
-void loadData();
-void saveData();
+//functions
+void loadData(vector<User> &logInCredential);
+void saveData(vector<User> &logInCredential);
 #endif
