@@ -42,4 +42,5 @@ string decrypt(string password, int id)
         }
         decryptedPassword += characters[pos];
     }
+    return decryptedPassword;
 }
