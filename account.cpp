@@ -1,6 +1,7 @@
 #include <iostream>
 #include "account.h"
 #include "data.h"
+#include "ED.h"
 
 void displayAccountTemplate(string text)
 {
@@ -73,7 +74,7 @@ void signIn()
 
         if(idnumber <= size)
         {
-            if(logInCredential[idnumber].password == password)
+            if(decrypt(logInCredential[idnumber].password, idnumber) == password)
             {
                 isLoggedIn = true;
                 break;
@@ -114,7 +115,8 @@ void signUp()
             break;
         }
     }
-
+    int no = 2500000 + size;
+    string encryptedPassword = encrypt(password, no);
     logInCredential[size - 1].id = 2500000 + size;
     logInCredential[size - 1].username = username;
     logInCredential[size - 1].password = password;

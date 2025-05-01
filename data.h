@@ -10,6 +10,7 @@ struct User
 {
   string role;
   int id;
+  int space;
   string username;
   string password;
 };
