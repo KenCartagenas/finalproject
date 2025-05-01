@@ -2,8 +2,11 @@
 #define ACCOUNT_H
 #include "data.h"
 
-void signIn(vector<User> &logInCredential);
-void signUp(vector<User> &logInCredential);
-void forgetPassword(vector<User> &logInCredential);
+void displayAccountTemplate(string text);
+bool usernameExists();
+void accountMenu();
+void signIn();
+void signUp();
+void forgotPassword();
 
 #endif

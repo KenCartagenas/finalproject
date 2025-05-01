@@ -8,15 +8,18 @@ using namespace std;
 //general data
 struct User
 {
-  int role;
+  string role;
   int id;
   string username;
   string password;
 };
 
-vector<User> logInCredential;
+extern vector<User> logInCredential;
+bool isLoggedIn;
+bool isRunning = true;
+int size = logInCredential.size();
 
 //functions
-void loadData(vector<User> &logInCredential);
-void saveData(vector<User> &logInCredential);
+void loadData();
+void saveData();
 #endif
