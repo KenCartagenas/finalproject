@@ -5,6 +5,7 @@
 
 void displayAccountTemplate(string text)
 {
+    system("cls")
     cout << "    Welcome to Student Grades Management System" << endl;
     cout << "-------------------------------------------------------" << endl;
     cout << text;
@@ -35,7 +36,7 @@ bool isPasswordStrong(string password)
         return true;
     }
 
-    cout << "There are either no capital letter, number, or special character." << endl;
+    displayAccountTemplate("There are either no capital letter, number, or special character.\n");
     return false;
 }
 
@@ -119,7 +120,7 @@ void signUp()
     string encryptedPassword = encrypt(password, no);
     logInCredential[size - 1].id = 2500000 + size;
     logInCredential[size - 1].username = username;
-    logInCredential[size - 1].password = password;
+    logInCredential[size - 1].password = encryptedPassword;
     logInCredential[size - 1].role = role;
 
     cout << "    Welcome to Student Grades Management System" << endl;
@@ -136,5 +137,33 @@ void signUp()
 
 void forgotPassword()
 {
-
+    string user, pass;
+    int id;
+    bool success = false;
+    
+    while(!success)
+    {
+        displayAccountTemplate("Forgot Password?\nEnter Username: \n");
+        getline(cin, user);
+        displayAccountTemplate("Forgot Password?\nEnter ID number: \n");
+        cin >> id;
+        if(logInCredential[id - 2500000].username == user)
+        {
+            while(true)
+            {
+                displayAccountTemplate("Forgot Password?\nEnter new password: \n");
+                getline(cin, pass);
+                if(isPasswordstrong(pass))
+                {
+                    success = true;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            displayAccountTemplate("Forgot Password?\nWrong username or id number. Try again");
+        }
+    }
+    logInCredential[id - 2500000].password = encrypt(pass);
 }
