@@ -78,6 +78,7 @@ void signIn()
             if(decrypt(logInCredential[idnumber].password, idnumber) == password)
             {
                 isLoggedIn = true;
+                loggedInID = logInCredential[idnumber].id;
                 break;
             }
         }
@@ -133,6 +134,7 @@ void signUp()
     cout << ">> ";
     getline(cin, a);
     isLoggedIn = true;
+    loggedInID = logInCredential[idnumber].id;
 }
 
 void forgotPassword()
