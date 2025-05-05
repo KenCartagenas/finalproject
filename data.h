@@ -19,6 +19,7 @@ extern vector<User> logInCredential;
 bool isLoggedIn;
 bool isRunning = true;
 int size = logInCredential.size();
+int loggedInID;
 
 //functions
 void loadData();
