@@ -6,8 +6,14 @@ using namespace std;
 
 void runAndDetermine()
 {
-  string loggedInRole = logInCredential[];
-  
+  if(logInCredential[loggedInID].role == "teacher")
+  {
+    teacherMenu();
+  }
+  else if(logInCredential[loggedInID].role == "student")
+  {
+    studentMenu();
+  }
 }
 
 void teacherMenu()
