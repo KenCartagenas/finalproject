@@ -15,6 +15,21 @@ struct User
   string password;
 };
 
+struct Course
+{
+  int courseID;
+  string courseName;
+  string teacher;
+  vector<int> enrolledStudentID;
+  float base;
+  float majorExamPercentage;
+  float performanceTaskPercentage;
+  float writtenTaskpercentage;
+  vector<float> majorExam;
+  vector<float> performanceTask;
+  vector<float> writtenTask;
+}
+
 extern vector<User> logInCredential;
 bool isLoggedIn;
 bool isRunning = true;
