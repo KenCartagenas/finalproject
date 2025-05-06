@@ -9,6 +9,6 @@ int main()
 {
     loadData();
     accountMenu();
-    runAndDetermine();
+    mainMenu();
     saveData();
 }
