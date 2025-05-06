@@ -9,6 +9,9 @@ int main()
 {
     loadData();
     accountMenu();
-    mainMenu();
+    if(iRunning == true)
+    {
+        mainMenu();
+    }
     saveData();
 }
