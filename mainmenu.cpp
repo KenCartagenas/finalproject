@@ -4,7 +4,7 @@
 #include "data.h"
 using namespace std;
 
-void runAndDetermine()
+void mainMenu()
 {
   if(logInCredential[loggedInID].role == "teacher")
   {
