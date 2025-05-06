@@ -1,7 +1,7 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
-void runAndDetermine();
+void mainMenu();
 void teacherMenu();
 void studentMenu();
 
