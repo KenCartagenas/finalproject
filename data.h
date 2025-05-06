@@ -13,6 +13,7 @@ struct User
   int space;
   string username;
   string password;
+  string section;
 };
 
 struct Course
@@ -30,6 +31,7 @@ struct Course
   vector<float> writtenTask;
 }
 
+extern vector<Course> courses;
 extern vector<User> logInCredential;
 bool isLoggedIn;
 bool isRunning = true;
