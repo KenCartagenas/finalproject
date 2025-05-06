@@ -48,5 +48,10 @@ void studentMenu()
 
 void CreateCourse()
 {
-  
+    string tempName, 
+    float tempBase
+    displayMainMenuTemplate("Create New Course:\nEnter course's name:");
+    getline(cin, temName);
+    displayMainMenuTemplate("Create New Course:\nDo you want to use default base of grade (zero)?");
+    
 }
