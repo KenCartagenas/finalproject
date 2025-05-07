@@ -5,6 +5,7 @@
 #include <time.h>
 using namespace std;
 
+string characters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890!@#$%^&*_+";
 
 string encrypt(string password, int id)
 {
