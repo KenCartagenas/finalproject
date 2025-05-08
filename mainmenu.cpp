@@ -117,7 +117,7 @@ void createCourse()
 
 void openClass()
 {
-  int chosenCourse, optionOpen;
+  int chosenCourse, optionOpen, chosenStudent;
 
   cout << "    Welcome " << logInCredential[userIndex].username << endl;
   cout << "-------------------------------------------------------" << endl;
@@ -214,6 +214,7 @@ void openClass()
     cout << "-------------------------------------------------------" << endl;
     cout << ">>" << endl;
     cin >> chosenStudent;
+
     
     break;
   default:
