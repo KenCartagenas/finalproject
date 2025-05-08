@@ -148,6 +148,7 @@ void signUp()
     getline(cin, a);
     isLoggedIn = true;
     loggedInID = logInCredential.back().id;
+    userIndex = loggedInID - BASE_ID;
 }
 
 void forgotPassword()
@@ -190,4 +191,3 @@ void forgotPassword()
         }
     }
 }
-
