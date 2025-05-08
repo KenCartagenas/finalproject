@@ -4,9 +4,9 @@
 #include "data.h"
 using namespace std;
 
-void diplayMainMenuTemplate()
+void displayMainMenuTemplate(string text)
 {
-    system("cls")
+
     cout << "    Welcome to " << logInCredential[loggedInID].username << endl;
     cout << "-------------------------------------------------------" << endl;
     cout << text;
@@ -46,12 +46,12 @@ void studentMenu()
   
 }
 
-void CreateCourse()
+void createCourse()
 {
-    string tempName, 
-    float tempBase
+    string tempName;
+    float tempBase;
     displayMainMenuTemplate("Create New Course:\nEnter course's name:");
-    getline(cin, temName);
+    getline(cin, tempName);
     displayMainMenuTemplate("Create New Course:\nDo you want to use default base of grade (zero)?");
     
 }

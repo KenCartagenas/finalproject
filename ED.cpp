@@ -24,13 +24,13 @@ string encrypt(string password, int id)
         pos = (characters.find(password[i]) + (id % 10)) % characters.size();
         encryptedPassword += characters[pos];
     }
-    logInCredential[id - 2500000].space = space;
+    logInCredential[id - BASE_ID].space = space;
     return encryptedPassword;
 }
 
 string decrypt(string password, int id)
 {
-    int space = logInCredential[id - 2500000].space;
+    int space = logInCredential[id - BASE_ID].space;
     int pos;
     string decryptedPassword;
 

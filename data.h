@@ -5,7 +5,8 @@
 #include <vector>
 using namespace std;
 
-//general data
+//g++ finalproject/main.cpp finalproject/account.cpp finalproject/data.cpp finalproject/ED.cpp finalproject/mainmenu.cpp -o main.exe 
+
 struct User
 {
   string role;
@@ -14,6 +15,7 @@ struct User
   string username;
   string password;
   string section;
+  int coursesEnrolled;
 };
 
 struct Course
@@ -29,16 +31,15 @@ struct Course
   vector<float> majorExam;
   vector<float> performanceTask;
   vector<float> writtenTask;
-}
+};
 
 extern vector<Course> courses;
 extern vector<User> logInCredential;
-bool isLoggedIn;
-bool isRunning = true;
-int size = logInCredential.size();
-int loggedInID;
+extern bool isLoggedIn;
+extern bool isRunning;
+extern int loggedInID;
+extern const int BASE_ID;
 
-//functions
 void loadData();
 void saveData();
 #endif

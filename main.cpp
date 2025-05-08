@@ -7,11 +7,23 @@ using namespace std;
 
 int main()
 {
-    loadData();
-    accountMenu();
-    if(iRunning == true)
+    int exit;
+    //loadData();
+    while(isRunning)
     {
-        mainMenu();
+        accountMenu();
+        if(isLoggedIn == true)
+        {
+            cout << "wow" << endl;
+            cin >> exit;
+            if (exit == 1)
+            {
+                break;
+            }
+            
+            //mainMenu();
+        }
+        //saveData();
     }
-    saveData();
+    
 }

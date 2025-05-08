@@ -5,10 +5,9 @@
 
 void displayAccountTemplate(string text)
 {
-    system("cls")
     cout << "    Welcome to Student Grades Management System" << endl;
     cout << "-------------------------------------------------------" << endl;
-    cout << text;
+    cout << text << endl;
     cout << "-------------------------------------------------------" << endl;
     cout << ">> ";
 }
@@ -22,11 +21,11 @@ bool isPasswordStrong(string password)
         {
             capital++;
         }
-        if(isalnum(password[i]) != 0)
+        if(isdigit(password[i]) != 0)
         {
             number++;
         }
-        if (!isalnum(password[i]) != 0 && isspace(password[i]) != 0)
+        if (!isalnum(password[i]) && !isspace(password[i]))
         {
             specialCharacter++;
         }
@@ -60,44 +59,49 @@ void accountMenu()
 
 void signIn()
 {
-    string password;
-    int idnumber;
+    string enteredPassword;
+    int enteredID;
 
-    while (true)
+    displayAccountTemplate("Enter ID Number:\n");
+    cin >> enteredID;
+
+    cin.ignore();
+
+    displayAccountTemplate("Enter Password:\n");
+    getline(cin, enteredPassword);
+
+    if(enteredID - BASE_ID <= logInCredential.size() && enteredID - BASE_ID >= 0)
     {
-        displayAccountTemplate("Enter ID Number:\n");
-        cin >> idnumber;
-
-        system("cls");
-
-        displayAccountTemplate("Enter Password:\n");
-        getline(cin, password);
-
-        if(idnumber <= size)
+        if(decrypt(logInCredential[enteredID - BASE_ID].password, enteredID) == enteredPassword)
         {
-            if(decrypt(logInCredential[idnumber].password, idnumber) == password)
-            {
-                isLoggedIn = true;
-                loggedInID = logInCredential[idnumber].id;
-                break;
-            }
+            isLoggedIn = true;
+            loggedInID = logInCredential[enteredID - BASE_ID].id;
         }
+        else
+        {
+            cout << "Wrong password" << endl;
+        }
+    }
+    else
+    {
+        cout << "No ID Found";
     }
 }
 
 void signUp()
 {
-    string username, password, role, temprole, a;
+    string desiredUsername, desiredPassword, role, temprole, tempsection, a;
 
     displayAccountTemplate("Create a New Account!\n\nEnter your username: ");
-    getline(cin, username);
+    cin.ignore();
+    getline(cin, desiredUsername);
     
     
     while (true)
     {
         displayAccountTemplate("Create a New Account!\n\nPassword should at least have:\n\t1 capital letter\n\t1 number\n\t1 special character\nEnter your password: ");
-        getline(cin, password);
-        if(isPasswordStrong(password))
+        getline(cin, desiredPassword);
+        if(isPasswordStrong(desiredPassword))
         {
             break;
         }
@@ -107,6 +111,8 @@ void signUp()
     {
         displayAccountTemplate("Create a New Account!\n\nEnter your role(student, teacher, or admin): ");
         getline(cin, temprole);
+        role = "";
+
         for (int i = 0; i < temprole.size(); i++)
         {
             role += tolower(temprole[i]);
@@ -117,24 +123,31 @@ void signUp()
             break;
         }
     }
-    int no = 2500000 + size;
-    string encryptedPassword = encrypt(password, no);
-    logInCredential[size - 1].id = 2500000 + size;
-    logInCredential[size - 1].username = username;
-    logInCredential[size - 1].password = encryptedPassword;
-    logInCredential[size - 1].role = role;
+
+    displayAccountTemplate("Create a New Account\n\nEnter section: ");
+    getline(cin, tempsection);
+    int no = BASE_ID + logInCredential.size();
+
+    User newUser;
+    newUser.id = no;
+    newUser.username = desiredUsername;
+    newUser.role = role;
+    newUser.section = tempsection;
+    logInCredential.push_back(newUser);
+    logInCredential[no - BASE_ID].password = encrypt(desiredPassword, no);
 
     cout << "    Welcome to Student Grades Management System" << endl;
     cout << "-------------------------------------------------------" << endl;
-    cout << "Your username: " << logInCredential[size - 1].username << endl;
-    cout << "Your password: " << logInCredential[size - 1].password << endl;
-    cout << "Your id number: " << logInCredential[size - 1].id << endl;
-    cout << "Your role: " << logInCredential[size - 1].role << endl;
+    cout << "Your username: " << logInCredential.back().username << endl;
+    cout << "Your password: " << decrypt(logInCredential.back().password, logInCredential.back().id) << endl;
+    cout << "Your id number: " << logInCredential.back().id << endl;
+    cout << "Your section: " << logInCredential.back().section << endl;
+    cout << "Your role: " << logInCredential.back().role << endl;
     cout << "-------------------------------------------------------" << endl;
     cout << ">> ";
     getline(cin, a);
     isLoggedIn = true;
-    loggedInID = logInCredential[idnumber].id;
+    loggedInID = logInCredential.back().id;
 }
 
 void forgotPassword()
@@ -155,7 +168,7 @@ void forgotPassword()
             {
                 displayAccountTemplate("Forgot Password?\nEnter new password: \n");
                 getline(cin, pass);
-                if(isPasswordstrong(pass))
+                if(isPasswordStrong(pass))
                 {
                     success = true;
                     break;
@@ -167,5 +180,5 @@ void forgotPassword()
             displayAccountTemplate("Forgot Password?\nWrong username or id number. Try again");
         }
     }
-    logInCredential[id - 2500000].password = encrypt(pass);
+    logInCredential[id - 2500000].password = encrypt(pass, id);
 }
