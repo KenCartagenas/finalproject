@@ -48,10 +48,23 @@ void studentMenu()
 
 void createCourse()
 {
-    string tempName;
+    string tempName, tempSection;
+    char option;
     float tempBase;
+
     displayMainMenuTemplate("Create New Course:\nEnter course's name:");
     getline(cin, tempName);
     displayMainMenuTemplate("Create New Course:\nDo you want to use default base of grade (zero)?");
+    if(tolower(option) == 'y')
+    {
+      tempBase = 0;
+    }
+    else
+    {
+      displayMainMenuTemplate("Create New Course:\nEnter base of grade: ");
+      cin >> tempBase;
+    }
+    displayMainMenuTemplate("Create New Course:\nEnter students' section: ");
+    getline(cin, tempSection);
     
 }

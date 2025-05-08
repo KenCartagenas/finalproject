@@ -18,19 +18,25 @@ struct User
   int coursesEnrolled;
 };
 
+struct GradeRecord {
+  int studentID;
+  vector<float> majorExam;
+  vector<float> performanceTask;
+  vector<float> writtenTask;
+};
+
 struct Course
 {
   int courseID;
   string courseName;
   string teacher;
+  int teacherID;
   vector<int> enrolledStudentID;
   float base;
   float majorExamPercentage;
   float performanceTaskPercentage;
   float writtenTaskpercentage;
-  vector<float> majorExam;
-  vector<float> performanceTask;
-  vector<float> writtenTask;
+  vector<GradeRecord> studentRecords;
 };
 
 extern vector<Course> courses;

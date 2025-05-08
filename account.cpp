@@ -48,7 +48,7 @@ void accountMenu()
         cin >> option;
         switch(tolower(option))
         {
-            case 'a': signIn(); isLoggedIn = true; break;
+            case 'a': signIn(); break;
             case 'b': signUp(); break;
             case 'c': forgotPassword(); break;
             case 'd': cout << "Thank you"; isRunning = false;
@@ -70,7 +70,7 @@ void signIn()
     displayAccountTemplate("Enter Password:\n");
     getline(cin, enteredPassword);
 
-    if(enteredID - BASE_ID <= logInCredential.size() && enteredID - BASE_ID >= 0)
+    if(enteredID - BASE_ID < logInCredential.size() && enteredID - BASE_ID >= 0)
     {
         if(decrypt(logInCredential[enteredID - BASE_ID].password, enteredID) == enteredPassword)
         {
@@ -156,20 +156,29 @@ void forgotPassword()
     int id;
     bool success = false;
     
-    while(!success)
+    while (!success)
     {
-        displayAccountTemplate("Forgot Password?\nEnter Username: \n");
+        displayAccountTemplate("Forgot Password?\nEnter Username: ");
         getline(cin, user);
-        displayAccountTemplate("Forgot Password?\nEnter ID number: \n");
+
+        displayAccountTemplate("Forgot Password?\nEnter ID number: ");
         cin >> id;
-        if(logInCredential[id - 2500000].username == user)
+        cin.ignore();
+
+        int index = id - BASE_ID;
+
+        if (index >= 0 && index < logInCredential.size() &&
+            logInCredential[index].username == user)
         {
-            while(true)
+            while (true)
             {
-                displayAccountTemplate("Forgot Password?\nEnter new password: \n");
+                displayAccountTemplate("Forgot Password?\nEnter new password: ");
                 getline(cin, pass);
-                if(isPasswordStrong(pass))
+
+                if (isPasswordStrong(pass))
                 {
+                    logInCredential[index].password = encrypt(pass, id);
+                    cout << "Password updated successfully!" << endl;
                     success = true;
                     break;
                 }
@@ -177,8 +186,8 @@ void forgotPassword()
         }
         else
         {
-            displayAccountTemplate("Forgot Password?\nWrong username or id number. Try again");
+            displayAccountTemplate("Forgot Password?\nWrong username or ID number. Try again.\n");
         }
     }
-    logInCredential[id - 2500000].password = encrypt(pass, id);
 }
+
