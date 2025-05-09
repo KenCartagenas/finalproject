@@ -92,7 +92,7 @@ void signUp()
 {
     string desiredUsername, desiredPassword, role, temprole, tempsection, a;
 
-    displayAccountTemplate("Create a New Account!\n\nEnter your username: ");
+    displayAccountTemplate("Create a New Account!\n\nEnter your Name: ");
     cin.ignore();
     getline(cin, desiredUsername);
     
@@ -124,25 +124,35 @@ void signUp()
         }
     }
 
-    displayAccountTemplate("Create a New Account\n\nEnter section: ");
-    getline(cin, tempsection);
+    if (role == "student")
+    {
+        displayAccountTemplate("Create a New Account\n\nEnter section: ");
+        getline(cin, tempsection);
+    }
+    
     int no = BASE_ID + logInCredential.size();
 
     User newUser;
     newUser.id = no;
     newUser.username = desiredUsername;
     newUser.role = role;
-    newUser.section = tempsection;
+    if (role == "student")
+    {
+        newUser.section = tempsection;
+    }
     logInCredential.push_back(newUser);
     logInCredential[no - BASE_ID].password = encrypt(desiredPassword, no);
 
     cout << "    Welcome to Student Grades Management System" << endl;
     cout << "-------------------------------------------------------" << endl;
-    cout << "Your username: " << logInCredential.back().username << endl;
-    cout << "Your password: " << decrypt(logInCredential.back().password, logInCredential.back().id) << endl;
-    cout << "Your id number: " << logInCredential.back().id << endl;
-    cout << "Your section: " << logInCredential.back().section << endl;
-    cout << "Your role: " << logInCredential.back().role << endl;
+    cout << "Name: " << logInCredential.back().username << endl;
+    cout << "Password: " << decrypt(logInCredential.back().password, logInCredential.back().id) << endl;
+    cout << "ID Number: " << logInCredential.back().id << endl;
+    if (role == "student")
+    {
+        cout << "Section: " << logInCredential.back().section << endl;
+    }
+    cout << "Role: " << logInCredential.back().role << endl;
     cout << "-------------------------------------------------------" << endl;
     cout << ">> ";
     getline(cin, a);
