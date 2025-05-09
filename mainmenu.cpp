@@ -76,7 +76,7 @@ void createCourse()
     cin >> tempP >> tempW >> tempM;
 
     Course newCourse;
-    newCourse.courseID = courseCount;
+    newCourse.courseID = coursesCount;
     newCourse.courseName = tempName;
     newCourse.teacher = logInCredential[userIndex].username;
     newCourse.teacherID = logInCredential[userIndex].id;
@@ -90,11 +90,14 @@ void createCourse()
       if (logInCredential[i].section == tempSection)
       {
         newCourse.enrolledStudentID.push_back(logInCredential[i].id);
+        GradeRecord newRecord;
+        newRecord.studentID = logInCredential[i].id;
+        newCourse.studentRecords.push_back(newRecord);
       }
     }
 
     logInCredential[userIndex].coursesHandled.push_back(newCourse.courseID);
-
+    coursesCount++;
     cout << "    Welcome " << logInCredential[userIndex].username << endl;
     cout << "-------------------------------------------------------" << endl;
     cout << "Course Name: " << newCourse.courseName << endl;
@@ -117,29 +120,28 @@ void createCourse()
 
 void openClass()
 {
-  int chosenCourse, optionOpen, chosenStudent;
+  int chosenCourse, optionOpen;
 
   cout << "    Welcome " << logInCredential[userIndex].username << endl;
   cout << "-------------------------------------------------------" << endl;
   cout << "Courses ID and Courses Name: " << endl;
-  for (int i = 0; i < logInCredential[userIndex].coursesHandled; i++)
+  for (int i = 0; i < logInCredential[userIndex].coursesHandled.size(); i++)
   {
-    cout << logInCredential[userIndex].coursesHandled[i] << ".) " << courses[logInCredential[userIndex].coursesHandled[i]].name << endl;
+    cout << i + 1 << ".) " << courses[logInCredential[userIndex].coursesHandled[i]].courseName << endl;
   }
   cout << "-------------------------------------------------------" << endl;
   cout << ">> ";
   cin >> chosenCourse;
   
-  int indexOfCourse = chosenCourse;
-  cout << "    " << courses[indexOfCourse].name << endl;
+  int indexOfCourse = courses[logInCredential[userIndex].coursesHandled[chosenCourse]].courseID;
+  cout << "    " << courses[indexOfCourse].courseName << endl;
   cout << "-------------------------------------------------------" << endl;
   cout << "1. Display All Students and Scores" << endl;
   cout << "2. Edit Student Scores" << endl;
-  cout << "3. Calculate Averages or Grades" << endl;
-  cout << "4. Generate Class Grade Report" << endl;
-  cout << "5. Add or Remove Students" << endl;
-  cout << "6. Customize Grade Settings" << endl;
-  cout << "7. Return to Main Dashboard" << endl;
+  cout << "3. Generate Class Grade Report" << endl;
+  cout << "4. Add or Remove Students" << endl;
+  cout << "5. Customize Grade Settings" << endl;
+  cout << "6. Return to Main Dashboard" << endl;
   cout << "-------------------------------------------------------" << endl;
   cout << ">> ";
   cin >> optionOpen;
@@ -147,77 +149,88 @@ void openClass()
   switch (optionOpen)
   {
   case 1:
-    cout << "-------------------------------------------------------" << endl;
-    if (courses[indexOfCourse].enrolledStudentID.size() > 0)
-    {
-      for (int j = 0; j < courses[indexOfCourse].enrolledStudentID.size(); j++)
-      {
-        cout << j + 1 << ".) " << logInCredential[courses[indexOfCourse].enrolledStudentID[j]].username << endl;
-        cout << "\tPerformace Task:" << endl;
-        if (course[indexOfCourse].studentRecords[j].performanceTask.size() > 0)
-        {
-          for (int k = 0; k < courses[indexOfCourse].studentRecords[j].performanceTask.size(); k++)
-          {
-            cout << "\t\t* " << courses[indexOfCourse].studentRecords[j].performanceTaskName[k] << " - " << courses[indexOfCourse].studentRecords[j].performanceTask[k] << endl;
-          }
-        }
-        else
-        {
-          cout << "\t\t-------NO RECORD/s FOUND-------" << endl;
-        }
-        
-
-        cout << "\tWritten Task:" << endl;
-
-        if (courses[indexOfCourse].studentRecords[j].writtenTask.size() > 0)
-        {
-          for (int k = 0; k < courses[indexOfCourse].studentRecords[j].writtenTask.size(); k++)
-          {
-            cout << "\t\t* " << courses[indexOfCourse].studentRecords[j].writtenTaskName[k] << " - " << courses[indexOfCourse].studentRecords[j].writtenTask[k] << endl;
-          }
-        }
-        else
-        {
-          cout << "\t\t-------NO RECORD/s FOUND-------" << endl;
-        }
-        
-        cout << "\tMajor Exam: " << endl;
-
-        if (courses[indexOfCourse].studentRecords[j].majorTask.size() > 0)
-        {
-          for (int k = 0; k < courses[indexOfCourse].studentRecords[j].majorExamination.size(); k++)
-          {
-            cout << "\t\t* " << courses[indexOfCourse].studentRecords[j].majorExaminationName[k] << " - " << courses[indexOfCourse].studentRecords[j].majorTask[k] << endl;
-          }
-        }
-        else
-        {
-          cout << "\t\t-------NO RECORD/s FOUND-------" << endl;
-        }
-        cout << endl;
-      }
-    }
-    else
-    {
-      cout << "-------NO STUDENT IS ENROLLED-------" << endl;
-    }
-    cout << "-------------------------------------------------------" << endl;
-    system("pause");
+    displayStudents(indexOfCourse);
     break;
   case 2:
-    cout << "-------------------------------------------------------" << endl;
-    for (int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
-    {
-      cout << cout << j + 1 << ".) " << logInCredential[courses[indexOfCourse].enrolledStudentID[j]].username << endl;
-    }
-    cout << "Choose student: " << endl;
-    cout << "-------------------------------------------------------" << endl;
-    cout << ">>" << endl;
-    cin >> chosenStudent;
-
-    
+    editStudent(indexOfCourse);
     break;
   default:
     break;
   }
+}
+
+void displayStudents(int indexOfCourse)
+{
+  cout << "-------------------------------------------------------" << endl;
+  if (courses[indexOfCourse].enrolledStudentID.size() > 0)
+  {
+    for (int j = 0; j < courses[indexOfCourse].enrolledStudentID.size(); j++)
+    {
+      cout << j + 1 << ".) " << logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].username << endl;
+      cout << "\tPerformace Task:" << endl;
+      if (courses[indexOfCourse].studentRecords[j].performanceTask.size() > 0)
+      {
+        for (int k = 0; k < courses[indexOfCourse].studentRecords[j].performanceTask.size(); k++)
+        {
+          cout << "\t\t* " << courses[indexOfCourse].studentRecords[j].performanceTaskName[k] << " - " << courses[indexOfCourse].studentRecords[j].performanceTask[k] << endl;
+        }
+      }
+      else
+      {
+        cout << "\t\t-------NO RECORD/s FOUND-------" << endl;
+      }
+      
+
+      cout << "\tWritten Task:" << endl;
+
+      if (courses[indexOfCourse].studentRecords[j].writtenTask.size() > 0)
+      {
+        for (int k = 0; k < courses[indexOfCourse].studentRecords[j].writtenTask.size(); k++)
+        {
+          cout << "\t\t* " << courses[indexOfCourse].studentRecords[j].writtenTaskName[k] << " - " << courses[indexOfCourse].studentRecords[j].writtenTask[k] << endl;
+        }
+      }
+      else
+      {
+        cout << "\t\t-------NO RECORD/s FOUND-------" << endl;
+      }
+      
+      cout << "\tMajor Exam: " << endl;
+
+      if (courses[indexOfCourse].studentRecords[j].majorExam.size() > 0)
+      {
+        for (int k = 0; k < courses[indexOfCourse].studentRecords[j].majorExam.size(); k++)
+        {
+          cout << "\t\t* " << courses[indexOfCourse].studentRecords[j].majorExamName[k] << " - " << courses[indexOfCourse].studentRecords[j].majorExam[k] << endl;
+        }
+      }
+      else
+      {
+        cout << "\t\t-------NO RECORD/s FOUND-------" << endl;
+      }
+      cout << endl;
+    }
+  }
+  else
+  {
+    cout << "-------NO STUDENT IS ENROLLED-------" << endl;
+  }
+  cout << "-------------------------------------------------------" << endl;
+  system("pause");
+}
+
+void editStudent(int indexOfCourse)
+{
+  int chosenStudent;
+
+  cout << "-------------------------------------------------------" << endl;
+  for (int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
+  {
+    cout << i + 1 << ".) " << logInCredential[courses[indexOfCourse].enrolledStudentID[i] - BASE_ID].username << endl;
+  }
+  cout << "Choose student: " << endl;
+  cout << "-------------------------------------------------------" << endl;
+  cout << ">>" << endl;
+  cin >> chosenStudent;
+  
 }

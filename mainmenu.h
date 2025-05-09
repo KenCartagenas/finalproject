@@ -7,5 +7,6 @@ void teacherMenu();
 void studentMenu();
 void createCourse();
 void openClass();
+void displayStudents(int indexOfCourse);
 
 #endif
