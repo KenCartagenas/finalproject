@@ -76,6 +76,7 @@ void signIn()
         {
             isLoggedIn = true;
             loggedInID = logInCredential[enteredID - BASE_ID].id;
+            userIndex = loggedInID - BASE_ID;
         }
         else
         {

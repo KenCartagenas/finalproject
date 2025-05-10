@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-    //loadData();
+    loadData();
     while(isRunning)
     {
         accountMenu();
@@ -15,7 +15,6 @@ int main()
         {
             mainMenu();
         }
-        //saveData();
+        saveData();
     }
-    
 }

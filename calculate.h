@@ -1,11 +1,10 @@
 #ifndef CALCULATE_H
 #define CALCULATE_H
+#include "data.h"
 
+float calculateScore(int indexOfCourse, GradeRecord recordsToCalculate, char component);
 float calculateGrade(int indexOfCourse);
 float calculateGPA();
-float calculatePerformanceTask(int indexOfCourse);
-float calculateWrittenTask(int indexOfCourse);
-float calculateMajorExam(int indexOfCourse);
 float calculateNeededScores();
 
 #endif

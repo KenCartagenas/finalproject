@@ -19,6 +19,9 @@ struct GradeRecord {
   vector<float> majorExamOver;
   vector<float> performanceTaskOver;
   vector<float> writtenTaskOver;
+  float majorExamPercent;
+  float performanceTaskPercent;
+  float writtenTaskPercent;
 };
 
 struct Course
