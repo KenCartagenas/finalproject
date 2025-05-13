@@ -38,6 +38,12 @@ struct Course
   vector<GradeRecord> studentRecords;
 };
 
+struct Grade 
+{
+  string courseName;
+  float grade;
+};
+
 struct User
 {
   string role;
@@ -47,7 +53,7 @@ struct User
   string username;
   string password;
   string section;
-  vector<int> finalGrades;
+  vector<Grade> finalGrades;
   vector<int> coursesEnrolled;
   vector<int> coursesHandled;
 };
@@ -63,4 +69,5 @@ extern int userIndex;
 
 void loadData();
 void saveData();
+
 #endif

@@ -59,6 +59,8 @@
   "files.associations": {
     "iostream": "cpp",
     "iomanip": "cpp",
-    "ostream": "cpp"
+    "ostream": "cpp",
+    "string": "cpp",
+    "fstream": "cpp"
   }
 }

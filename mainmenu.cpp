@@ -36,7 +36,7 @@ void teacherMenu()
   while(isLoggedIn)
   {
     char option;
-    displayMainMenuTemplate(" [A]. Create New Course / Subject\n[B]. Open Existing Class\n[C]. Search Student\n[D]. Settings\n[E]. Log Out");
+    displayMainMenuTemplate(" [A]. Create New Course / Subject\n[B]. Open Existing Class\n[C]. Search Student\n[D]. Settings\n[E]. Generate Report of GPA\n[F]. Log Out");
     cin >> option;
 
     switch(tolower(option))
@@ -45,7 +45,8 @@ void teacherMenu()
       case 'b': openClass(); break;
       case 'c': searchStudentSummary(); break;
       case 'd': editUserProfile(); break;
-      case 'e': isLoggedIn = false;
+      case 'e': calculateGPA(); generateReportGPA(); break;
+      case 'f': isLoggedIn = false;
     }
   }
   
@@ -53,21 +54,71 @@ void teacherMenu()
 
 void studentMenu()
 {
-  while(isLoggedIn)
+  while (isLoggedIn)
   {
-    char option;
-    displayMainMenuTemplate("[A]. Open Course\n[B]. Log Out");
-    cin >> option;
+      User& student = logInCredential[userIndex];
 
-    switch(tolower(option))
-    {
-      //opem course
-      case 'a': break;
-      //log out
-      case 'b': isLoggedIn = false;
+      // === DASHBOARD HEADER ===
+      cout << "\n========= STUDENT DASHBOARD =========\n";
+      cout << "Name    : " << student.username << endl;
+      cout << "ID      : " << student.id << endl;
+      cout << "Section : " << student.section << endl;
+      
+      // === GRADES DISPLAY AND GPA CALCULATION ===
+cout << "\nGrades:\n";
+
+float gpaSum = 0.0;
+int gpaCount = 0;
+
+if (student.finalGrades.empty()) {
+    cout << "  No final grades available yet.\n";
+} else {
+    for (const auto& grade : student.finalGrades) {
+        cout << "  - " << grade.courseName << ": " << grade.grade << endl;
+        gpaSum += grade.grade;
+        gpaCount++;
     }
+}
+
+// Calculate and display GPA
+cout << fixed << setprecision(2);
+if (gpaCount > 0) {
+    student.GPA = gpaSum / gpaCount;
+    cout << "GPA     : " << student.GPA << endl;
+} else {
+    student.GPA = -1; // You may use -1 to mark undefined GPA
+    cout << "GPA     : N/A" << endl;
+}
+
+
+      // === MENU OPTIONS ===
+      char option;
+      displayMainMenuTemplate("[A]. Open Course\n[B]. Log Out");
+      cout << "Select an option: ";
+      cin >> ws >> option;
+
+      switch (tolower(option))
+      {
+          case 'a':
+              if (student.coursesEnrolled.empty()) {
+                  cout << "You're not enrolled in any courses yet.\n";
+              } else {
+                  openCourse(student);
+              }
+              break;
+
+          case 'b':
+              cout << "Logging out...\n";
+              isLoggedIn = false;
+              break;
+
+          default:
+              cout << "Invalid option. Please select A or B.\n";
+              break;
+      }
   }
 }
+
 
 void createCourse()
 {
@@ -213,7 +264,7 @@ void openClass()
               editStudent(indexOfCourse);
               break;
           case 'c':
-              generateReport(indexOfCourse);
+              generateReportCourse(indexOfCourse);
               break;
           case 'd':
               addOrRemove(indexOfCourse);
@@ -289,10 +340,14 @@ void displayStudents(int indexOfCourse)
         {
           cout << "\t\t* " << courses[indexOfCourse].studentRecords[j].majorExamName[k] << " - " << courses[indexOfCourse].studentRecords[j].majorExam[k] << endl;
         }
-        courses[indexOfCourse].studentRecords[j].writtenTaskPercent = courses[indexOfCourse].studentRecords[j].majorExam[0]/courses[indexOfCourse].studentRecords[j].majorExamOver[0];
+        courses[indexOfCourse].studentRecords[j].majorExamPercent = courses[indexOfCourse].studentRecords[j].majorExam[0]/courses[indexOfCourse].studentRecords[j].majorExamOver[0];
         cout << "==============================" << endl;
-        cout << "\t\t\tTotal Score: " << courses[indexOfCourse].studentRecords[j].majorExam[0] << "/" << courses[indexOfCourse].studentRecords[j].majorExamOver[0] << endl;
-        cout << "\t\t\tTotal Ratio: " << courses[indexOfCourse].studentRecords[j].majorExam[0]/courses[indexOfCourse].studentRecords[j].majorExamOver[0] << endl;
+        cout << setprecision(2) << fixed << "\t\t\tTotal Score: " << courses[indexOfCourse].studentRecords[j].majorExam[0] << "/" << courses[indexOfCourse].studentRecords[j].majorExamOver[0] << endl;
+        cout << setprecision(2) << fixed << "\t\t\tTotal Ratio: " << courses[indexOfCourse].studentRecords[j].majorExamPercent << endl;
+        cout << "*******************************************" << endl;
+        cout << setprecision(2) << fixed << "Final Grade: " << calculateGrade(indexOfCourse, courses[indexOfCourse].studentRecords[j].performanceTaskPercent, courses[indexOfCourse].studentRecords[j].writtenTaskPercent, courses[indexOfCourse].studentRecords[j].majorExamPercent);
+        logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[indexOfCourse].grade = calculateGrade(indexOfCourse, courses[indexOfCourse].studentRecords[j].performanceTaskPercent, courses[indexOfCourse].studentRecords[j].writtenTaskPercent, courses[indexOfCourse].studentRecords[j].majorExamPercent);
+        logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[indexOfCourse].courseName = courses[indexOfCourse].courseName;
       }
       else
       {
@@ -779,7 +834,7 @@ void editScore(int indexOfCourse)
   }
 }
 
-void generateReport(int indexOfCourse)
+void generateReportCourse(int indexOfCourse)
 {
   string courseTitle = courses[indexOfCourse].courseName;
   string courseNumber = to_string(courses[indexOfCourse].courseID);
@@ -842,6 +897,10 @@ void generateReport(int indexOfCourse)
           outFile << "==============================" << endl;
           outFile << "\t\t\tTotal Score: " << courses[indexOfCourse].studentRecords[j].majorExam[0] << "/" << courses[indexOfCourse].studentRecords[j].majorExamOver[0] << endl;
           outFile << "\t\t\tTotal Ratio: " << courses[indexOfCourse].studentRecords[j].majorExam[0]/courses[indexOfCourse].studentRecords[j].majorExamOver[0] << endl;
+          cout << "*******************************************" << endl;
+          cout << setprecision(2) << fixed << "Final Grade: " << calculateGrade(indexOfCourse, courses[indexOfCourse].studentRecords[j].performanceTaskPercent, courses[indexOfCourse].studentRecords[j].writtenTaskPercent, courses[indexOfCourse].studentRecords[j].majorExamPercent);
+          logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[indexOfCourse].grade = calculateGrade(indexOfCourse, courses[indexOfCourse].studentRecords[j].performanceTaskPercent, courses[indexOfCourse].studentRecords[j].writtenTaskPercent, courses[indexOfCourse].studentRecords[j].majorExamPercent);
+          logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[indexOfCourse].courseName = courses[indexOfCourse].courseName;
         }
         else
         {
@@ -865,15 +924,55 @@ void generateReport(int indexOfCourse)
   }
 }
 
+void generateReportGPA()
+{
+  string filename = "GPAreports/report.txt";
+  ofstream outFile(filename);
+  int studentCount;
+
+  for (int i = 0; i < logInCredential.size(); i++)
+  {
+    if (logInCredential[i].role == "student")
+    {
+      studentCount++;
+    }
+  }
+  
+  if (outFile.is_open()) 
+  {
+      outFile << "-------------------------------------------------------" << endl;
+      for(int i = 0; i < logInCredential.size(); i++)
+      {
+        if (logInCredential[i].role == "student")
+        {
+          outFile << logInCredential[i].id << ": " << endl;
+          for (int j = 0; j < logInCredential[i].finalGrades.size(); j++)
+          {
+            outFile << setprecision(2) << fixed << "\t" << logInCredential[i].finalGrades[j].courseName << ": " << logInCredential[i].finalGrades[j].grade;
+          }
+          outFile << "GPA: " << logInCredential[i].GPA << endl;
+          outFile << "==========================================\n" << endl;
+        }
+      }
+  }
+  else
+  {
+    cout << "Failed to open/create file" << endl;
+  }
+    outFile.close();
+    cout << "File '" << filename << "' written successfully.\nPlease download the file immediately after generating the report." << endl;
+    system("pause");
+}
+
 void addOrRemove(int indexOfCourse)
 {
     char option;
     int studID;
+    int courseID = courses[indexOfCourse].courseID;
 
     cout << "[a] Add Student\n[b] Remove Student\nChoice: ";
     cin >> option;
 
-    // Reference to the enrolled student vector for easier access
     vector<int>& enrolled = courses[indexOfCourse].enrolledStudentID;
 
     if (option == 'a')
@@ -881,11 +980,28 @@ void addOrRemove(int indexOfCourse)
         cout << "Enter Student ID to add: ";
         cin >> studID;
 
-        // Avoid duplicate enrollment
-        if (find(enrolled.begin(), enrolled.end(), studID) == enrolled.end()) {
+        if (find(enrolled.begin(), enrolled.end(), studID) == enrolled.end()) 
+        {
+          // Add GradeRecord
+          GradeRecord newRecord;
+          newRecord.studentID = studID;
+          courses[indexOfCourse].studentRecords.push_back(newRecord);
+
+          // Add course to student's enrolled list
+          for (User& user : logInCredential) 
+          {
+              if (user.id == studID) 
+              {
+                  user.coursesEnrolled.push_back(courseID);
+                  break;
+              }
+          }
             enrolled.push_back(studID);
             cout << "Student " << studID << " added successfully.\n";
-        } else {
+        } 
+
+        else 
+        {
             cout << "Student is already enrolled.\n";
         }
     }
@@ -894,14 +1010,37 @@ void addOrRemove(int indexOfCourse)
         cout << "Enter Student ID to remove: ";
         cin >> studID;
 
-        // Find the student ID in the vector
+        // 1. Remove student from enrolledStudentID
         auto it = find(enrolled.begin(), enrolled.end(), studID);
-        if (it != enrolled.end()) {
-            enrolled.erase(it);  // Remove the student
-            cout << "Student " << studID << " removed successfully.\n";
-        } else {
-            cout << "Student not found in course.\n";
+        if (it != enrolled.end()) 
+        {
+            enrolled.erase(it);
+
+            // 2. Remove grade record
+            auto& records = courses[indexOfCourse].studentRecords;
+            records.erase(remove_if(records.begin(), records.end(),
+                [studID](const GradeRecord& record) {
+                    return record.studentID == studID;
+                }), records.end());
+
+            // 3. Remove this course from student's coursesEnrolled
+            for (User& user : logInCredential) 
+            {
+                if (user.id == studID) 
+                {
+                    auto& enrolledCourses = user.coursesEnrolled;
+                    enrolledCourses.erase(remove(enrolledCourses.begin(), enrolledCourses.end(), courseID), enrolledCourses.end());
+                    break;
+                }
+            }
+
+            cout << "Student " << studID << " removed successfully from the course and all related records.\n";
+        } 
+        else 
+        {
+          cout << "Student not found in course.\n";
         }
+
     }
     else
     {
@@ -985,12 +1124,12 @@ void searchStudentSummary()
                 cout << "-------------------------------------------------------" << endl;
             }
 
-            break; // stop after finding the student
+            break;
         }
     }
 
     if (!studentFound) {
-        cout << "❌ Student not found in the system." << endl;
+        cout << "Student not found in the system." << endl;
     }
 }
 
@@ -1005,18 +1144,158 @@ void editUserProfile()
     getline(cin, newName);
 
     if (newName.empty()) {
-        cout << "❌ Name cannot be empty. Profile not updated." << endl;
+        cout << "Name cannot be empty. Profile not updated." << endl;
         return;
     }
 
     logInCredential[userIndex].username = newName;
 
-    // Update name in courses (if user is a teacher)
     for (Course& course : courses) {
         if (course.teacherID == logInCredential[userIndex].id) {
             course.teacher = newName;
         }
     }
 
-    cout << "✅ Name successfully updated to \"" << newName << "\"." << endl;
+    cout << "Name successfully updated to \"" << newName << "\"." << endl;
+}
+
+void viewActivities(const GradeRecord& record) {
+    cout << "\n--- Activities ---\n";
+
+    cout << "Major Exams:\n";
+    for (size_t i = 0; i < record.majorExam.size(); ++i) {
+        cout << "- " << record.majorExamName[i] << ": " << record.majorExam[i] << "/" << record.majorExamOver[i] << endl;
+    }
+
+    cout << "Performance Tasks:\n";
+    for (size_t i = 0; i < record.performanceTask.size(); ++i) {
+        cout << "- " << record.performanceTaskName[i] << ": " << record.performanceTask[i] << "/" << record.performanceTaskOver[i] << endl;
+    }
+
+    cout << "Written Tasks:\n";
+    for (size_t i = 0; i < record.writtenTask.size(); ++i) {
+        cout << "- " << record.writtenTaskName[i] << ": " << record.writtenTask[i] << "/" << record.writtenTaskOver[i] << endl;
+    }
+}
+
+void calculateTargetScore(const GradeRecord& record, const Course& course) {
+    float currentGrade = record.finalGrade;
+    float desiredGrade;
+
+    cout << "\nEnter your desired final grade: ";
+    cin >> desiredGrade;
+
+    float examSum = 0, perfSum = 0, writtenSum = 0;
+    float examTotal = 0, perfTotal = 0, writtenTotal = 0;
+
+    for (size_t i = 0; i < record.majorExam.size(); ++i) {
+        examSum += record.majorExam[i];
+        examTotal += record.majorExamOver[i];
+    }
+
+    for (size_t i = 0; i < record.performanceTask.size(); ++i) {
+        perfSum += record.performanceTask[i];
+        perfTotal += record.performanceTaskOver[i];
+    }
+
+    for (size_t i = 0; i < record.writtenTask.size(); ++i) {
+        writtenSum += record.writtenTask[i];
+        writtenTotal += record.writtenTaskOver[i];
+    }
+
+    float currentScore = 0.0;
+    int componentCount = 0;
+
+    if (examTotal > 0) {
+        currentScore += (examSum / examTotal) * course.majorExamPercentage;
+        componentCount++;
+    }
+    if (perfTotal > 0) {
+        currentScore += (perfSum / perfTotal) * course.performanceTaskPercentage;
+        componentCount++;
+    }
+    if (writtenTotal > 0) {
+        currentScore += (writtenSum / writtenTotal) * course.writtenTaskPercentage;
+        componentCount++;
+    }
+
+    if (componentCount == 0) {
+        cout << "No recorded scores yet. Cannot calculate target.\n";
+        return;
+    }
+
+    float needed = desiredGrade - currentScore * 100;
+
+    cout << fixed << setprecision(2);
+    cout << "\nCurrent Grade: " << currentScore * 100 << "%" << endl;
+    cout << "To reach " << desiredGrade << ", you need " << needed << "% more." << endl;
+    cout << "(Assuming future activities can still boost your grade.)\n";
+}
+
+void openCourse(const User& student) {
+    vector<int> myCourses = student.coursesEnrolled;
+    if (myCourses.empty()) {
+        cout << "You're not enrolled in any courses.\n";
+        return;
+    }
+
+    cout << "\nYour Courses:\n";
+    for (size_t i = 0; i < myCourses.size(); ++i) {
+        int courseID = myCourses[i];
+        for (const auto& course : courses) {
+            if (course.courseID == courseID) {
+                cout << i + 1 << ". " << course.courseName << endl;
+            }
+        }
+    }
+
+    int choice;
+    cout << "Select a course to open: ";
+    cin >> choice;
+    if (choice < 1 || choice > (int)myCourses.size()) {
+        cout << "Invalid choice.\n";
+        return;
+    }
+
+    int selectedCourseID = myCourses[choice - 1];
+    Course* selectedCourse = nullptr;
+    GradeRecord* selectedRecord = nullptr;
+
+    for (auto& course : courses) {
+        if (course.courseID == selectedCourseID) {
+            selectedCourse = &course;
+            for (auto& record : course.studentRecords) {
+                if (record.studentID == student.id) {
+                    selectedRecord = &record;
+                    break;
+                }
+            }
+            break;
+        }
+    }
+
+    if (!selectedCourse || !selectedRecord) {
+        cout << "Course data not found.\n";
+        return;
+    }
+
+    while (true) {
+        cout << "\n--- Course: " << selectedCourse->courseName << " ---\n";
+        cout << "1. View Activities\n";
+        cout << "2. Calculate Target Score\n";
+        cout << "3. Back to Dashboard\n";
+        cout << "Enter option: ";
+        int opt;
+        cin >> opt;
+
+        if (opt == 1) {
+            viewActivities(*selectedRecord);
+        } else if (opt == 2) {
+            calculateTargetScore(*selectedRecord, *selectedCourse);
+        } else if (opt == 3) {
+            break;
+        } else {
+            cout << "Invalid input. Try again.\n";
+        }
+    }
 }
