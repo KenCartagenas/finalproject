@@ -11,7 +11,6 @@ using namespace std;
 
 void displayMainMenuTemplate(string text)
 {
-
     cout << "    Welcome " << logInCredential[userIndex].username << endl;
     cout << "-------------------------------------------------------" << endl;
     cout << text << endl;
@@ -119,7 +118,6 @@ if (gpaCount > 0) {
   }
 }
 
-
 void createCourse()
 {
     string tempName, tempSection;
@@ -183,8 +181,10 @@ void createCourse()
             GradeRecord newRecord;
             newRecord.studentID = logInCredential[i].id;
             newCourse.studentRecords.push_back(newRecord);
+
+            logInCredential[i].coursesEnrolled.push_back(coursesCount);
         }
-    }
+    } 
 
     logInCredential[userIndex].coursesHandled.push_back(newCourse.courseID);
     coursesCount++;
@@ -214,7 +214,8 @@ void openClass()
 {
     if (logInCredential[userIndex].coursesHandled.size() > 0)
     {
-        int chosenCourse, optionOpen;
+        int chosenCourse;
+        char optionOpen;
 
         cout << "    Welcome " << logInCredential[userIndex].username << endl;
         cout << "-------------------------------------------------------" << endl;
@@ -227,7 +228,7 @@ void openClass()
         cout << "-------------------------------------------------------" << endl;
         cout << ">> ";
         cin >> chosenCourse;
-
+        cin.ignore();
         if (chosenCourse < 1 || chosenCourse > logInCredential[userIndex].coursesHandled.size()) 
         {
             cout << "Invalid course selection. Returning to main menu." << endl;
@@ -246,19 +247,16 @@ void openClass()
         cout << "-------------------------------------------------------" << endl;
         cout << ">> ";
         cin >> optionOpen;
-
-        optionOpen = tolower(optionOpen);
-
-        if (optionOpen < 'a' || optionOpen > 'f') 
-        {
-            cout << "Invalid option. Please try again." << endl;
-            return;
-        }
-
-        switch (optionOpen)
+        cin.ignore();
+        cout << indexOfCourse << endl;
+        system("pause");
+        switch (tolower(optionOpen))
         {
           case 'a':
+              
+              system("pause");
               displayStudents(indexOfCourse);
+              system("pause");
               break;
           case 'b':
               editStudent(indexOfCourse);
