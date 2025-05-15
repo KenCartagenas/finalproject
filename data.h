@@ -6,7 +6,8 @@
 using namespace std;
 
 //g++ finalproject/main.cpp finalproject/account.cpp finalproject/data.cpp finalproject/ED.cpp finalproject/mainmenu.cpp -o main.exe 
-//g++ main.cpp account.cpp data.cpp ED.cpp mainmenu.cpp -o main.exe    
+//g++ main.cpp account.cpp data.cpp ED.cpp mainmenu.cpp -o main.exe
+//g++ main.cpp account.cpp data.cpp ED.cpp mainmenu.cpp calculate.cpp jsonhelper.cpp -o main.exe  
 struct GradeRecord {
   int studentID;
   float finalGrade;
