@@ -143,7 +143,16 @@ void signUp()
     }
     logInCredential.push_back(newUser);
     logInCredential[no - BASE_ID].password = encrypt(desiredPassword, no);
-
+    
+    for (int i = 0; i < courses.size(); i++)
+    {
+        if (logInCredential[courses[i].enrolledStudentID[0] - BASE_ID].section == tempsection)
+        {
+            logInCredential.back().coursesEnrolled.push_back(courses[i].courseID);
+            courses[i].enrolledStudentID.push_back(logInCredential.back().id);
+        }
+    }
+    
     cout << "    Welcome to Student Grades Management System" << endl;
     cout << "-------------------------------------------------------" << endl;
     cout << "Name: " << logInCredential.back().username << endl;
