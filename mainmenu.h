@@ -23,5 +23,6 @@ void customizeGradeSettings(int indexOfCourse);
 void searchStudentSummary();
 void editUserProfile();
 void openCourse(const User& student);
+void releaseGrades(int indexOfCourse);
 
 #endif
