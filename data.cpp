@@ -16,7 +16,7 @@ bool isLoggedIn = false;
 bool isRunning = true;
 int loggedInID = 0;
 const int BASE_ID = 2500000;
-int coursesCount = 0;
+int coursesCount = courses.size();
 int userIndex = 0; // This should be computed dynamically, not once here
 
 // Save to JSON file
