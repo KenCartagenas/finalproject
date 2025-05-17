@@ -1,0 +1,157 @@
+{
+  "courses": [
+    {
+      "base": 0.0,
+      "courseID": 0,
+      "courseName": "CC101",
+      "enrolledStudentID": [
+        2500001
+      ],
+      "majorExamPercentage": 30.0,
+      "performanceTaskPercentage": 50.0,
+      "studentRecords": [
+        {
+          "finalGrade": 1.707747762172608e+32,
+          "majorExam": [
+            53.0
+          ],
+          "majorExamName": [
+            "60"
+          ],
+          "majorExamOver": [
+            60.0
+          ],
+          "majorExamPercent": 0.8833333253860474,
+          "performanceTask": [
+            20.0,
+            34.0
+          ],
+          "performanceTaskName": [
+            "ok",
+            "c"
+          ],
+          "performanceTaskOver": [
+            20.0,
+            50.0
+          ],
+          "performanceTaskPercent": 0.7714285850524902,
+          "studentID": 2500001,
+          "writtenTask": [
+            45.0
+          ],
+          "writtenTaskName": [
+            "50"
+          ],
+          "writtenTaskOver": [
+            40.0
+          ],
+          "writtenTaskPercent": 1.125
+        }
+      ],
+      "teacher": "Ronnie Montera",
+      "teacherID": 2500000,
+      "writtenTaskPercentage": 20.0
+    },
+    {
+      "base": 50.0,
+      "courseID": 1,
+      "courseName": "CC102",
+      "enrolledStudentID": [
+        2500001
+      ],
+      "majorExamPercentage": 30.0,
+      "performanceTaskPercentage": 40.0,
+      "studentRecords": [
+        {
+          "finalGrade": 1.707747762172608e+32,
+          "majorExam": [],
+          "majorExamName": [],
+          "majorExamOver": [],
+          "majorExamPercent": 9.826325221384915e-39,
+          "performanceTask": [],
+          "performanceTaskName": [],
+          "performanceTaskOver": [],
+          "performanceTaskPercent": 1.7224914346123656e+32,
+          "studentID": 2500001,
+          "writtenTask": [],
+          "writtenTaskName": [],
+          "writtenTaskOver": [],
+          "writtenTaskPercent": 3.191234934351521e-22
+        }
+      ],
+      "teacher": "Ronnie Montera",
+      "teacherID": 2500000,
+      "writtenTaskPercentage": 30.0
+    },
+    {
+      "base": 0.0,
+      "courseID": 0,
+      "courseName": "CC103",
+      "enrolledStudentID": [
+        2500001
+      ],
+      "majorExamPercentage": 30.0,
+      "performanceTaskPercentage": 50.0,
+      "studentRecords": [
+        {
+          "finalGrade": 1.707747762172608e+32,
+          "majorExam": [],
+          "majorExamName": [],
+          "majorExamOver": [],
+          "majorExamPercent": 9.826325221384915e-39,
+          "performanceTask": [],
+          "performanceTaskName": [],
+          "performanceTaskOver": [],
+          "performanceTaskPercent": 1.7224914346123656e+32,
+          "studentID": 2500001,
+          "writtenTask": [],
+          "writtenTaskName": [],
+          "writtenTaskOver": [],
+          "writtenTaskPercent": 2.3897693967424672e-35
+        }
+      ],
+      "teacher": "Ronnie Montera",
+      "teacherID": 2500000,
+      "writtenTaskPercentage": 20.0
+    }
+  ],
+  "users": [
+    {
+      "GPA": 0.0,
+      "coursesEnrolled": [],
+      "coursesHandled": [
+        0,
+        1,
+        0
+      ],
+      "finalGrades": [],
+      "id": 2500000,
+      "password": "bq#We!v4DhrwHTnhYSe60oJtvVXk+p&1ng&6wkNxDrEnbaEHv14$#4iclL16W3wAjeewp*hdM!U$MybiHK+rZGP@1KioAEZooJ1",
+      "role": "teacher",
+      "section": "",
+      "space": 10,
+      "username": "Ronnie Montera"
+    },
+    {
+      "GPA": 2.0,
+      "coursesEnrolled": [
+        0,
+        0,
+        0
+      ],
+      "coursesHandled": [],
+      "finalGrades": [
+        {
+          "courseName": "CC101",
+          "grade": 2.0
+        }
+      ],
+      "id": 2500001,
+      "password": "u_OsUqg^rWv7WA#^DJ%mju!K0Y2cxIMH8@^W8ISShJjX*8qD$fMTXmrodGhyLDSQVpTpjW5EunKXx^9#GF^sKgx&0EYBfJLjO5C2",
+      "role": "student",
+      "section": "cs1-1",
+      "space": 19,
+      "username": "Nathalie De Castro"
+    }
+  ]
+}
