@@ -3,7 +3,6 @@
 #include "data.h"
 
 void displayAccountTemplate(string text);
-bool usernameExists();
 void accountMenu();
 void signIn();
 void signUp();

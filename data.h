@@ -5,10 +5,12 @@
 #include <vector>
 using namespace std;
 
-//g++ finalproject/main.cpp finalproject/account.cpp finalproject/data.cpp finalproject/ED.cpp finalproject/mainmenu.cpp -o main.exe 
-//g++ main.cpp account.cpp data.cpp ED.cpp mainmenu.cpp -o main.exe
-//g++ main.cpp account.cpp data.cpp ED.cpp mainmenu.cpp calculate.cpp jsonhelper.cpp -o main.exe  
-struct GradeRecord {
+// g++ finalproject/main.cpp finalproject/account.cpp finalproject/data.cpp finalproject/ED.cpp finalproject/mainmenu.cpp -o main.exe
+// g++ main.cpp account.cpp data.cpp ED.cpp mainmenu.cpp -o main.exe
+// g++ main.cpp account.cpp data.cpp ED.cpp mainmenu.cpp calculate.cpp jsonhelper.cpp -o main.exe
+// g++ main.cpp account.cpp data.cpp ED.cpp mainmenu.cpp calculate.cpp jsonhelper.cpp utils.cpp -o main.exe
+struct GradeRecord
+{
   int studentID;
   float finalGrade;
   vector<string> majorExamName;
@@ -39,7 +41,7 @@ struct Course
   vector<GradeRecord> studentRecords;
 };
 
-struct Grade 
+struct Grade
 {
   string courseName;
   float grade;
@@ -54,6 +56,7 @@ struct User
   string username;
   string password;
   string section;
+  string program;
   vector<Grade> finalGrades;
   vector<int> coursesEnrolled;
   vector<int> coursesHandled;
@@ -70,5 +73,4 @@ extern int userIndex;
 
 void loadData();
 void saveData();
-
 #endif

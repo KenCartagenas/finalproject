@@ -2,14 +2,15 @@
 #include "account.h"
 #include "data.h"
 #include "ED.h"
+#include "utils.h"
 
 void displayAccountTemplate(string text)
 {
-    cout << "    Welcome to Student Grades Management System" << endl;
-    cout << "-------------------------------------------------------" << endl;
+    cout << "=========================================" << endl;
+    cout << "    Student Grades Management System" << endl;
+    cout << "=========================================" << endl;
     cout << text << endl;
-    cout << "-------------------------------------------------------" << endl;
-    cout << ">> ";
+    cout << "-----------------------------------------" << endl;
 }
 
 bool isPasswordStrong(string password)
@@ -17,11 +18,11 @@ bool isPasswordStrong(string password)
     int capital = 0, number = 0, specialCharacter = 0;
     for (int i = 0; i < password.size(); i++)
     {
-        if(isupper(password[i]) != 0)
+        if (isupper(password[i]) != 0)
         {
             capital++;
         }
-        if(isdigit(password[i]) != 0)
+        if (isdigit(password[i]) != 0)
         {
             number++;
         }
@@ -30,87 +31,120 @@ bool isPasswordStrong(string password)
             specialCharacter++;
         }
     }
-    if(capital != 0 && number != 0 && specialCharacter != 0)
+    if (capital != 0 && number != 0 && specialCharacter != 0)
     {
         return true;
     }
 
     displayAccountTemplate("There are either no capital letter, number, or special character.\n");
+    get();
     return false;
 }
 
 void accountMenu()
 {
-    char option;
-    while(isRunning && !isLoggedIn)
+    c();
+    while (isRunning && !isLoggedIn)
     {
         displayAccountTemplate("[A] - Log In\n[B] - Sign Up\n[C] - Forget Password\n[D] - Quit\n");
-        cin >> option;
-        switch(tolower(option))
+        char option = getChar();
+        c();
+        switch (tolower(option))
         {
-            case 'a': signIn(); break;
-            case 'b': signUp(); break;
-            case 'c': forgotPassword(); break;
-            case 'd': cout << "Thank you"; isRunning = false;
-            default: break;
+        case 'a':
+            signIn();
+            break;
+        case 'b':
+            signUp();
+            break;
+        case 'c':
+            forgotPassword();
+            break;
+        case 'd':
+            cout << "Thank you for using our SMS.";
+            isRunning = false;
+        default:
+            break;
         }
     }
 }
 
 void signIn()
 {
-    string enteredPassword;
-    int enteredID;
-
-    displayAccountTemplate("Enter ID Number:\n");
-    cin >> enteredID;
-
-    cin.ignore();
-
-    displayAccountTemplate("Enter Password:\n");
-    getline(cin, enteredPassword);
-
-    if(enteredID - BASE_ID < logInCredential.size() && enteredID - BASE_ID >= 0)
+    if (logInCredential.size() > 0)
     {
-        if(decrypt(logInCredential[enteredID - BASE_ID].password, enteredID) == enteredPassword)
+        string enteredPassword;
+
+        displayAccountTemplate("Enter ID Number:\n");
+        int enteredID = getInt();
+        c();
+        displayAccountTemplate("Enter Password:\n");
+        cout << ">> ";
+        getline(cin, enteredPassword);
+        if (enteredID - BASE_ID < logInCredential.size() && enteredID - BASE_ID >= 0)
         {
-            isLoggedIn = true;
-            loggedInID = logInCredential[enteredID - BASE_ID].id;
-            userIndex = loggedInID - BASE_ID;
+            if (decrypt(logInCredential[enteredID - BASE_ID].password, enteredID) == enteredPassword)
+            {
+                isLoggedIn = true;
+                loggedInID = logInCredential[enteredID - BASE_ID].id;
+                userIndex = loggedInID - BASE_ID;
+            }
+            else
+            {
+                cout << "Wrong password" << endl;
+                get();
+            }
         }
         else
         {
-            cout << "Wrong password" << endl;
+            cout << "No ID Found" << endl;
+            get();
         }
     }
-    else
+    if (logInCredential.size() == 0)
     {
-        cout << "No ID Found";
+        cout << "Sorry, there's no registered user. Please register first." << endl;
+        get();
     }
 }
 
 void signUp()
 {
-    string desiredUsername, desiredPassword, role, temprole, tempsection, a;
+    string desiredUsername, desiredPassword, role, temprole, tempsection;
 
-    displayAccountTemplate("Create a New Account!\n\nEnter your Name: ");
-    cin.ignore();
-    getline(cin, desiredUsername);
-    
-    
     while (true)
     {
-        displayAccountTemplate("Create a New Account!\n\nPassword should at least have:\n\t1 capital letter\n\t1 number\n\t1 special character\nEnter your password: ");
-        getline(cin, desiredPassword);
-        if(isPasswordStrong(desiredPassword))
+        displayAccountTemplate("Create a New Account!\n\nEnter your Name: ");
+        cout << ">> ";
+        getline(cin, desiredUsername);
+        if (desiredUsername.empty())
+        {
+            cout << "Please enter your name.[Press enter]" << endl;
+            get();
+        }
+        else
         {
             break;
-        }
+        } 
     }
     
     while (true)
     {
+        c();
+        displayAccountTemplate("Create a New Account!\n\nPassword should at least have:\n\t1 capital letter\n\t1 number\n\t1 special character\nEnter your password: ");
+        cout << ">> ";
+        getline(cin, desiredPassword);
+        if (isPasswordStrong(desiredPassword))
+        {
+            break;
+        }
+    }
+
+    while (true)
+    {
+        c();
         displayAccountTemplate("Create a New Account!\n\nEnter your role(student, teacher, or admin): ");
+        cout << ">> ";
         getline(cin, temprole);
         role = "";
 
@@ -118,8 +152,8 @@ void signUp()
         {
             role += tolower(temprole[i]);
         }
-        
-        if(role == "student" || role == "teacher" || role == "admin")
+
+        if (role == "student" || role == "teacher" || role == "admin")
         {
             break;
         }
@@ -127,48 +161,68 @@ void signUp()
 
     if (role == "student")
     {
+        c();
+        displayAccountTemplate("Create a New Account\n\nEnter Program[ex. BSCS]: \n");
+        cout << ">> ";
+        getline(cin, tempsection);
+        c();
         displayAccountTemplate("Create a New Account\n\nEnter section: ");
+        cout << ">> ";
         getline(cin, tempsection);
     }
-    
+
+
     int no = BASE_ID + logInCredential.size();
 
-    User newUser;
-    newUser.id = no;
-    newUser.username = desiredUsername;
-    newUser.role = role;
+    c();
+    cout << "=========================================" << endl;
+    cout << "    Student Grades Management System" << endl;
+    cout << "=========================================" << endl;
+    cout << "Name: " << desiredUsername << endl;
+    cout << "Password: " << desiredPassword << endl;
+    cout << "ID Number: " << no << endl;
     if (role == "student")
     {
-        newUser.section = tempsection;
+        cout << "Section: " << tempsection << endl;
     }
-    logInCredential.push_back(newUser);
-    logInCredential[no - BASE_ID].password = encrypt(desiredPassword, no);
-    
-    for (int i = 0; i < courses.size(); i++)
-    {
-        if (logInCredential[courses[i].enrolledStudentID[0] - BASE_ID].section == tempsection)
-        {
-            logInCredential.back().coursesEnrolled.push_back(courses[i].courseID);
-            courses[i].enrolledStudentID.push_back(logInCredential.back().id);
-        }
-    }
-    
-    cout << "    Welcome to Student Grades Management System" << endl;
-    cout << "-------------------------------------------------------" << endl;
-    cout << "Name: " << logInCredential.back().username << endl;
-    cout << "Password: " << decrypt(logInCredential.back().password, logInCredential.back().id) << endl;
-    cout << "ID Number: " << logInCredential.back().id << endl;
-    if (role == "student")
-    {
-        cout << "Section: " << logInCredential.back().section << endl;
-    }
-    cout << "Role: " << logInCredential.back().role << endl;
-    cout << "-------------------------------------------------------" << endl;
+    cout << "Role: " << role << endl;
+    cout << "Confirm by pressing 'y'" << endl;
+    cout << "-----------------------------------------" << endl;
     cout << ">> ";
-    getline(cin, a);
-    isLoggedIn = true;
-    loggedInID = logInCredential.back().id;
-    userIndex = loggedInID - BASE_ID;
+    char confirm = getChar();
+
+    if (tolower(confirm) == 'y')
+    {
+        User newUser;
+        newUser.id = no;
+        newUser.username = desiredUsername;
+        newUser.role = role;
+        if (role == "student")
+        {
+            newUser.section = tempsection;
+        }
+        logInCredential.push_back(newUser);
+        logInCredential[no - BASE_ID].password = encrypt(desiredPassword, no);
+
+        for (int i = 0; i < courses.size(); i++)
+        {
+            if (logInCredential[courses[i].enrolledStudentID[0] - BASE_ID].section == tempsection)
+            {
+                logInCredential.back().coursesEnrolled.push_back(courses[i].courseID);
+                courses[i].enrolledStudentID.push_back(logInCredential.back().id);
+            }
+        }
+        isLoggedIn = true;
+        loggedInID = logInCredential.back().id;
+        userIndex = loggedInID - BASE_ID;
+        cout << "You have successfully created a new account!" << endl;
+        get();
+    }
+    else
+    {
+        cout << "Cancelled creating an account.\nGoing back to menu....." << endl;
+        get();
+    }
 }
 
 void forgotPassword()
@@ -176,16 +230,16 @@ void forgotPassword()
     string user, pass;
     int id;
     bool success = false;
-    
+
     while (!success)
     {
         displayAccountTemplate("Forgot Password?\nEnter Username: ");
+        cout << ">> ";
         getline(cin, user);
-
+        c();
         displayAccountTemplate("Forgot Password?\nEnter ID number: ");
-        cin >> id;
-        cin.ignore();
-
+        id = getInt();
+        c();
         int index = id - BASE_ID;
 
         if (index >= 0 && index < logInCredential.size() &&
@@ -194,12 +248,14 @@ void forgotPassword()
             while (true)
             {
                 displayAccountTemplate("Forgot Password?\nEnter new password: ");
+                cout << ">> ";
                 getline(cin, pass);
-
+                c();
                 if (isPasswordStrong(pass))
                 {
                     logInCredential[index].password = encrypt(pass, id);
                     cout << "Password updated successfully!" << endl;
+                    get();
                     success = true;
                     break;
                 }
@@ -208,6 +264,8 @@ void forgotPassword()
         else
         {
             displayAccountTemplate("Forgot Password?\nWrong username or ID number. Try again.\n");
+            get();
+            break;
         }
     }
 }

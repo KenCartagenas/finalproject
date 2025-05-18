@@ -5,6 +5,5 @@
 float calculateScore(int indexOfCourse, GradeRecord recordsToCalculate, char component);
 float calculateGrade(int indexOfCourse, float performanceGrade, float writtenGrade, float majorGrade);
 float calculateGPA();
-float calculateNeededScores();
 
 #endif

@@ -89,6 +89,7 @@ void to_json(json& j, const User& u) {
         {"username", u.username},
         {"password", u.password},
         {"section", u.section},
+        {"program", u.program},
         {"finalGrades", u.finalGrades},
         {"coursesEnrolled", u.coursesEnrolled},
         {"coursesHandled", u.coursesHandled}
@@ -102,6 +103,7 @@ void from_json(const json& j, User& u) {
     j.at("username").get_to(u.username);
     j.at("password").get_to(u.password);
     j.at("section").get_to(u.section);
+    j.at("program").get_to(u.program);
     j.at("finalGrades").get_to(u.finalGrades);
     j.at("coursesEnrolled").get_to(u.coursesEnrolled);
     j.at("coursesHandled").get_to(u.coursesHandled);

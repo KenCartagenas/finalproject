@@ -4,16 +4,19 @@
 #include "mainmenu.h"
 using namespace std;
 
-
 int main()
 {
     loadData();
-    while(isRunning)
+    while (isRunning)
     {
-        accountMenu();
-        if(isLoggedIn == true)
+        
+        if (isLoggedIn == true)
         {
             mainMenu();
+        }
+        else
+        {
+            accountMenu();
         }
         saveData();
     }

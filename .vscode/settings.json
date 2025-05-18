@@ -61,6 +61,12 @@
     "iomanip": "cpp",
     "ostream": "cpp",
     "string": "cpp",
-    "fstream": "cpp"
+    "fstream": "cpp",
+    "vector": "cpp",
+    "valarray": "cpp",
+    "array": "cpp",
+    "string_view": "cpp",
+    "initializer_list": "cpp",
+    "utility": "cpp"
   }
 }
