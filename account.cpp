@@ -159,7 +159,7 @@ void signUp()
             role += tolower(temprole[i]);
         }
 
-        if (role == "student" || role == "teacher" || role == "admin")
+        if (role == "student" || role == "teacher")
         {
             break;
         }
@@ -215,6 +215,8 @@ void signUp()
             {
                 logInCredential.back().coursesEnrolled.push_back(courses[i].courseID);
                 courses[i].enrolledStudentID.push_back(logInCredential.back().id);
+                string notif = "You are now enrolled in " + courses[i].courseName;
+                logInCredential.back().notifications.push_back(notif);
             }
         }
         isLoggedIn = true;
@@ -268,6 +270,8 @@ void forgotPassword()
                     cout << "Password updated successfully!" << endl;
                     get();
                     success = true;
+                    string notif = "You changed your password.";
+                    logInCredential[index].notifications.push_back(notif);
                     break;
                 }
             }

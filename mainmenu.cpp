@@ -39,7 +39,7 @@ void teacherMenu()
   while (isLoggedIn)
   {
     c();
-    displayMainMenuTemplate("[A]. Create New Course / Subject\n[B]. Open Existing Class\n[C]. Search Student\n[D]. Settings\n[E]. Generate Report of GPA\n[F]. Log Out\n[G]. Quit");
+    displayMainMenuTemplate("[A]. Create New Course / Subject\n[B]. Open Existing Class\n[C]. Search Student\n[D]. Settings\n[E]. Generate Report of GPA\n[F]. View Notifications\n[G]. Log Out\n[H]. Quit");
     char option = getChar();
     c();
 
@@ -63,18 +63,19 @@ void teacherMenu()
       generateReportGPA();
       break;
     case 'f':
+      openNotif();
+      break;
+    case 'g':
       cout << "Are you sure you want to Log Out?[y/n]" << endl;
       confirm = getChar();
       if (confirm == 'y')
       {
-        cout << "Logging out...." << endl;
-        get();
         isLoggedIn = false;
         loggedInID = 0;
         userIndex = 0;
       }
       break;
-    case 'g':
+    case 'h':
       cout << "Thank you for using our SMS.";
       isRunning = false;
       return;
@@ -282,7 +283,7 @@ void createCourse()
     {
       logInCredential[newCourse.enrolledStudentID[i] - BASE_ID].notifications.push_back(notif);
     }
-    
+
     coursesCount++;
     get();
   }
@@ -506,7 +507,8 @@ void addScoresToEveryone(int indexOfCourse)
   cout << "[B] - Written Task" << endl;
   cout << "[C] - Major Exam" << endl;
   cout << "-----------------------------------------" << endl;
-
+  string actName;
+  float score, over;
   char option = getChar();
   if (courses[indexOfCourse].enrolledStudentID.size() > 0)
   {
@@ -514,8 +516,6 @@ void addScoresToEveryone(int indexOfCourse)
     if (tolower(option) == 'a')
     {
       c();
-      string actName;
-      float score, over;
       cout << "=========================================" << endl;
       cout << "    Student Grades Management System" << endl;
       cout << "=========================================" << endl;
@@ -569,9 +569,6 @@ void addScoresToEveryone(int indexOfCourse)
     else if (tolower(option) == 'b')
     {
       c();
-      string actName;
-      float score, over;
-
       cout << "=========================================" << endl;
       cout << "    Student Grades Management System" << endl;
       cout << "=========================================" << endl;
@@ -628,10 +625,7 @@ void addScoresToEveryone(int indexOfCourse)
     }
     else if (tolower(option) == 'c')
     {
-      string actName;
-      float score, over;
-
-      c(); // Clear screen
+      c();
       cout << "=========================================" << endl;
       cout << "    Student Grades Management System" << endl;
       cout << "=========================================" << endl;
@@ -693,6 +687,11 @@ void addScoresToEveryone(int indexOfCourse)
         courses[indexOfCourse].studentRecords[i].majorExam.push_back(score);
         courses[indexOfCourse].studentRecords[i].majorExamOver.push_back(over);
       }
+    }
+    string notif = courses[indexOfCourse].courseName + ": \"" + actName + "\" has been graded.";
+    for (int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
+    {
+      logInCredential[courses[indexOfCourse].enrolledStudentID[i] - BASE_ID].notifications.push_back(notif);
     }
   }
   else
@@ -865,6 +864,8 @@ void addScoreToStudent(int indexOfCourse)
     courses[indexOfCourse].studentRecords[chosenStudent - 1].majorExam.push_back(score);
     courses[indexOfCourse].studentRecords[chosenStudent - 1].majorExamOver.push_back(over);
   }
+  string notif = courses[indexOfCourse].courseName + ": \"" + actName + "\" has been graded.";
+  logInCredential[courses[indexOfCourse].enrolledStudentID[chosenStudent - 1] - BASE_ID].notifications.push_back(notif);
 }
 //
 void editScore(int indexOfCourse)
@@ -1074,6 +1075,8 @@ void editScore(int indexOfCourse)
     courses[indexOfCourse].studentRecords[chosenStudent - 1].majorExamName[toEditIndex] = actName;
     courses[indexOfCourse].studentRecords[chosenStudent - 1].majorExam[toEditIndex] = score;
   }
+  string notif = courses[indexOfCourse].courseName + ": \"" + actName + "\" has been updated.";
+  logInCredential[courses[indexOfCourse].enrolledStudentID[chosenStudent - 1] - BASE_ID].notifications.push_back(notif);
 }
 //
 void generateReportCourse(int indexOfCourse)
@@ -1195,7 +1198,7 @@ void generateReportGPA()
         {
           outFile << setprecision(2) << fixed << "\t" << logInCredential[i].finalGrades[j].courseName << ": " << logInCredential[i].finalGrades[j].grade;
         }
-        
+
         outFile << "\nGPA: " << logInCredential[i].GPA << endl;
         outFile << "==========================================\n"
                 << endl;
@@ -1256,6 +1259,8 @@ void addOrRemove(int indexOfCourse)
       }
       enrolled.push_back(studID);
       cout << "Student " << studID << " added successfully.\n";
+      string notif = "You haven been added to " + courses[indexOfCourse].courseName;
+      logInCredential[studID - BASE_ID].notifications.push_back(notif);
       get();
     }
 
@@ -1301,6 +1306,8 @@ void addOrRemove(int indexOfCourse)
       }
 
       cout << "Student " << studID << " removed successfully from the course and all related records.\n";
+      string notif = "You haven been removed to " + courses[indexOfCourse].courseName;
+      logInCredential[studID - BASE_ID].notifications.push_back(notif);
       get();
     }
     else
@@ -1749,12 +1756,12 @@ void releaseGrades(int indexOfCourse)
       }
     }
   }
-  string notif = "Grades in " + courses[indexOfCourse].courseName + "has been posted.";
+  string notif = "Grades in " + courses[indexOfCourse].courseName + " has been posted.";
   for (int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
   {
     logInCredential[courses[indexOfCourse].enrolledStudentID[i] - BASE_ID].notifications.push_back(notif);
   }
-  
+
   cout << "Grades are now posted." << endl;
   get();
 }

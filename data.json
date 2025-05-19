@@ -1,170 +1,105 @@
 {
   "courses": [
     {
-      "base": 50.0,
+      "base": 60.0,
       "courseID": 0,
       "courseName": "CC101",
       "enrolledStudentID": [
         2500000
       ],
-      "majorExamPercentage": 50.0,
-      "performanceTaskPercentage": 30.0,
-      "studentRecords": [
-        {
-          "finalGrade": 7.006492321624085e-45,
-          "majorExam": [
-            97.0,
-            53.0
-          ],
-          "majorExamName": [
-            "Midterms",
-            "Finals"
-          ],
-          "majorExamOver": [
-            100.0,
-            70.0
-          ],
-          "majorExamPercent": 0.9700000286102295,
-          "performanceTask": [
-            40.0,
-            97.0,
-            20.0
-          ],
-          "performanceTaskName": [
-            "Secret 2",
-            "Wala"
-          ],
-          "performanceTaskOver": [
-            50.0,
-            100.0,
-            20.0
-          ],
-          "performanceTaskPercent": 0.9235293865203857,
-          "studentID": 2500000,
-          "writtenTask": [
-            67.0,
-            45.0
-          ],
-          "writtenTaskName": [
-            "Dagok",
-            "W2"
-          ],
-          "writtenTaskOver": [
-            70.0,
-            50.0
-          ],
-          "writtenTaskPercent": 0.9333333373069763
-        }
-      ],
-      "teacher": "Ken",
-      "teacherID": 2500001,
-      "writtenTaskPercentage": 20.0
-    },
-    {
-      "base": 50.0,
-      "courseID": 1,
-      "courseName": "CC102",
-      "enrolledStudentID": [
-        2500000
-      ],
-      "majorExamPercentage": 20.0,
+      "majorExamPercentage": 40.0,
       "performanceTaskPercentage": 40.0,
       "studentRecords": [
         {
-          "finalGrade": 7.006492321624085e-45,
-          "majorExam": [],
-          "majorExamName": [],
-          "majorExamOver": [],
-          "majorExamPercent": -1.2197928214371934e-12,
-          "performanceTask": [],
-          "performanceTaskName": [],
-          "performanceTaskOver": [],
-          "performanceTaskPercent": 7.006492321624085e-45,
+          "finalGrade": -9.631268322555964e-35,
+          "majorExam": [
+            50.0
+          ],
+          "majorExamName": [
+            "Prelim"
+          ],
+          "majorExamOver": [
+            50.0
+          ],
+          "majorExamPercent": 1.0,
+          "performanceTask": [
+            40.0
+          ],
+          "performanceTaskName": [
+            "Dagok"
+          ],
+          "performanceTaskOver": [
+            50.0
+          ],
+          "performanceTaskPercent": 0.800000011920929,
           "studentID": 2500000,
-          "writtenTask": [],
-          "writtenTaskName": [],
-          "writtenTaskOver": [],
-          "writtenTaskPercent": 2.421212646435918e+32
+          "writtenTask": [
+            19.0
+          ],
+          "writtenTaskName": [
+            "Secret"
+          ],
+          "writtenTaskOver": [
+            20.0
+          ],
+          "writtenTaskPercent": 0.949999988079071
         }
       ],
-      "teacher": "Ken",
-      "teacherID": 2500001,
-      "writtenTaskPercentage": 40.0
-    },
-    {
-      "base": 0.0,
-      "courseID": 0,
-      "courseName": "CC103",
-      "enrolledStudentID": [
-        2500000
-      ],
-      "majorExamPercentage": 30.0,
-      "performanceTaskPercentage": 50.0,
-      "studentRecords": [
-        {
-          "finalGrade": 2.8479048316369556e-38,
-          "majorExam": [],
-          "majorExamName": [],
-          "majorExamOver": [],
-          "majorExamPercent": -1.2197928214371934e-12,
-          "performanceTask": [],
-          "performanceTaskName": [],
-          "performanceTaskOver": [],
-          "performanceTaskPercent": 4.9000724466812386e+33,
-          "studentID": 2500000,
-          "writtenTask": [],
-          "writtenTaskName": [],
-          "writtenTaskOver": [],
-          "writtenTaskPercent": 1.6538988792031167e+33
-        }
-      ],
-      "teacher": "Ken",
+      "teacher": "Ronnie",
       "teacherID": 2500001,
       "writtenTaskPercentage": 20.0
     }
   ],
   "isLoggedIn": true,
-  "loggedInID": 2500001,
-  "userIndex": 1,
+  "loggedInID": 2500000,
+  "userIndex": 0,
   "users": [
     {
-      "GPA": 1.5,
+      "GPA": 1.25,
       "coursesEnrolled": [
-        0,
-        1,
-        2
+        0
       ],
       "coursesHandled": [],
       "finalGrades": [
         {
           "courseName": "CC101",
-          "grade": 1.5
+          "grade": 1.25
         }
       ],
       "id": 2500000,
-      "password": "&r*%*RaV^W8495mCodDa7GQERu$Gdlw+rN4BnqHa*h9XEk9lQWcAUU^&XZba_VV@TGUosltCbZ5ZE4DapPDW3!^9z@y3o%osnDu1",
-      "program": "",
+      "notifications": [
+        "You changed your password.",
+        "You have been added to CC101 by Ronnie",
+        "CC101: \"Dagok\" has been graded.",
+        "CC101: \"Secret\" has been graded.",
+        "CC101: \"Prelim\" has been graded.",
+        "Grades in CC101has been posted.",
+        "Grades in CC101has been posted."
+      ],
+      "password": "ll61+yq!V985hM7AK2GvRz^$K356r#tgd%_8M45p7I!!1mFiWk^q@uURi8d6h$NhPedO6FFl%y@DUougSCrlXTnn7qUP!DrlwC21",
+      "program": "BSCS",
       "role": "student",
       "section": "cs1-1",
-      "space": 9,
-      "username": "Ken Cartagenas"
+      "space": 24,
+      "username": "Ken"
     },
     {
-      "GPA": 2.369355800876173e-38,
+      "GPA": 1.793662034335766e-43,
       "coursesEnrolled": [],
       "coursesHandled": [
-        0,
-        1,
-        2
+        0
       ],
       "finalGrades": [],
       "id": 2500001,
-      "password": "0H+70dvTx6SM*^n!r5CX@WNpY0h@HpZO#Dqtl@CbreQjHpmDOyMarpKI6Zb&uQ&5rE+DmkYl2i#H!341ltjb4z!UEjxijEh$m@y2",
+      "notifications": [
+        "You changed your password."
+      ],
+      "password": "GQ5HCyDrWwLCd84bia*lfn6rTIiOG7*dRJ8saDafsY4GT#pylt5qW37m3#d4k@T^pM8Fx8EjK@#sWEq*$P012$@tTygEjWZ4VQE2",
       "program": "",
       "role": "teacher",
       "section": "",
       "space": 24,
-      "username": "Ken"
+      "username": "Ronnie"
     }
   ]
 }
