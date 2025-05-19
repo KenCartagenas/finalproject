@@ -5,7 +5,6 @@
 using namespace std;
 using json = nlohmann::json;
 
-// [Your to_json/from_json code goes here]
 // Grade
 void to_json(json& j, const Grade& g) {
     j = json{{"courseName", g.courseName}, {"grade", g.grade}};
