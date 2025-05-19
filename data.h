@@ -60,6 +60,7 @@ struct User
   vector<Grade> finalGrades;
   vector<int> coursesEnrolled;
   vector<int> coursesHandled;
+  vector<string> notifications;
 };
 
 extern vector<Course> courses;
