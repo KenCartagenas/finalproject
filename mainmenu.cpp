@@ -86,6 +86,7 @@ void studentMenu()
 {
   while (isLoggedIn)
   {
+    c();
     User &student = logInCredential[userIndex];
 
     // === DASHBOARD HEADER ===
@@ -130,28 +131,35 @@ void studentMenu()
 
     // === MENU OPTIONS ===
     char option;
-    displayMainMenuTemplate("[A]. Open Course\n[B]. Log Out");
-    cout << "Select an option: ";
-    cin >> ws >> option;
-
+    displayMainMenuTemplate("[A]. Open Course\n[B]. View Notifications\n[C]. Log Out\n[D]. Quit");
+    option = getChar();
+    c();
     switch (tolower(option))
     {
     case 'a':
       if (student.coursesEnrolled.empty())
       {
         cout << "You're not enrolled in any courses yet.\n";
+        get();
       }
       else
       {
         openCourse(student);
       }
       break;
-
     case 'b':
+      openNotif();
+      break;
+    case 'c':
       cout << "Logging out...\n";
       isLoggedIn = false;
+      loggedInID = 0;
+      userIndex = 0;
       break;
-
+    case 'd':
+      cout << "Thank you for using our SMS.";
+      isRunning = false;
+      return;
     default:
       cout << "Invalid option. Please select A or B.\n";
       break;
@@ -269,6 +277,12 @@ void createCourse()
         logInCredential[i].coursesEnrolled.push_back(coursesCount);
       }
     }
+    string notif = "You have been added to " + newCourse.courseName + " by " + logInCredential[userIndex].username;
+    for (int i = 0; i < newCourse.enrolledStudentID.size(); i++)
+    {
+      logInCredential[newCourse.enrolledStudentID[i] - BASE_ID].notifications.push_back(notif);
+    }
+    
     coursesCount++;
     get();
   }
@@ -341,7 +355,7 @@ void openClass()
         customizeGradeSettings(indexOfCourse);
         break;
       case 'f':
-        // releaseGrades(indexOfCourse);
+        releaseGrades(indexOfCourse);
       case 'g':
         cout << "Returning to main dashboard...." << endl;
         get();
@@ -425,35 +439,6 @@ void displayStudents(int indexOfCourse)
         cout << "*****************************************" << endl;
         float final = calculateGrade(indexOfCourse, courses[indexOfCourse].studentRecords[j].performanceTaskPercent, courses[indexOfCourse].studentRecords[j].writtenTaskPercent, courses[indexOfCourse].studentRecords[j].majorExamPercent);
         cout << setprecision(2) << fixed << "Final Grade: " << final;
-
-        if (logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.empty())
-        {
-          Grade grades;
-          grades.grade = final;
-          grades.courseName = courses[indexOfCourse].courseName;
-
-          logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.push_back(grades);
-        }
-
-        for (int i = 0; i < logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.size(); i++)
-        {
-          if (logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i].courseName == courses[indexOfCourse].courseName)
-          {
-            Grade grades;
-            grades.grade = final;
-            grades.courseName = courses[indexOfCourse].courseName;
-
-            logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i] = grades;
-          }
-          if (i == logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.size() - 1 && logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i].courseName != courses[indexOfCourse].courseName)
-          {
-            Grade grades;
-            grades.grade = final;
-            grades.courseName = courses[indexOfCourse].courseName;
-
-            logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.push_back(grades);
-          }
-        }
       }
       else
       {
@@ -1182,9 +1167,10 @@ void generateReportCourse(int indexOfCourse)
     cout << "Error opening file: " << filename << endl;
   }
 }
-
+//
 void generateReportGPA()
 {
+  calculateGPA();
   string filename = "GPAreports/report.txt";
   ofstream outFile(filename);
   int studentCount;
@@ -1199,7 +1185,7 @@ void generateReportGPA()
 
   if (outFile.is_open())
   {
-    outFile << "-------------------------------------------------------" << endl;
+    outFile << "-----------------------------------------" << endl;
     for (int i = 0; i < logInCredential.size(); i++)
     {
       if (logInCredential[i].role == "student")
@@ -1209,36 +1195,48 @@ void generateReportGPA()
         {
           outFile << setprecision(2) << fixed << "\t" << logInCredential[i].finalGrades[j].courseName << ": " << logInCredential[i].finalGrades[j].grade;
         }
-        outFile << "GPA: " << logInCredential[i].GPA << endl;
+        
+        outFile << "\nGPA: " << logInCredential[i].GPA << endl;
         outFile << "==========================================\n"
                 << endl;
       }
     }
+    outFile.close();
+    cout << "File '" << filename << "' written successfully.\nPlease download the file immediately after generating the report." << endl;
   }
   else
   {
     cout << "Failed to open/create file" << endl;
   }
-  outFile.close();
-  cout << "File '" << filename << "' written successfully.\nPlease download the file immediately after generating the report." << endl;
-  system("pause");
-}
 
+  get();
+}
+//
 void addOrRemove(int indexOfCourse)
 {
+  c();
   char option;
   int studID;
   int courseID = courses[indexOfCourse].courseID;
 
-  cout << "[a] Add Student\n[b] Remove Student\nChoice: ";
-  cin >> option;
+  cout << "=========================================" << endl;
+  cout << "    Student Grades Management System" << endl;
+  cout << "=========================================" << endl;
+  cout << "[A] Add Student\n[B] Remove Student\n";
+  cout << "-----------------------------------------" << endl;
+  option = getChar();
 
   vector<int> &enrolled = courses[indexOfCourse].enrolledStudentID;
 
+  c();
   if (option == 'a')
   {
-    cout << "Enter Student ID to add: ";
-    cin >> studID;
+    cout << "=========================================" << endl;
+    cout << "    Student Grades Management System" << endl;
+    cout << "=========================================" << endl;
+    cout << "Enter Student ID to add: " << endl;
+    cout << "-----------------------------------------" << endl;
+    studID = getInt();
 
     if (find(enrolled.begin(), enrolled.end(), studID) == enrolled.end())
     {
@@ -1258,17 +1256,23 @@ void addOrRemove(int indexOfCourse)
       }
       enrolled.push_back(studID);
       cout << "Student " << studID << " added successfully.\n";
+      get();
     }
 
     else
     {
       cout << "Student is already enrolled.\n";
+      get();
     }
   }
   else if (option == 'b')
   {
-    cout << "Enter Student ID to remove: ";
-    cin >> studID;
+    cout << "=========================================" << endl;
+    cout << "    Student Grades Management System" << endl;
+    cout << "=========================================" << endl;
+    cout << "Enter Student ID to remove: " << endl;
+    cout << "-----------------------------------------" << endl;
+    studID = getInt();
 
     // 1. Remove student from enrolledStudentID
     auto it = find(enrolled.begin(), enrolled.end(), studID);
@@ -1297,15 +1301,18 @@ void addOrRemove(int indexOfCourse)
       }
 
       cout << "Student " << studID << " removed successfully from the course and all related records.\n";
+      get();
     }
     else
     {
       cout << "Student not found in course.\n";
+      get();
     }
   }
   else
   {
     cout << "Invalid option.\n";
+    get();
   }
 }
 //
@@ -1479,37 +1486,68 @@ void editUserProfile()
 
   cout << "Name successfully updated to \"" << newName << "\"." << endl;
 }
-
+//
 void viewActivities(const GradeRecord &record)
 {
+  c();
+  cout << "=========================================" << endl;
+  cout << "    Student Grades Management System" << endl;
+  cout << "=========================================" << endl;
   cout << "\n--- Activities ---\n";
 
   cout << "Major Exams:\n";
-  for (size_t i = 0; i < record.majorExam.size(); ++i)
+  if (!record.majorExam.empty())
   {
-    cout << "- " << record.majorExamName[i] << ": " << record.majorExam[i] << "/" << record.majorExamOver[i] << endl;
+    for (size_t i = 0; i < record.majorExam.size(); ++i)
+    {
+      cout << "- " << record.majorExamName[i] << ": " << record.majorExam[i] << "/" << record.majorExamOver[i] << endl;
+    }
+  }
+  else
+  {
+    cout << ">> No records found" << endl;
   }
 
   cout << "Performance Tasks:\n";
-  for (size_t i = 0; i < record.performanceTask.size(); ++i)
+  if (!record.performanceTask.empty())
   {
-    cout << "- " << record.performanceTaskName[i] << ": " << record.performanceTask[i] << "/" << record.performanceTaskOver[i] << endl;
+    for (size_t i = 0; i < record.performanceTask.size(); ++i)
+    {
+      cout << "- " << record.performanceTaskName[i] << ": " << record.performanceTask[i] << "/" << record.performanceTaskOver[i] << endl;
+    }
+  }
+  else
+  {
+    cout << ">> No records found" << endl;
   }
 
   cout << "Written Tasks:\n";
-  for (size_t i = 0; i < record.writtenTask.size(); ++i)
+  if (!record.writtenTask.empty())
   {
-    cout << "- " << record.writtenTaskName[i] << ": " << record.writtenTask[i] << "/" << record.writtenTaskOver[i] << endl;
+    for (size_t i = 0; i < record.writtenTask.size(); ++i)
+    {
+      cout << "- " << record.writtenTaskName[i] << ": " << record.writtenTask[i] << "/" << record.writtenTaskOver[i] << endl;
+    }
   }
+  else
+  {
+    cout << ">> No records found" << endl;
+  }
+  cout << "-----------------------------------------" << endl;
+  get();
 }
 
 void calculateTargetScore(const GradeRecord &record, const Course &course)
 {
+  c();
   float currentGrade = record.finalGrade;
   float desiredGrade;
-
-  cout << "\nEnter your desired final grade: ";
-  cin >> desiredGrade;
+  cout << "=========================================" << endl;
+  cout << "    Student Grades Management System" << endl;
+  cout << "=========================================" << endl;
+  cout << "\nEnter your desired final grade: " << endl;
+  cout << "-----------------------------------------" << endl;
+  desiredGrade = getFloat();
 
   float examSum = 0, perfSum = 0, writtenSum = 0;
   float examTotal = 0, perfTotal = 0, writtenTotal = 0;
@@ -1564,13 +1602,20 @@ void calculateTargetScore(const GradeRecord &record, const Course &course)
   cout << "To reach " << desiredGrade << ", you need " << needed << "% more." << endl;
   cout << "(Assuming future activities can still boost your grade.)\n";
 }
-
+//
 void openCourse(const User &student)
 {
+  c();
+  cout << "=========================================" << endl;
+  cout << "    Student Grades Management System" << endl;
+  cout << "=========================================" << endl;
   vector<int> myCourses = student.coursesEnrolled;
   if (myCourses.empty())
   {
     cout << "You're not enrolled in any courses.\n";
+    cout << "-----------------------------------------" << endl;
+    int ok = getInt();
+    get();
     return;
   }
 
@@ -1588,11 +1633,12 @@ void openCourse(const User &student)
   }
 
   int choice;
-  cout << "Select a course to open: ";
-  cin >> choice;
+  cout << "-----------------------------------------" << endl;
+  choice = getInt();
   if (choice < 1 || choice > (int)myCourses.size())
   {
     cout << "Invalid choice.\n";
+    get();
     return;
   }
 
@@ -1620,18 +1666,22 @@ void openCourse(const User &student)
   if (!selectedCourse || !selectedRecord)
   {
     cout << "Course data not found.\n";
+    get();
     return;
   }
 
   while (true)
   {
-    cout << "\n--- Course: " << selectedCourse->courseName << " ---\n";
+    c();
+    cout << "=========================================" << endl;
+    cout << "    Student Grades Management System" << endl;
+    cout << "=========================================" << endl;
+    cout << "Course: " << selectedCourse->courseName << endl;
     cout << "1. View Activities\n";
     cout << "2. Calculate Target Score\n";
     cout << "3. Back to Dashboard\n";
-    cout << "Enter option: ";
-    int opt;
-    cin >> opt;
+    cout << "-----------------------------------------" << endl;
+    int opt = getInt();
 
     if (opt == 1)
     {
@@ -1650,31 +1700,27 @@ void openCourse(const User &student)
       cout << "Invalid input. Try again.\n";
     }
   }
+  c();
 }
-
+//
 void releaseGrades(int indexOfCourse)
 {
-  float final = getFinal(indexOfCourse);
-  if (logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.empty())
+  c();
+  cout << "=========================================" << endl;
+  cout << "    Student Grades Management System" << endl;
+  cout << "=========================================" << endl;
+  cout << "Do you want to release grades in " << courses[indexOfCourse].courseName << endl;
+  cout << "-----------------------------------------" << endl;
+  char confirm = getChar();
+  if (confirm != 'y')
   {
-    Grade grades;
-    grades.grade = final;
-    grades.courseName = courses[indexOfCourse].courseName;
-
-    logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.push_back(grades);
+    return;
   }
 
-  for (int i = 0; i < logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.size(); i++)
+  for (int j = 0; j < courses[indexOfCourse].enrolledStudentID.size(); j++)
   {
-    if (logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i].courseName == courses[indexOfCourse].courseName)
-    {
-      Grade grades;
-      grades.grade = final;
-      grades.courseName = courses[indexOfCourse].courseName;
-
-      logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i] = grades;
-    }
-    if (i == logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.size() - 1 && logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i].courseName != courses[indexOfCourse].courseName)
+    float final = getFinal(indexOfCourse, j);
+    if (logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.empty())
     {
       Grade grades;
       grades.grade = final;
@@ -1682,43 +1728,18 @@ void releaseGrades(int indexOfCourse)
 
       logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.push_back(grades);
     }
-  }
-}
 
-float getFinal(int indexOfCourse)
-{
-  float p, w, m;
-  for (int j = 0; j < courses[indexOfCourse].enrolledStudentID.size(); j++)
-  {
-    if (courses[indexOfCourse].studentRecords[j].performanceTask.size() > 0)
+    for (int i = 0; i < logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.size(); i++)
     {
-      courses[indexOfCourse].studentRecords[j].performanceTaskPercent = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'a') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'c');
-    }
-    else
-    {
-      courses[indexOfCourse].studentRecords[j].performanceTaskPercent = 0.0;
-    }
-
-    if (courses[indexOfCourse].studentRecords[j].writtenTask.size() > 0)
-    {
-      courses[indexOfCourse].studentRecords[j].writtenTaskPercent = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'b') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'd');
-    }
-    else
-    {
-      courses[indexOfCourse].studentRecords[j].writtenTaskPercent = 0.0;
-    }
-
-    if (courses[indexOfCourse].studentRecords[j].majorExam.size() > 0)
-    {
-      for (int k = 0; k < courses[indexOfCourse].studentRecords[j].majorExam.size(); k++)
+      if (logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i].courseName == courses[indexOfCourse].courseName)
       {
-        cout << courses[indexOfCourse].studentRecords[j].majorExamName[k] << " - " << courses[indexOfCourse].studentRecords[j].majorExam[k] << endl;
-      }
-      courses[indexOfCourse].studentRecords[j].majorExamPercent = courses[indexOfCourse].studentRecords[j].majorExam[0] / courses[indexOfCourse].studentRecords[j].majorExamOver[0];
-      float final = calculateGrade(indexOfCourse, courses[indexOfCourse].studentRecords[j].performanceTaskPercent, courses[indexOfCourse].studentRecords[j].writtenTaskPercent, courses[indexOfCourse].studentRecords[j].majorExamPercent);
-      cout << setprecision(2) << fixed << "Final Grade: " << final;
+        Grade grades;
+        grades.grade = final;
+        grades.courseName = courses[indexOfCourse].courseName;
 
-      if (logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.empty())
+        logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i] = grades;
+      }
+      if (i == logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.size() - 1 && logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i].courseName != courses[indexOfCourse].courseName)
       {
         Grade grades;
         grades.grade = final;
@@ -1726,26 +1747,29 @@ float getFinal(int indexOfCourse)
 
         logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.push_back(grades);
       }
-
-      for (int i = 0; i < logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.size(); i++)
-      {
-        if (logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i].courseName == courses[indexOfCourse].courseName)
-        {
-          Grade grades;
-          grades.grade = final;
-          grades.courseName = courses[indexOfCourse].courseName;
-
-          logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i] = grades;
-        }
-        if (i == logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.size() - 1 && logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i].courseName != courses[indexOfCourse].courseName)
-        {
-          Grade grades;
-          grades.grade = final;
-          grades.courseName = courses[indexOfCourse].courseName;
-
-          logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.push_back(grades);
-        }
-      }
     }
   }
+  string notif = "Grades in " + courses[indexOfCourse].courseName + "has been posted.";
+  for (int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
+  {
+    logInCredential[courses[indexOfCourse].enrolledStudentID[i] - BASE_ID].notifications.push_back(notif);
+  }
+  
+  cout << "Grades are now posted." << endl;
+  get();
+}
+//
+void openNotif()
+{
+  c();
+  cout << "=========================================" << endl;
+  cout << "    Student Grades Management System" << endl;
+  cout << "=========================================" << endl;
+  cout << "Notifications: " << endl;
+  for (int i = 0; i < logInCredential[userIndex].notifications.size(); i++)
+  {
+    cout << "> " << logInCredential[userIndex].notifications[i] << endl;
+  }
+  cout << "-----------------------------------------" << endl;
+  get();
 }
