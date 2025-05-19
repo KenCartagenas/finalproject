@@ -1,6 +1,6 @@
 #include "calculate.h"
 #include "data.h"
-
+//
 float calculateScore(int indexOfCourse, GradeRecord recordsToCalculate, char component)
 {
     float totalScore = 0.0;
@@ -36,7 +36,7 @@ float calculateScore(int indexOfCourse, GradeRecord recordsToCalculate, char com
     
     return totalScore;
 }
-
+//
 float calculateGrade(int indexOfCourse, float performanceGrade, float writtenGrade, float majorGrade)
 {
     float partialGrade = (performanceGrade * courses[indexOfCourse].performanceTaskPercentage) + (writtenGrade * courses[indexOfCourse].writtenTaskPercentage) + (majorGrade * courses[indexOfCourse].majorExamPercentage);
@@ -88,12 +88,47 @@ float calculateGrade(int indexOfCourse, float performanceGrade, float writtenGra
 
 float calculateGPA()
 {
+    float gpa = 0.0;
+    int gpaCount = 0;
     for (int i = 0; i < logInCredential.size(); i++)
     {
         if (logInCredential[i].role == "student")
         {
-            
+            for (int j = 0; j < logInCredential[i].finalGrades.size(); j++)
+            {
+                gpa += logInCredential[i].finalGrades[j].grade;
+                gpaCount++;
+            }
         }
     }
-    
+    gpa /= (float) gpaCount;
+    return gpa;
+}
+//
+float getFinal(int indexOfCourse, int j)
+{
+  float final;
+    if (courses[indexOfCourse].studentRecords[j].performanceTask.size() > 0)
+    {
+      courses[indexOfCourse].studentRecords[j].performanceTaskPercent = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'a') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'c');
+    }
+    else
+    {
+      courses[indexOfCourse].studentRecords[j].performanceTaskPercent = 0.0;
+    }
+
+    if (courses[indexOfCourse].studentRecords[j].writtenTask.size() > 0)
+    {
+      courses[indexOfCourse].studentRecords[j].writtenTaskPercent = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'b') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'd');
+    }
+    else
+    {
+      courses[indexOfCourse].studentRecords[j].writtenTaskPercent = 0.0;
+    }
+    if (courses[indexOfCourse].studentRecords[j].majorExam.size() > 0)
+    {
+      courses[indexOfCourse].studentRecords[j].majorExamPercent = courses[indexOfCourse].studentRecords[j].majorExam[0] / courses[indexOfCourse].studentRecords[j].majorExamOver[0];
+      final = calculateGrade(indexOfCourse, courses[indexOfCourse].studentRecords[j].performanceTaskPercent, courses[indexOfCourse].studentRecords[j].writtenTaskPercent, courses[indexOfCourse].studentRecords[j].majorExamPercent);
+    }
+  return final;
 }
