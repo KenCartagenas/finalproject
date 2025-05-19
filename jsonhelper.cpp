@@ -91,7 +91,8 @@ void to_json(json& j, const User& u) {
         {"program", u.program},
         {"finalGrades", u.finalGrades},
         {"coursesEnrolled", u.coursesEnrolled},
-        {"coursesHandled", u.coursesHandled}
+        {"coursesHandled", u.coursesHandled},
+        {"notifications", u.notifications}
     };
 }
 void from_json(const json& j, User& u) {
@@ -106,4 +107,5 @@ void from_json(const json& j, User& u) {
     j.at("finalGrades").get_to(u.finalGrades);
     j.at("coursesEnrolled").get_to(u.coursesEnrolled);
     j.at("coursesHandled").get_to(u.coursesHandled);
+    j.at("notifications").get_to(u.notifications);
 }
