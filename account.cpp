@@ -87,7 +87,13 @@ void signIn()
             {
                 isLoggedIn = true;
                 loggedInID = logInCredential[enteredID - BASE_ID].id;
-                userIndex = loggedInID - BASE_ID;
+                for (int i = 0; i < logInCredential.size(); i++)
+                {
+                    if (loggedInID == logInCredential[i].id)
+                    {
+                        userIndex = i;
+                    }
+                }
             }
             else
             {
@@ -110,7 +116,7 @@ void signIn()
 
 void signUp()
 {
-    string desiredUsername, desiredPassword, role, temprole, tempsection;
+    string desiredUsername, desiredPassword, role, temprole, tempsection, tempprogram;
 
     while (true)
     {
@@ -125,9 +131,9 @@ void signUp()
         else
         {
             break;
-        } 
+        }
     }
-    
+
     while (true)
     {
         c();
@@ -164,13 +170,12 @@ void signUp()
         c();
         displayAccountTemplate("Create a New Account\n\nEnter Program[ex. BSCS]: \n");
         cout << ">> ";
-        getline(cin, tempsection);
+        getline(cin, tempprogram);
         c();
         displayAccountTemplate("Create a New Account\n\nEnter section: ");
         cout << ">> ";
         getline(cin, tempsection);
     }
-
 
     int no = BASE_ID + logInCredential.size();
 
@@ -188,7 +193,6 @@ void signUp()
     cout << "Role: " << role << endl;
     cout << "Confirm by pressing 'y'" << endl;
     cout << "-----------------------------------------" << endl;
-    cout << ">> ";
     char confirm = getChar();
 
     if (tolower(confirm) == 'y')
@@ -199,6 +203,7 @@ void signUp()
         newUser.role = role;
         if (role == "student")
         {
+            newUser.program = tempprogram;
             newUser.section = tempsection;
         }
         logInCredential.push_back(newUser);
@@ -214,7 +219,13 @@ void signUp()
         }
         isLoggedIn = true;
         loggedInID = logInCredential.back().id;
-        userIndex = loggedInID - BASE_ID;
+        for (int i = 0; i < logInCredential.size(); i++)
+        {
+            if (loggedInID == logInCredential[i].id)
+            {
+                userIndex = i;
+            }
+        }
         cout << "You have successfully created a new account!" << endl;
         get();
     }
