@@ -507,9 +507,9 @@ void addScoresToEveryone(int indexOfCourse)
   cout << "[B] - Written Task" << endl;
   cout << "[C] - Major Exam" << endl;
   cout << "-----------------------------------------" << endl;
+  char option = getChar();
   string actName;
   float score, over;
-  char option = getChar();
   if (courses[indexOfCourse].enrolledStudentID.size() > 0)
   {
     c();
@@ -697,9 +697,9 @@ void addScoresToEveryone(int indexOfCourse)
   else
   {
     cout << ">> No student is enrolled in this class." << endl;
+    cout << "-----------------------------------------" << endl;
+    get();
   }
-  cout << "-----------------------------------------" << endl;
-  get();
 }
 //
 void addScoreToStudent(int indexOfCourse)
