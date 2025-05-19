@@ -1,14 +1,14 @@
 {
   "courses": [
     {
-      "base": 0.0,
+      "base": 50.0,
       "courseID": 0,
       "courseName": "CC101",
       "enrolledStudentID": [
         2500000
       ],
-      "majorExamPercentage": 30.0,
-      "performanceTaskPercentage": 50.0,
+      "majorExamPercentage": 50.0,
+      "performanceTaskPercentage": 30.0,
       "studentRecords": [
         {
           "finalGrade": 7.006492321624085e-45,
@@ -31,7 +31,6 @@
             20.0
           ],
           "performanceTaskName": [
-            "Bagangstra",
             "Secret 2",
             "Wala"
           ],
@@ -91,17 +90,49 @@
       "teacher": "Ken",
       "teacherID": 2500001,
       "writtenTaskPercentage": 40.0
+    },
+    {
+      "base": 0.0,
+      "courseID": 0,
+      "courseName": "CC103",
+      "enrolledStudentID": [
+        2500000
+      ],
+      "majorExamPercentage": 30.0,
+      "performanceTaskPercentage": 50.0,
+      "studentRecords": [
+        {
+          "finalGrade": 2.8479048316369556e-38,
+          "majorExam": [],
+          "majorExamName": [],
+          "majorExamOver": [],
+          "majorExamPercent": -1.2197928214371934e-12,
+          "performanceTask": [],
+          "performanceTaskName": [],
+          "performanceTaskOver": [],
+          "performanceTaskPercent": 4.9000724466812386e+33,
+          "studentID": 2500000,
+          "writtenTask": [],
+          "writtenTaskName": [],
+          "writtenTaskOver": [],
+          "writtenTaskPercent": 1.6538988792031167e+33
+        }
+      ],
+      "teacher": "Ken",
+      "teacherID": 2500001,
+      "writtenTaskPercentage": 20.0
     }
   ],
-  "isLoggedIn": false,
-  "loggedInID": 2500000,
-  "userIndex": 0,
+  "isLoggedIn": true,
+  "loggedInID": 2500001,
+  "userIndex": 1,
   "users": [
     {
       "GPA": 1.5,
       "coursesEnrolled": [
         0,
-        1
+        1,
+        2
       ],
       "coursesHandled": [],
       "finalGrades": [
@@ -111,11 +142,11 @@
         }
       ],
       "id": 2500000,
-      "password": "jwX5IBk2WbZB@HJN2aVhB0C_MBl!&B!#YlbaB#H^1Ip%W^$_*nRXFadHGghVMulhU7wxJubaKk*9wGaW@L5yf&%Z+14z%JRD#A2",
+      "password": "&r*%*RaV^W8495mCodDa7GQERu$Gdlw+rN4BnqHa*h9XEk9lQWcAUU^&XZba_VV@TGUosltCbZ5ZE4DapPDW3!^9z@y3o%osnDu1",
       "program": "",
       "role": "student",
       "section": "cs1-1",
-      "space": 8,
+      "space": 9,
       "username": "Ken Cartagenas"
     },
     {
@@ -123,11 +154,12 @@
       "coursesEnrolled": [],
       "coursesHandled": [
         0,
-        1
+        1,
+        2
       ],
       "finalGrades": [],
       "id": 2500001,
-      "password": "qhEf1MtVbuEbz23FH+LMeaM!Y7USH3^TFGiau5hSH*8s11#pjy5UzGWdoJtjPeQgs&#2Z6kJVK#SjpA02#A12Kege%ffLKraT+$2",
+      "password": "0H+70dvTx6SM*^n!r5CX@WNpY0h@HpZO#Dqtl@CbreQjHpmDOyMarpKI6Zb&uQ&5rE+DmkYl2i#H!341ltjb4z!UEjxijEh$m@y2",
       "program": "",
       "role": "teacher",
       "section": "",
