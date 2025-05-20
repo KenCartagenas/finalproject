@@ -26,7 +26,7 @@
             40.0
           ],
           "performanceTaskName": [
-            "Dagok"
+            "ACT"
           ],
           "performanceTaskOver": [
             50.0
@@ -50,8 +50,8 @@
       "writtenTaskPercentage": 20.0
     }
   ],
-  "isLoggedIn": true,
-  "loggedInID": 2500000,
+  "isLoggedIn": false,
+  "loggedInID": 0,
   "userIndex": 0,
   "users": [
     {
@@ -70,7 +70,7 @@
       "notifications": [
         "You changed your password.",
         "You have been added to CC101 by Ronnie",
-        "CC101: \"Dagok\" has been graded.",
+        "CC101: \"ACT\" has been graded.",
         "CC101: \"Secret\" has been graded.",
         "CC101: \"Prelim\" has been graded.",
         "Grades in CC101 has been posted.",
