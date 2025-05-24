@@ -33,6 +33,20 @@ float calculateScore(int indexOfCourse, GradeRecord recordsToCalculate, char com
             totalScore += recordsToCalculate.writtenTaskOver[i];
         }
     }
+    else if (component == 'e')
+    {
+        for (int i = 0; i < recordsToCalculate.majorExam.size(); i++)
+        {
+            totalScore += recordsToCalculate.majorExam[i];
+        }
+    }
+    else if (component == 'f')
+    {
+        for (int i = 0; i < recordsToCalculate.majorExamOver.size(); i++)
+        {
+            totalScore += recordsToCalculate.majorExamOver[i];
+        }
+    }
     
     return totalScore;
 }
@@ -86,7 +100,14 @@ float calculateGrade(int indexOfCourse, float performanceGrade, float writtenGra
     return systemGrade;
 }
 
-float calculateGPA()
+float calculateGradeRaw(int indexOfCourse, float performanceGrade, float writtenGrade, float majorGrade)
+{
+    float partialGrade = (performanceGrade * courses[indexOfCourse].performanceTaskPercentage) + (writtenGrade * courses[indexOfCourse].writtenTaskPercentage) + (majorGrade * courses[indexOfCourse].majorExamPercentage);
+    float withBase = ((partialGrade / 100.00) * (100.00 - courses[indexOfCourse].base)) + courses[indexOfCourse].base;
+    return withBase;
+}
+
+void calculateGPA()
 {
     float gpa = 0.0;
     int gpaCount = 0;
@@ -99,10 +120,10 @@ float calculateGPA()
                 gpa += logInCredential[i].finalGrades[j].grade;
                 gpaCount++;
             }
+            gpa /= (float) gpaCount;
+            logInCredential[i].GPA = gpa;
         }
     }
-    gpa /= (float) gpaCount;
-    return gpa;
 }
 //
 float getFinal(int indexOfCourse, int j)

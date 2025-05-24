@@ -9,6 +9,7 @@ using namespace std;
 // g++ main.cpp account.cpp data.cpp ED.cpp mainmenu.cpp -o main.exe
 // g++ main.cpp account.cpp data.cpp ED.cpp mainmenu.cpp calculate.cpp jsonhelper.cpp -o main.exe
 // g++ main.cpp account.cpp data.cpp ED.cpp mainmenu.cpp calculate.cpp jsonhelper.cpp utils.cpp -o main.exe
+// g++ -std=c++17 -static -static-libgcc -static-libstdc++ -o main.exe main.cpp account.cpp data.cpp ED.cpp mainmenu.cpp calculate.cpp jsonhelper.cpp utils.cpp
 struct GradeRecord
 {
   int studentID;

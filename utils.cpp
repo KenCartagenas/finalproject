@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "data.h"
 #include <iostream>
 #include <limits>
 #include <conio.h>
@@ -8,7 +9,6 @@ int getInt()
     int num;
     while (true)
     {
-        std::cout << ">> ";
         std::cin >> num;
         if (std::cin.fail())
         {
@@ -29,7 +29,6 @@ char getChar()
     char c;
     while (true)
     {
-        std::cout << ">> ";
         std::cin >> c;
         if (std::cin.fail())
         {
@@ -50,7 +49,6 @@ float getFloat()
     float c;
     while (true)
     {
-        std::cout << ">> ";
         std::cin >> c;
         if (std::cin.fail())
         {
@@ -73,7 +71,28 @@ void c()
 
 void get()
 {
-    std::cout << ">> ";
+    std::cout << "Press any key to continue\n>> ";
     getch();
     c();
+}
+
+int indexFind(int id)
+{
+    for (int i = 0; i < logInCredential.size(); i++)
+    {
+        if (id == logInCredential[i].id)
+        {
+            userIndex = i;
+        }
+    }
+}
+
+//
+void displayTemplate(string text)
+{
+  cout << "=========================================" << endl;
+  cout << "    Student Grades Management System" << endl;
+  cout << "=========================================" << endl;
+  cout << text << endl;
+  cout << "-----------------------------------------" << endl;
 }

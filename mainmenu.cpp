@@ -10,17 +10,6 @@
 #include "utils.h"
 using namespace std;
 //
-void displayMainMenuTemplate(string text)
-{
-  cout << "=========================================" << endl;
-  cout << "    Student Grades Management System" << endl;
-  cout << "=========================================" << endl;
-  cout << "Hello, " << logInCredential[userIndex].username << "\n"
-       << endl;
-  cout << text << endl;
-  cout << "-----------------------------------------" << endl;
-}
-//
 void mainMenu()
 {
   c();
@@ -39,11 +28,11 @@ void teacherMenu()
   while (isLoggedIn)
   {
     c();
-    displayMainMenuTemplate("[A]. Create New Course / Subject\n[B]. Open Existing Class\n[C]. Search Student\n[D]. Settings\n[E]. Generate Report of GPA\n[F]. View Notifications\n[G]. Log Out\n[H]. Quit");
+    displayTemplate("[A]. Create New Course / Subject\n[B]. Open Existing Class\n[C]. Search Student\n[D]. Settings\n[E]. Generate Report of GPA\n[F]. View Notifications\n[G]. Log Out\n[H]. Quit");
+    cout << "Enter your choice: ";
     char option = getChar();
-    c();
-
     char confirm;
+
     switch (tolower(option))
     {
     case 'a':
@@ -66,7 +55,7 @@ void teacherMenu()
       openNotif();
       break;
     case 'g':
-      cout << "Are you sure you want to Log Out?[y/n]" << endl;
+      cout << "Are you sure you want to Log Out?\nPress Y/y to confirm:" << endl;
       confirm = getChar();
       if (confirm == 'y')
       {
@@ -174,60 +163,52 @@ void createCourse()
   string tempName, tempSection;
   float tempBase, tempP, tempW, tempM;
 
-  while (true)
+  c();
+  displayTemplate("        Create New Course");
+  cout << "Enter course's name: ";
+  getline(cin, tempName);
+  if (tempName.empty())
   {
-    c();
-    displayMainMenuTemplate("Create New Course:\nEnter course's name:");
-    cout << ">> ";
-    getline(cin, tempName);
-    if (tempName.empty())
-    {
-      cout << "Course name cannot be empty!" << endl;
-      get();
-    }
-    else
-    {
-      break;
-    }
+    cout << "-----------------------------------------" << endl;
+    cout << "Course name cannot be empty!" << endl;
+    get();
+    return;
   }
 
-  c();
-  displayMainMenuTemplate("Create New Course:\nDo you want to use the default base of grade (zero)?");
-  char option = getChar();
-  if (tolower(option) == 'y')
+  cout << "Enter students' section: ";
+  getline(cin, tempSection);
+  if (tempSection.empty())
   {
-    tempBase = 0;
+    cout << "-----------------------------------------" << endl;
+    cout << "Section name cannot be empty!" << endl;
+    get();
+    return;
+  }
+
+  cout << "Is " << tempName << " a [B]Minor or [B]Major course?: ";
+  char option = getChar();
+  if (tolower(option) == 'a')
+  {
+    tempP = 45.0f;
+    tempW = 25.0f;
+    tempM = 30.0f;
+  }
+  else if (tolower(option) == 'b')
+  {
+    tempP = 50.0f;
+    tempW = 20.0f;
+    tempM = 30.0f;
   }
   else
   {
-    c();
-    displayMainMenuTemplate("Create New Course:\nEnter base of grade: ");
-    tempBase = getFloat();
+    cout << "-----------------------------------------" << endl;
+    cout << "Invalid choice" << endl;
+    get();
+    return;
   }
 
-  c();
-  displayMainMenuTemplate("Create New Course:\nEnter students' section: ");
-  cout << ">> ";
-  getline(cin, tempSection);
-
-  bool validPercentages = false;
-  while (!validPercentages)
-  {
-    c();
-    displayMainMenuTemplate("Create Course:\nEnter percent for Performance Task, Written Task, and Major Examination (e.g. 40 20 20): ");
-    cout << ">> ";
-    cin >> tempP >> tempW >> tempM;
-
-    float totalPercent = tempP + tempW + tempM;
-    if (totalPercent == 100.0f)
-    {
-      validPercentages = true;
-    }
-    else
-    {
-      cout << "Error: Percentages must add up to 100%. You entered " << totalPercent << "%." << endl;
-    }
-  }
+  cout << "Enter base grade: ";
+  tempBase = getInt();
 
   c();
   Course newCourse;
@@ -262,8 +243,9 @@ void createCourse()
   {
     cout << "\t" << i + 1 << ". " << logInCredential[newCourse.enrolledStudentID[i] - BASE_ID].username << endl;
   }
-  cout << "\nEnter y to confirm: " << endl;
+  cout << "Enter Y/y to confirm: " << endl;
   cout << "-------------------------------------------------------" << endl;
+  cout << "Enter choice: ";
   char confirm = getChar();
 
   if (tolower(confirm) == 'y')
@@ -283,12 +265,11 @@ void createCourse()
     {
       logInCredential[newCourse.enrolledStudentID[i] - BASE_ID].notifications.push_back(notif);
     }
-
-    coursesCount++;
     get();
   }
   else
   {
+    cout << "-----------------------------------------" << endl;
     cout << "Failed to create new course. Returning to the menu." << endl;
     get();
   }
@@ -302,16 +283,20 @@ void openClass()
     cout << "=========================================" << endl;
     cout << "    Student Grades Management System" << endl;
     cout << "=========================================" << endl;
+    cout << "            Courses Handled" << endl;
+    cout << "-----------------------------------------" << endl;
 
     for (int i = 0; i < logInCredential[userIndex].coursesHandled.size(); i++)
     {
       cout << i + 1 << ". " << courses[logInCredential[userIndex].coursesHandled[i]].courseName << endl;
     }
-    cout << "-------------------------------------------------------" << endl;
+    cout << "-----------------------------------------" << endl;
+    cout << "Enter choice: ";
     int chosenCourse = getInt();
 
     if (chosenCourse < 1 || chosenCourse > logInCredential[userIndex].coursesHandled.size())
     {
+      cout << "-----------------------------------------" << endl;
       cout << "Invalid course selection. Returning to main menu." << endl;
       get();
       return;
@@ -324,7 +309,7 @@ void openClass()
       cout << "=========================================" << endl;
       cout << "    Student Grades Management System" << endl;
       cout << "=========================================" << endl;
-      cout << "    " << courses[indexOfCourse].courseName << endl;
+      cout << courses[indexOfCourse].courseName << endl;
       cout << "-----------------------------------------" << endl;
       cout << "[A] Display All Students and Scores" << endl;
       cout << "[B] Edit Student Scores" << endl;
@@ -334,8 +319,8 @@ void openClass()
       cout << "[F] Release Grades" << endl;
       cout << "[G] Return to Main Dashboard" << endl;
       cout << "-----------------------------------------" << endl;
+      cout << "Enter choice: ";
       char optionOpen = getChar();
-
       c();
 
       switch (tolower(optionOpen))
@@ -434,12 +419,13 @@ void displayStudents(int indexOfCourse)
         {
           cout << courses[indexOfCourse].studentRecords[j].majorExamName[k] << " - " << courses[indexOfCourse].studentRecords[j].majorExam[k] << endl;
         }
-        courses[indexOfCourse].studentRecords[j].majorExamPercent = courses[indexOfCourse].studentRecords[j].majorExam[0] / courses[indexOfCourse].studentRecords[j].majorExamOver[0];
+        courses[indexOfCourse].studentRecords[j].majorExamPercent = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'e') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'f');
         cout << "----------------------------" << endl;
-        cout << setprecision(2) << fixed << "Total " << courses[indexOfCourse].studentRecords[j].majorExam[0] << "/" << courses[indexOfCourse].studentRecords[j].majorExamOver[0] << " = " << courses[indexOfCourse].studentRecords[j].majorExamPercent * 100 << "%" << endl;
+        cout << setprecision(2) << fixed << "Total " << calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'e') << "/" << calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'f') << " = " << courses[indexOfCourse].studentRecords[j].majorExamPercent * 100 << "%" << endl;
         cout << "*****************************************" << endl;
         float final = calculateGrade(indexOfCourse, courses[indexOfCourse].studentRecords[j].performanceTaskPercent, courses[indexOfCourse].studentRecords[j].writtenTaskPercent, courses[indexOfCourse].studentRecords[j].majorExamPercent);
-        cout << setprecision(2) << fixed << "Final Grade: " << final;
+        float rawFinal = calculateGradeRaw(indexOfCourse, courses[indexOfCourse].studentRecords[j].performanceTaskPercent, courses[indexOfCourse].studentRecords[j].writtenTaskPercent, courses[indexOfCourse].studentRecords[j].majorExamPercent);
+        cout << setprecision(2) << fixed << "Final Grade: " << final << " | " << rawFinal;
       }
       else
       {
@@ -556,7 +542,6 @@ void addScoresToEveryone(int indexOfCourse)
         {
           cout << "\t>> No records found." << endl;
           cout << "-----------------------------------------" << endl;
-          get();
         }
         cout << "Add score to " << actName << ": " << endl;
         cout << "-----------------------------------------" << endl;
@@ -612,7 +597,6 @@ void addScoresToEveryone(int indexOfCourse)
         {
           cout << "\t>> No records found." << endl;
           cout << "-----------------------------------------" << endl;
-          get();
         }
 
         cout << "Add score to " << actName << ": " << endl;
@@ -676,7 +660,6 @@ void addScoresToEveryone(int indexOfCourse)
         {
           cout << "\t>> No records found." << endl;
           cout << "-----------------------------------------" << endl;
-          get();
         }
 
         cout << "Add score to " << actName << ": " << endl;
@@ -779,7 +762,6 @@ void addScoreToStudent(int indexOfCourse)
     {
       cout << "\t>> No records found." << endl;
       cout << "-----------------------------------------" << endl;
-      get();
     }
     cout << "Add score to " << actName << ": " << endl;
     cout << "-----------------------------------------" << endl;
@@ -812,7 +794,6 @@ void addScoreToStudent(int indexOfCourse)
     {
       cout << "\t>> No records found." << endl;
       cout << "-----------------------------------------" << endl;
-      get();
     }
 
     cout << "Add score to " << actName << ": " << endl;
@@ -853,7 +834,6 @@ void addScoreToStudent(int indexOfCourse)
     {
       cout << "\t>> No records found." << endl;
       cout << "-----------------------------------------" << endl;
-      get();
     }
 
     cout << "Add score to " << actName << ": " << endl;
@@ -928,7 +908,6 @@ void editScore(int indexOfCourse)
     {
       cout << "\t>> No records found." << endl;
       cout << "-----------------------------------------" << endl;
-      get();
     }
     int toEditIndex;
     cout << "Enter number of task to edit: " << endl;
@@ -985,7 +964,6 @@ void editScore(int indexOfCourse)
     {
       cout << "\t>> No records found." << endl;
       cout << "-----------------------------------------" << endl;
-      get();
     }
 
     int toEditIndex;
@@ -1044,7 +1022,6 @@ void editScore(int indexOfCourse)
     {
       cout << "\t>> No records found." << endl;
       cout << "-----------------------------------------" << endl;
-      get();
     }
 
     int toEditIndex;
@@ -1196,7 +1173,7 @@ void generateReportGPA()
         outFile << logInCredential[i].id << ": " << endl;
         for (int j = 0; j < logInCredential[i].finalGrades.size(); j++)
         {
-          outFile << setprecision(2) << fixed << "\t" << logInCredential[i].finalGrades[j].courseName << ": " << logInCredential[i].finalGrades[j].grade;
+          outFile << setprecision(2) << fixed << "\t" << logInCredential[i].finalGrades[j].courseName << ": " << logInCredential[i].finalGrades[j].grade << endl;
         }
 
         outFile << "\nGPA: " << logInCredential[i].GPA << endl;
@@ -1756,7 +1733,7 @@ void releaseGrades(int indexOfCourse)
       }
     }
   }
-  string notif = "Grades in " + courses[indexOfCourse].courseName + " has been posted.";
+  string notif = "Grades in " + courses[indexOfCourse].courseName + " have been posted.";
   for (int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
   {
     logInCredential[courses[indexOfCourse].enrolledStudentID[i] - BASE_ID].notifications.push_back(notif);

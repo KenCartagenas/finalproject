@@ -50,9 +50,9 @@
       "writtenTaskPercentage": 20.0
     }
   ],
-  "isLoggedIn": false,
-  "loggedInID": 0,
-  "userIndex": 0,
+  "isLoggedIn": true,
+  "loggedInID": 2500002,
+  "userIndex": 2,
   "users": [
     {
       "GPA": 1.25,
@@ -100,6 +100,20 @@
       "section": "",
       "space": 24,
       "username": "Ronnie"
+    },
+    {
+      "GPA": -1.0,
+      "coursesEnrolled": [],
+      "coursesHandled": [],
+      "finalGrades": [],
+      "id": 2500002,
+      "notifications": [],
+      "password": "TwG^VUrf0pDKhOyR+_TkTm!SD1h%2MDdr3DOzRywTEuc_Y9xj+!N!Ao6W^n4tvMdHO1i%&qz^Ene*uV$Hcdn&U2&tjbNdfQ3",
+      "program": "BSCS",
+      "role": "student",
+      "section": "CS1-1",
+      "space": 15,
+      "username": "Cartagenas, Ken Crisler F"
     }
   ]
 }

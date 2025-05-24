@@ -6,4 +6,6 @@ int getInt();
 char getChar();
 float getFloat();
 void get();
+int indexFind(int id);
+void displayTemplate(string text);
 #endif
