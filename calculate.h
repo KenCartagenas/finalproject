@@ -7,5 +7,7 @@ float calculateGrade(int indexOfCourse, float performanceGrade, float writtenGra
 float calculateGradeRaw(int indexOfCourse, float performanceGrade, float writtenGrade, float majorGrade);
 void calculateGPA();
 float getFinal(int indexOfCourse, int j);
+int calculateTotalstudents();
+float calculateAverageGrade();
 
 #endif

@@ -153,3 +153,40 @@ float getFinal(int indexOfCourse, int j)
     }
   return final;
 }
+
+int calculateTotalstudents()
+{
+    int students = 0;
+    for(int i = 0; i < courses.size(); i++)
+    {
+        if(courses[i].teacherID == userIndex)
+        {
+            for(int j = 0; j < courses[i].enrolledStudentID.size(); j++)
+            {
+                students++;
+            }
+        }
+    }
+    return students;
+}
+
+float calculateAverageGrade()
+{
+    float grade = 0.0;
+    int count;
+    for(int i = 0; i < courses.size(); i++)
+    {
+        if(courses[i].teacherID == userIndex)
+        {
+            for(int j = 0; j < courses[i].enrolledStudentID.size(); j++)
+            {
+                if(!courses[i].studentRecords[j].finalGrade.empty() || (courses[i].studentRecords[j].finalGrade >= 50 && courses[i].studentRecords[j].finalGrade <= 100))
+                {
+                    grade += courses[i].studentRecords[j].finalGrade;
+                    count++;
+                }
+            }
+        }
+    }
+    return grade / (float) count;
+}

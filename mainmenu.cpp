@@ -6,6 +6,7 @@
 #include <fstream>
 #include <algorithm>
 #include <cmath>
+#include <ctime>
 #include "data.h"
 #include "utils.h"
 using namespace std;
@@ -25,10 +26,26 @@ void mainMenu()
 //
 void teacherMenu()
 {
+  time_t timestamp = time(NULL);
+  struct tm datetime = *localtime(&timestamp);
+  int totalStudent = calculateTotalstudents();
+  float averageGrade = calculateAverageGrade();
+  int activeClasses = logInCredential[userIndex].coursesHandled.size();
+  
   while (isLoggedIn)
   {
     c();
-    displayTemplate("[A]. Create New Course / Subject\n[B]. Open Existing Class\n[C]. Search Student\n[D]. Settings\n[E]. Generate Report of GPA\n[F]. View Notifications\n[G]. Log Out\n[H]. Quit");
+    cout << "=========================================" << endl;
+    cout << "    Student Grades Management System" << endl;
+    cout << "=========================================" << endl;
+    cout << asctime(&datetime) << endl;
+    cout << "Total Students: " << totalStudent << endl;
+    cout << setprecision(2) << fixed << "Average Grade: " << endl;
+    cout << "Active Classes: " << activeClasses << endl;
+    cout << "-----------------------------------------" << endl;
+    cout << "[A]. Create New Course / Subject\n[B]. Open Existing Class\n[C]. Search Student\n[D]. Settings\n[E]. Generate Report of GPA\n[F]. View Notifications\n[G]. Log Out\n[H]. Quit";
+    cout << "-----------------------------------------" << endl;
+    
     cout << "Enter your choice: ";
     char option = getChar();
     char confirm;
@@ -370,76 +387,53 @@ void displayStudents(int indexOfCourse)
   cout << "    Student Grades Management System" << endl;
   cout << "=========================================" << endl;
   cout << "Course: " << courses[indexOfCourse].courseName << endl;
+  cout << "-----------------------------------------" << endl;
 
-  if (courses[indexOfCourse].enrolledStudentID.size() > 0)
+  int maxLength = 0;
+  int index = 0;
+  for(int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
   {
-    for (int j = 0; j < courses[indexOfCourse].enrolledStudentID.size(); j++)
+    index = indexFind(logInCredential[courses[indexOfCourse].enrolledStudentID[i]]);
+    if(logInCredential[index].username.size() > maxLength)
     {
-      cout << "*****************************************" << endl;
-      cout << j + 1 << ". " << logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].username << endl;
-      cout << "*****************************************" << endl;
-      cout << "Performace Task:" << endl;
-      if (courses[indexOfCourse].studentRecords[j].performanceTask.size() > 0)
-      {
-        for (int k = 0; k < courses[indexOfCourse].studentRecords[j].performanceTask.size(); k++)
-        {
-          cout << "\t" << courses[indexOfCourse].studentRecords[j].performanceTaskName[k] << ": " << courses[indexOfCourse].studentRecords[j].performanceTask[k] << "/" << courses[indexOfCourse].studentRecords[j].performanceTaskOver[k] << endl;
-        }
-        courses[indexOfCourse].studentRecords[j].performanceTaskPercent = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'a') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'c');
-        cout << "----------------------------" << endl;
-        cout << setprecision(2) << fixed << "Total: " << calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'a') << "/" << calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'c') << " = " << courses[indexOfCourse].studentRecords[j].performanceTaskPercent * 100 << "%" << endl;
-      }
-      else
-      {
-        cout << "\t>> No records found." << endl;
-      }
-
-      cout << "\nWritten Task:" << endl;
-
-      if (courses[indexOfCourse].studentRecords[j].writtenTask.size() > 0)
-      {
-        for (int k = 0; k < courses[indexOfCourse].studentRecords[j].writtenTask.size(); k++)
-        {
-          cout << "\t" << courses[indexOfCourse].studentRecords[j].writtenTaskName[k] << ": " << courses[indexOfCourse].studentRecords[j].writtenTask[k] << "/" << courses[indexOfCourse].studentRecords[j].writtenTaskOver[k] << endl;
-        }
-        courses[indexOfCourse].studentRecords[j].writtenTaskPercent = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'b') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'd');
-        cout << "----------------------------" << endl;
-        cout << setprecision(2) << fixed << "Total: " << calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'b') << "/" << calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'd') << " = " << courses[indexOfCourse].studentRecords[j].writtenTaskPercent * 100 << "%" << endl;
-      }
-      else
-      {
-        cout << "\t>> No records found." << endl;
-      }
-
-      cout << "\nMajor Exam: " << endl;
-
-      if (courses[indexOfCourse].studentRecords[j].majorExam.size() > 0)
-      {
-        for (int k = 0; k < courses[indexOfCourse].studentRecords[j].majorExam.size(); k++)
-        {
-          cout << courses[indexOfCourse].studentRecords[j].majorExamName[k] << " - " << courses[indexOfCourse].studentRecords[j].majorExam[k] << endl;
-        }
-        courses[indexOfCourse].studentRecords[j].majorExamPercent = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'e') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'f');
-        cout << "----------------------------" << endl;
-        cout << setprecision(2) << fixed << "Total " << calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'e') << "/" << calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'f') << " = " << courses[indexOfCourse].studentRecords[j].majorExamPercent * 100 << "%" << endl;
-        cout << "*****************************************" << endl;
-        float final = calculateGrade(indexOfCourse, courses[indexOfCourse].studentRecords[j].performanceTaskPercent, courses[indexOfCourse].studentRecords[j].writtenTaskPercent, courses[indexOfCourse].studentRecords[j].majorExamPercent);
-        float rawFinal = calculateGradeRaw(indexOfCourse, courses[indexOfCourse].studentRecords[j].performanceTaskPercent, courses[indexOfCourse].studentRecords[j].writtenTaskPercent, courses[indexOfCourse].studentRecords[j].majorExamPercent);
-        cout << setprecision(2) << fixed << "Final Grade: " << final << " | " << rawFinal;
-      }
-      else
-      {
-        cout << "\t>> No records found." << endl;
-      }
-      cout << endl;
+      maxLength = logInCredential[index].username.size();
     }
   }
-  else
+
+  cout << left << setw(5) << "" << setw(maxLength + 2) << "Name";
+  for(int i = 0; i < course[indexOfCourse].studentRecords[0].performanceTaskName.size(); i++)
   {
-    cout << ">> No student is enrolled in this class." << endl;
+     cout << setw(8) << course[indexOfCourse].studentRecords[0].performanceTaskName[i];
   }
-  cout << "-----------------------------------------" << endl;
-  get();
+  for(int i = 0; i < course[indexOfCourse].studentRecords[0].writtenTaskNameTaskName.size(); i++)
+  {
+     cout << setw(8) << course[indexOfCourse].studentRecords[0].writtenTaskNameTaskName[i];
+  }
+  for(int i = 0; i < course[indexOfCourse].studentRecords[0].majorExamName.size(); i++)
+  {
+     cout << setw(8) << course[indexOfCourse].studentRecords[0].majorExamName[i];
+  }
+  cout << endl;
+
+  for(int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
+  {
+    index = indexFind(logInCredential[courses[indexOfCourse].enrolledStudentID[i]]);
+    cout << left << setw(5) << i + 1 << ". " << << setw(maxLength + 2) << logInCredential[index].username;
+    for(int j = 0; j < courses[indexOfCourse].studentRecords[0].performanceTask.size(); j++)
+    {
+      cout << setw(6) << courses[indexOfCourse].studentRecords[i].performanceTask[j];
+    }
+    for(int k = 0; k < courses[indexOfCourse].studentRecords[0].writtenTask.size(); k++)
+    {
+      cout << setw(6) << courses[indexOfCourse].studentRecords[i].writtenTask[k];
+    }
+    for(int l = 0; l < courses[indexOfCourse].studentRecords[0].majorExam.size(); l++)
+    {
+      cout << setw(6) << courses[indexOfCourse].studentRecords[i].majorExam[l];
+    }
+  }
+
+  cout << "Final Grade: " <<  
 }
 //
 void editStudent(int indexOfCourse)
