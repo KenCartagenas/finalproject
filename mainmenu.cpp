@@ -140,6 +140,7 @@ void studentMenu()
     // === MENU OPTIONS ===
     char option;
     displayTemplate("[A]. Open Course\n[B]. View Notifications\n[C]. Log Out\n[D]. Quit");
+    cout << "Enter choice: ";
     option = getChar();
     c();
     switch (tolower(option))
@@ -600,10 +601,13 @@ void addScoresToEveryone(int indexOfCourse)
         courses[indexOfCourse].studentRecords[i].majorExamOver.push_back(over);
       }
     }
+
     string notif = courses[indexOfCourse].courseName + ": \"" + actName + "\" has been graded.";
+    int index;
     for (int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
     {
-      logInCredential[courses[indexOfCourse].enrolledStudentID[i] - BASE_ID].notifications.push_back(notif);
+      index = indexFind(courses[indexOfCourse].enrolledStudentID[i]);
+      logInCredential[index].notifications.push_back(notif);
     }
   }
   else
@@ -627,7 +631,9 @@ void editScore(int indexOfCourse)
     c();
     return;
   }
+  
   int index = indexFind(courses[indexOfCourse].enrolledStudentID[chosenStudent - 1]);
+  int chosenStudentIndex = chosenStudent - 1;
   string actName;
   float score, over;
   cout << "Enter Activity Name: ";
@@ -642,46 +648,45 @@ void editScore(int indexOfCourse)
   cout << "Enter new score: ";
   score = getFloat();
   int pos;
-
+  
   if (tolower(actName[0]) == 'p')
   {
-    for (int i = 0; i < courses[indexOfCourse].studentRecords[index].performanceTaskName.size(); i++)
+    for (int i = 0; i < courses[indexOfCourse].studentRecords[chosenStudentIndex].performanceTaskName.size(); i++)
     {
-      if (actName == courses[indexOfCourse].studentRecords[index].performanceTaskName[i])
+      if (actName == courses[indexOfCourse].studentRecords[chosenStudentIndex].performanceTaskName[i])
       {
         pos = i;
       }
     }
-
-    courses[indexOfCourse].studentRecords[index].performanceTask[pos] = score;
-    courses[indexOfCourse].studentRecords[index].performanceTaskName[pos] = actName;
-    courses[indexOfCourse].studentRecords[index].performanceTaskOver[pos] = over;
+    courses[indexOfCourse].studentRecords[chosenStudentIndex].performanceTask[pos] = score;
+    courses[indexOfCourse].studentRecords[chosenStudentIndex].performanceTaskName[pos] = actName;
+    courses[indexOfCourse].studentRecords[chosenStudentIndex].performanceTaskOver[pos] = over;
   }
   if (tolower(actName[0]) == 'w')
   {
-    for (int i = 0; i < courses[indexOfCourse].studentRecords[index].writtenTaskName.size(); i++)
+    for (int i = 0; i < courses[indexOfCourse].studentRecords[chosenStudentIndex].writtenTaskName.size(); i++)
     {
-      if (actName == courses[indexOfCourse].studentRecords[index].writtenTaskName[i])
+      if (actName == courses[indexOfCourse].studentRecords[chosenStudentIndex].writtenTaskName[i])
       {
         pos = i;
       }
     }
-    courses[indexOfCourse].studentRecords[index].writtenTask[pos] = score;
-    courses[indexOfCourse].studentRecords[index].writtenTaskName[pos] = actName;
-    courses[indexOfCourse].studentRecords[index].writtenTaskOver[pos] = over;
+    courses[indexOfCourse].studentRecords[chosenStudentIndex].writtenTask[pos] = score;
+    courses[indexOfCourse].studentRecords[chosenStudentIndex].writtenTaskName[pos] = actName;
+    courses[indexOfCourse].studentRecords[chosenStudentIndex].writtenTaskOver[pos] = over;
   }
-  if (tolower(actName[0]) == 'w')
+  if (tolower(actName[0]) == 'm')
   {
-    for (int i = 0; i < courses[indexOfCourse].studentRecords[index].majorExamName.size(); i++)
+    for (int i = 0; i < courses[indexOfCourse].studentRecords[chosenStudentIndex].majorExamName.size(); i++)
     {
-      if (actName == courses[indexOfCourse].studentRecords[index].majorExamName[i])
+      if (actName == courses[indexOfCourse].studentRecords[chosenStudentIndex].majorExamName[i])
       {
         pos = i;
       }
     }
-    courses[indexOfCourse].studentRecords[index].majorExam[pos] = score;
-    courses[indexOfCourse].studentRecords[index].majorExamName[pos] = actName;
-    courses[indexOfCourse].studentRecords[index].majorExamOver[pos] = over;
+    courses[indexOfCourse].studentRecords[chosenStudentIndex].majorExam[pos] = score;
+    courses[indexOfCourse].studentRecords[chosenStudentIndex].majorExamName[pos] = actName;
+    courses[indexOfCourse].studentRecords[chosenStudentIndex].majorExamOver[pos] = over;
   }
   string notif = courses[indexOfCourse].courseName + ": \"" + actName + "\" has been updated.";
   logInCredential[index].notifications.push_back(notif);
