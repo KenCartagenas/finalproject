@@ -3,6 +3,7 @@
 #include <iostream>
 #include <limits>
 #include <conio.h>
+#include <string>
 
 int getInt()
 {
@@ -78,13 +79,15 @@ void get()
 
 int indexFind(int id)
 {
+    int index = -1;
     for (int i = 0; i < logInCredential.size(); i++)
     {
         if (id == logInCredential[i].id)
         {
-            userIndex = i;
+            index = i;
         }
     }
+    return index;
 }
 
 //

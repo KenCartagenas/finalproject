@@ -1,119 +1,208 @@
 {
   "courses": [
     {
-      "base": 60.0,
+      "base": 50.0,
       "courseID": 0,
-      "courseName": "CC101",
+      "courseName": "Science",
       "enrolledStudentID": [
-        2500000
+        2500001,
+        2500003
       ],
-      "majorExamPercentage": 40.0,
-      "performanceTaskPercentage": 40.0,
+      "majorExamPercentage": 30.0,
+      "performanceTaskPercentage": 45.0,
       "studentRecords": [
         {
-          "finalGrade": -9.631268322555964e-35,
+          "finalGrade": 3.8896274104752934e+33,
           "majorExam": [
-            50.0
+            0.0
           ],
           "majorExamName": [
-            "Prelim"
+            "W1",
+            "W2",
+            "W3"
           ],
           "majorExamOver": [
-            50.0
+            0.0
           ],
-          "majorExamPercent": 1.0,
+          "majorExamPercent": 1.4859421042356743e+29,
           "performanceTask": [
-            40.0
+            0.0,
+            0.0,
+            0.0
           ],
           "performanceTaskName": [
-            "ACT"
+            "P1",
+            "P2",
+            "P3"
           ],
           "performanceTaskOver": [
-            50.0
+            0.0,
+            0.0,
+            0.0
           ],
-          "performanceTaskPercent": 0.800000011920929,
-          "studentID": 2500000,
+          "performanceTaskPercent": 1.3592595103950726e-43,
+          "studentID": 2500001,
           "writtenTask": [
-            19.0
+            0.0,
+            0.0,
+            0.0
           ],
           "writtenTaskName": [
-            "Secret"
+            "W1",
+            "W2",
+            "W3"
           ],
           "writtenTaskOver": [
-            20.0
+            0.0,
+            0.0,
+            0.0
           ],
-          "writtenTaskPercent": 0.949999988079071
+          "writtenTaskPercent": 1.4861631109870726e+29
+        },
+        {
+          "finalGrade": 0.0,
+          "majorExam": [],
+          "majorExamName": [],
+          "majorExamOver": [],
+          "majorExamPercent": null,
+          "performanceTask": [],
+          "performanceTaskName": [],
+          "performanceTaskOver": [],
+          "performanceTaskPercent": null,
+          "studentID": 9110696,
+          "writtenTask": [],
+          "writtenTaskName": [],
+          "writtenTaskOver": [],
+          "writtenTaskPercent": 0.0
         }
       ],
-      "teacher": "Ronnie",
-      "teacherID": 2500001,
-      "writtenTaskPercentage": 20.0
+      "teacher": "Ken Cartagenas Teacher",
+      "teacherID": 2500002,
+      "writtenTaskPercentage": 25.0
+    },
+    {
+      "base": 50.0,
+      "courseID": 1,
+      "courseName": "Math",
+      "enrolledStudentID": [
+        2500001,
+        2500003
+      ],
+      "majorExamPercentage": 30.0,
+      "performanceTaskPercentage": 45.0,
+      "studentRecords": [
+        {
+          "finalGrade": 3.8896274104752934e+33,
+          "majorExam": [],
+          "majorExamName": [],
+          "majorExamOver": [],
+          "majorExamPercent": 1.4859421042356743e+29,
+          "performanceTask": [],
+          "performanceTaskName": [],
+          "performanceTaskOver": [],
+          "performanceTaskPercent": 1.3592595103950726e-43,
+          "studentID": 2500001,
+          "writtenTask": [],
+          "writtenTaskName": [],
+          "writtenTaskOver": [],
+          "writtenTaskPercent": 1.4861631109870726e+29
+        },
+        {
+          "finalGrade": 0.0,
+          "majorExam": [],
+          "majorExamName": [],
+          "majorExamOver": [],
+          "majorExamPercent": null,
+          "performanceTask": [],
+          "performanceTaskName": [],
+          "performanceTaskOver": [],
+          "performanceTaskPercent": null,
+          "studentID": 9110696,
+          "writtenTask": [],
+          "writtenTaskName": [],
+          "writtenTaskOver": [],
+          "writtenTaskPercent": 0.0
+        }
+      ],
+      "teacher": "Ken Cartagenas Teacher",
+      "teacherID": 2500002,
+      "writtenTaskPercentage": 25.0
     }
   ],
   "isLoggedIn": true,
-  "loggedInID": 2500002,
+  "loggedInID": 2500003,
   "userIndex": 2,
   "users": [
     {
-      "GPA": 1.25,
+      "GPA": -1.0,
       "coursesEnrolled": [
-        0
+        0,
+        1
       ],
       "coursesHandled": [],
-      "finalGrades": [
-        {
-          "courseName": "CC101",
-          "grade": 1.25
-        }
-      ],
-      "id": 2500000,
-      "notifications": [
-        "You changed your password.",
-        "You have been added to CC101 by Ronnie",
-        "CC101: \"ACT\" has been graded.",
-        "CC101: \"Secret\" has been graded.",
-        "CC101: \"Prelim\" has been graded.",
-        "Grades in CC101 has been posted.",
-        "Grades in CC101 has been posted."
-      ],
-      "password": "ll61+yq!V985hM7AK2GvRz^$K356r#tgd%_8M45p7I!!1mFiWk^q@uURi8d6h$NhPedO6FFl%y@DUougSCrlXTnn7qUP!DrlwC21",
-      "program": "BSCS",
-      "role": "student",
-      "section": "cs1-1",
-      "space": 24,
-      "username": "Ken"
-    },
-    {
-      "GPA": 1.793662034335766e-43,
-      "coursesEnrolled": [],
-      "coursesHandled": [
-        0
-      ],
       "finalGrades": [],
       "id": 2500001,
       "notifications": [
-        "You changed your password."
+        "You have been added to Science by Ken Cartagenas Teacher",
+        "You have been added to Math by Ken Cartagenas Teacher"
       ],
-      "password": "GQ5HCyDrWwLCd84bia*lfn6rTIiOG7*dRJ8saDafsY4GT#pylt5qW37m3#d4k@T^pM8Fx8EjK@#sWEq*$P012$@tTygEjWZ4VQE2",
+      "password": "txngmKSKrCiP#Nk+02w^n3BjL006%qlHWWm6Y5U9ej#ti*J@zlg1rpI1!Xv*Hjj5yMi&+9cwVH#g$Gqsq9U#fcXfOLqaHK@XCRj2",
+      "program": "vscs",
+      "role": "student",
+      "section": "CS1-1",
+      "space": 24,
+      "username": "Ken Crisler F. Cartagenas"
+    },
+    {
+      "GPA": 2.802596928649634e-45,
+      "coursesEnrolled": [],
+      "coursesHandled": [
+        0,
+        1
+      ],
+      "finalGrades": [],
+      "id": 2500002,
+      "notifications": [
+        "Science: \"P1\" has been graded.",
+        "Science: \"W1\" has been graded.",
+        "Science: \"W2\" has been graded.",
+        "Science: \"M1\" has been graded.",
+        "Science: \"P2\" has been graded.",
+        "Science: \"W3\" has been graded.",
+        "Science: \"P3\" has been graded.",
+        "Ronnie G. Montera, Jr. joined Science class.",
+        "Ronnie G. Montera, Jr. joined Math class.",
+        "Nathalie DeCastro joined Science class.",
+        "Nathalie DeCastro joined Math class.",
+        "Sean Lei joined Science class.",
+        "Sean Lei joined Math class."
+      ],
+      "password": "rSl54zFsL4H3Ar*R8g%7INOIUK8n*A7p+5UqLp@S_vRuDUJpnuh2n@2IgMHT6VX0VlydFf6MmH$H3cg^d9AhiNie*z$9_#ndCQp3",
       "program": "",
       "role": "teacher",
       "section": "",
       "space": 24,
-      "username": "Ronnie"
+      "username": "Ken Cartagenas Teacher"
     },
     {
-      "GPA": -1.0,
-      "coursesEnrolled": [],
+      "GPA": 0.0,
+      "coursesEnrolled": [
+        0,
+        1
+      ],
       "coursesHandled": [],
       "finalGrades": [],
-      "id": 2500002,
-      "notifications": [],
-      "password": "TwG^VUrf0pDKhOyR+_TkTm!SD1h%2MDdr3DOzRywTEuc_Y9xj+!N!Ao6W^n4tvMdHO1i%&qz^Ene*uV$Hcdn&U2&tjbNdfQ3",
+      "id": 2500003,
+      "notifications": [
+        "You are now enrolled in Science",
+        "You are now enrolled in Math"
+      ],
+      "password": "Kg3GnfAUsEeK4UyVItX1JB^HG@$zES6E@mfUB_$nO5yT8HGkRgOBZe*IN6#Sv0*P2obN#tCF8P%n*LCVc$dV+ofDUcLw1jDxZST4",
       "program": "BSCS",
       "role": "student",
       "section": "CS1-1",
-      "space": 15,
-      "username": "Cartagenas, Ken Crisler F"
+      "space": 24,
+      "username": "Sean Lei"
     }
   ]
 }

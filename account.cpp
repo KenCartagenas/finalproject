@@ -70,25 +70,24 @@ void signIn()
         cout << "Enter Password: ";
         getline(cin, enteredPassword);
 
-        if (enteredID - BASE_ID < logInCredential.size() && enteredID - BASE_ID >= 0)
+        int index = indexFind(enteredID);
+        if (index == -1)
         {
-            if (decrypt(logInCredential[enteredID - BASE_ID].password, enteredID) == enteredPassword)
-            {
-                isLoggedIn = true;
-                loggedInID = logInCredential[enteredID - BASE_ID].id;
-                userIndex = indexFind(loggedInID);
-            }
-            else
-            {
-                cout << "-----------------------------------------" << endl;
-                cout << "Error: Wrong password" << endl;
-                get();
-            }
+            cout << "-----------------------------------------" << endl;
+            cout << "Error: No ID Found" << endl;
+            get();
+            return;
+        }
+        if (decrypt(logInCredential[index].password, enteredID, index) == enteredPassword)
+        {
+            isLoggedIn = true;
+            loggedInID = logInCredential[index].id;
+            userIndex = indexFind(loggedInID);
         }
         else
         {
             cout << "-----------------------------------------" << endl;
-            cout << "Error: No ID Found" << endl;
+            cout << "Error: Wrong password" << endl;
             get();
         }
     }
@@ -148,7 +147,6 @@ void signUp()
 
         cout << "Enter section: ";
         getline(cin, tempsection);
-
         for (int i = 0; i < tempsection.size(); i++)
         {
             if (isdigit(tempsection[i]))
@@ -162,8 +160,17 @@ void signUp()
         }
     }
 
-    int no = logInCredential.back().id + 1;
-
+    int no;
+    int index;
+    if (logInCredential.empty())
+    {
+        no = BASE_ID + 1;
+    }
+    else
+    {
+        no = logInCredential.back().id + 1;
+    }
+    
     c();
     cout << "=========================================" << endl;
     cout << "    Student Grades Management System" << endl;
@@ -194,20 +201,46 @@ void signUp()
             newUser.section = tempsection;
         }
         logInCredential.push_back(newUser);
-        logInCredential[no - BASE_ID].password = encrypt(desiredPassword, no);
-
+        index = indexFind(no);
+        logInCredential[index].password = encrypt(desiredPassword, no, index);
         for (int i = 0; i < courses.size(); i++)
         {
-            if (logInCredential[courses[i].enrolledStudentID[0] - BASE_ID].section == tempsection)
+            index = indexFind(courses[i].enrolledStudentID[0]);
+            if (logInCredential[index].section == tempsection)
             {
+                GradeRecord records;
+                courses[i].studentRecords.push_back(records);
                 logInCredential.back().coursesEnrolled.push_back(courses[i].courseID);
+                int size = courses[i].studentRecords.back().performanceTask.size();
+                for (int j = 0; j < size; j++)
+                {
+                    courses[i].studentRecords.back().performanceTask.push_back(0.0);
+                    courses[i].studentRecords.back().performanceTaskOver.push_back(0.0);
+                    courses[i].studentRecords.back().performanceTaskName = courses[i].studentRecords[0].performanceTaskName;
+                }
+                size = courses[i].studentRecords.back().writtenTask.size();
+                for (int j = 0; j < size; j++)
+                {
+                    courses[i].studentRecords.back().writtenTask.push_back(0.0);
+                    courses[i].studentRecords.back().writtenTaskOver.push_back(0.0);
+                    courses[i].studentRecords.back().writtenTaskName = courses[i].studentRecords[0].writtenTaskName;
+                }
+                size = courses[i].studentRecords.back().majorExam.size();
+                for (int j = 0; j < size; j++)
+                {
+                    courses[i].studentRecords.back().majorExam.push_back(0.0);
+                    courses[i].studentRecords.back().majorExamOver.push_back(0.0);
+                    courses[i].studentRecords.back().majorExamName = courses[i].studentRecords[0].majorExamName;
+                }
+                   
                 courses[i].enrolledStudentID.push_back(logInCredential.back().id);
                 string notif = "You are now enrolled in " + courses[i].courseName;
                 logInCredential.back().notifications.push_back(notif);
                 if (logInCredential.back().role == "student")
                 {
+                    index = indexFind(courses[i].teacherID);
                     notif = logInCredential.back().username + " joined " + courses[i].courseName + " class.";
-                    logInCredential[courses[i].teacherID - BASE_ID].notifications.push_back(notif);
+                    logInCredential[index].notifications.push_back(notif);
                 }
             }
         }
@@ -245,7 +278,7 @@ void forgotPassword()
             getline(cin, pass);
             if (isPasswordStrong(pass))
             {
-                logInCredential[index].password = encrypt(pass, id);
+                logInCredential[index].password = encrypt(pass, id, index);
                 cout << "Password updated successfully!" << endl;
                 get();
                 string notif = "You changed your password.";

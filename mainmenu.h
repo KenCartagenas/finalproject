@@ -12,7 +12,6 @@ void openClass();
 void editStudent(int indexOfCourse);
 void displayStudents(int indexOfCourse);
 void addScoresToEveryone(int indexOfCourse);
-void addScoreToStudent(int indexOfCourse);
 void editScore(int indexOfCourse);
 void generateReportCourse(int indexOfCourse);
 void generateReportGPA();

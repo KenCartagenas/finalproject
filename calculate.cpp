@@ -159,7 +159,7 @@ int calculateTotalstudents()
     int students = 0;
     for(int i = 0; i < courses.size(); i++)
     {
-        if(courses[i].teacherID == userIndex)
+        if(courses[i].teacherID == loggedInID)
         {
             for(int j = 0; j < courses[i].enrolledStudentID.size(); j++)
             {
@@ -180,7 +180,7 @@ float calculateAverageGrade()
         {
             for(int j = 0; j < courses[i].enrolledStudentID.size(); j++)
             {
-                if(!courses[i].studentRecords[j].finalGrade.empty() || (courses[i].studentRecords[j].finalGrade >= 50 && courses[i].studentRecords[j].finalGrade <= 100))
+                if(courses[i].studentRecords[j].finalGrade != 0.0 || (courses[i].studentRecords[j].finalGrade >= 1 && courses[i].studentRecords[j].finalGrade <= 5))
                 {
                     grade += courses[i].studentRecords[j].finalGrade;
                     count++;

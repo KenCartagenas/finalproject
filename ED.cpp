@@ -7,7 +7,7 @@ using namespace std;
 
 string characters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890!@#$%^&*_+";
 
-string encrypt(string password, int id)
+string encrypt(string password, int id, int index)
 {
     srand(time(0));
     int space = (100 - password.size()) / password.size();
@@ -24,13 +24,13 @@ string encrypt(string password, int id)
         pos = (characters.find(password[i]) + (id % 10)) % characters.size();
         encryptedPassword += characters[pos];
     }
-    logInCredential[id - BASE_ID].space = space;
+    logInCredential[index].space = space;
     return encryptedPassword;
 }
 
-string decrypt(string password, int id)
+string decrypt(string password, int id, int index)
 {
-    int space = logInCredential[id - BASE_ID].space;
+    int space = logInCredential[index].space;
     int pos;
     string decryptedPassword;
 

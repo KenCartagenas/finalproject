@@ -3,6 +3,6 @@
 #include <string>
 using namespace std;
 
-string encrypt(string password, int id);
-string decrypt(string password, int id);
+string encrypt(string password, int id, int index);
+string decrypt(string password, int id, int index);
 #endif
