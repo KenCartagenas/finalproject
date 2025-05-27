@@ -1,5 +1,6 @@
 #include "calculate.h"
 #include "data.h"
+#include "utils.h"
 //
 float calculateScore(int indexOfCourse, GradeRecord recordsToCalculate, char component)
 {
@@ -113,6 +114,8 @@ void calculateGPA()
     int gpaCount = 0;
     for (int i = 0; i < logInCredential.size(); i++)
     {
+        gpa = 0.0;
+        gpaCount = 0.0;
         if (logInCredential[i].role == "student")
         {
             for (int j = 0; j < logInCredential[i].finalGrades.size(); j++)
@@ -173,18 +176,25 @@ int calculateTotalstudents()
 float calculateAverageGrade()
 {
     float grade = 0.0;
-    int count;
+    int count = 0;
+    int index;
     for(int i = 0; i < courses.size(); i++)
     {
-        if(courses[i].teacherID == userIndex)
+        if(courses[i].teacherID == loggedInID)
         {
             for(int j = 0; j < courses[i].enrolledStudentID.size(); j++)
             {
-                if(courses[i].studentRecords[j].finalGrade != 0.0 || (courses[i].studentRecords[j].finalGrade >= 1 && courses[i].studentRecords[j].finalGrade <= 5))
+                index = indexFind(courses[i].enrolledStudentID[j]);
+                for (int k = 0; k < logInCredential[index].finalGrades.size(); k++)
                 {
-                    grade += courses[i].studentRecords[j].finalGrade;
-                    count++;
+                    if (logInCredential[index].finalGrades[k].courseName == courses[i].courseName)
+                    {
+                        grade += logInCredential[index].finalGrades[k].grade;
+                        count++;
+                    }
+                    
                 }
+                
             }
         }
     }
