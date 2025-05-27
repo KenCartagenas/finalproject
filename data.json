@@ -24,7 +24,7 @@
           "majorExamOver": [
             80.0
           ],
-          "majorExamPercent": 1.4859421042356743e+29,
+          "majorExamPercent": 0.949999988079071,
           "performanceTask": [
             49.0
           ],
@@ -34,7 +34,7 @@
           "performanceTaskOver": [
             50.0
           ],
-          "performanceTaskPercent": 1.3592595103950726e-43,
+          "performanceTaskPercent": 0.9800000190734863,
           "studentID": 2500001,
           "writtenTask": [
             20.0
@@ -45,7 +45,7 @@
           "writtenTaskOver": [
             20.0
           ],
-          "writtenTaskPercent": 1.4861631109870726e+29
+          "writtenTaskPercent": 1.0
         },
         {
           "finalGrade": 2.1983438252832926e+33,
@@ -58,7 +58,7 @@
           "majorExamOver": [
             80.0
           ],
-          "majorExamPercent": 1.4859421042356743e+29,
+          "majorExamPercent": 0.699999988079071,
           "performanceTask": [
             30.0
           ],
@@ -68,7 +68,7 @@
           "performanceTaskOver": [
             50.0
           ],
-          "performanceTaskPercent": 1.3592595103950726e-43,
+          "performanceTaskPercent": 0.6000000238418579,
           "studentID": 2500003,
           "writtenTask": [
             16.0
@@ -79,7 +79,7 @@
           "writtenTaskOver": [
             20.0
           ],
-          "writtenTaskPercent": 1.4861631109870726e+29
+          "writtenTaskPercent": 0.800000011920929
         },
         {
           "finalGrade": 2.1983438252832926e+33,
@@ -92,7 +92,7 @@
           "majorExamOver": [
             80.0
           ],
-          "majorExamPercent": 1.4859421042356743e+29,
+          "majorExamPercent": 0.5625,
           "performanceTask": [
             41.0
           ],
@@ -102,7 +102,7 @@
           "performanceTaskOver": [
             50.0
           ],
-          "performanceTaskPercent": 1.3592595103950726e-43,
+          "performanceTaskPercent": 0.8199999928474426,
           "studentID": 2500004,
           "writtenTask": [
             16.0
@@ -113,7 +113,7 @@
           "writtenTaskOver": [
             20.0
           ],
-          "writtenTaskPercent": 1.4861631109870726e+29
+          "writtenTaskPercent": 0.800000011920929
         },
         {
           "finalGrade": 4.017049816658977e+33,
@@ -160,12 +160,17 @@
   "userIndex": 1,
   "users": [
     {
-      "GPA": -1.0,
+      "GPA": 1.25,
       "coursesEnrolled": [
         0
       ],
       "coursesHandled": [],
-      "finalGrades": [],
+      "finalGrades": [
+        {
+          "courseName": "CC101",
+          "grade": 1.25
+        }
+      ],
       "id": 2500001,
       "notifications": [
         "You have been added to Science by Ken Cartagenas Teacher",
@@ -173,7 +178,8 @@
         "You have been added to CC101 by Ken Cartagenas Teacher",
         "CC101: \"P1\" has been graded.",
         "CC101: \"W1\" has been graded.",
-        "CC101: \"M1\" has been graded."
+        "CC101: \"M1\" has been graded.",
+        "Grades in CC101 have been posted."
       ],
       "password": "txngmKSKrCiP#Nk+02w^n3BjL006%qlHWWm6Y5U9ej#ti*J@zlg1rpI1!Xv*Hjj5yMi&+9cwVH#g$Gqsq9U#fcXfOLqaHK@XCRj2",
       "program": "vscs",
@@ -214,12 +220,17 @@
       "username": "Ken Cartagenas Teacher"
     },
     {
-      "GPA": 0.0,
+      "GPA": 2.25,
       "coursesEnrolled": [
         0
       ],
       "coursesHandled": [],
-      "finalGrades": [],
+      "finalGrades": [
+        {
+          "courseName": "CC101",
+          "grade": 2.25
+        }
+      ],
       "id": 2500003,
       "notifications": [
         "You are now enrolled in Science",
@@ -228,7 +239,8 @@
         "CC101: \"P1\" has been graded.",
         "CC101: \"W1\" has been graded.",
         "CC101: \"W1\" has been updated.",
-        "CC101: \"M1\" has been graded."
+        "CC101: \"M1\" has been graded.",
+        "Grades in CC101 have been posted."
       ],
       "password": "Kg3GnfAUsEeK4UyVItX1JB^HG@$zES6E@mfUB_$nO5yT8HGkRgOBZe*IN6#Sv0*P2obN#tCF8P%n*LCVc$dV+ofDUcLw1jDxZST4",
       "program": "BSCS",
@@ -238,18 +250,24 @@
       "username": "Sean Lei"
     },
     {
-      "GPA": -1.0,
+      "GPA": 2.25,
       "coursesEnrolled": [
         0
       ],
       "coursesHandled": [],
-      "finalGrades": [],
+      "finalGrades": [
+        {
+          "courseName": "CC101",
+          "grade": 2.25
+        }
+      ],
       "id": 2500004,
       "notifications": [
         "You have been added to CC101 by Ken Cartagenas Teacher",
         "CC101: \"P1\" has been graded.",
         "CC101: \"W1\" has been graded.",
-        "CC101: \"M1\" has been graded."
+        "CC101: \"M1\" has been graded.",
+        "Grades in CC101 have been posted."
       ],
       "password": "x5lrQ05fLHnE47Szrs+!^VP$3*+cGEIsCLNKWZtnqAzBZ_0W2EiUnCMVGnlpF@wJgJgWX@1UKS^5vgA8gy%%VhjOkQdVG5#V!N85",
       "program": "BSCS",
@@ -259,15 +277,21 @@
       "username": "Nat"
     },
     {
-      "GPA": -1.0,
+      "GPA": 5.0,
       "coursesEnrolled": [
         0
       ],
       "coursesHandled": [],
-      "finalGrades": [],
+      "finalGrades": [
+        {
+          "courseName": "CC101",
+          "grade": 5.0
+        }
+      ],
       "id": 2500005,
       "notifications": [
-        "You are now enrolled in CC101"
+        "You are now enrolled in CC101",
+        "Grades in CC101 have been posted."
       ],
       "password": "^GiW#XUEohzvrVT64uxMJqPtPX#FGTDyL#ul2Ar2T9Wsk^*ajpK6hWa+xxyN&JUDIrLVVXlf8o&ngo1$NU5mE73%+nk5Ysk&%sj6",
       "program": "BSCS",
