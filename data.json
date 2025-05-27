@@ -8,13 +8,14 @@
         2500001,
         2500003,
         2500004,
-        2500005
+        2500005,
+        2500006
       ],
       "majorExamPercentage": 30.0,
       "performanceTaskPercentage": 45.0,
       "studentRecords": [
         {
-          "finalGrade": 2.1983438252832926e+33,
+          "finalGrade": 1.25,
           "majorExam": [
             76.0
           ],
@@ -48,7 +49,7 @@
           "writtenTaskPercent": 1.0
         },
         {
-          "finalGrade": 2.1983438252832926e+33,
+          "finalGrade": 2.25,
           "majorExam": [
             56.0
           ],
@@ -82,7 +83,7 @@
           "writtenTaskPercent": 0.800000011920929
         },
         {
-          "finalGrade": 2.1983438252832926e+33,
+          "finalGrade": 2.25,
           "majorExam": [
             45.0
           ],
@@ -116,7 +117,7 @@
           "writtenTaskPercent": 0.800000011920929
         },
         {
-          "finalGrade": 4.017049816658977e+33,
+          "finalGrade": 5.0,
           "majorExam": [
             0.0
           ],
@@ -138,6 +139,40 @@
           ],
           "performanceTaskPercent": 0.0,
           "studentID": 2500005,
+          "writtenTask": [
+            0.0
+          ],
+          "writtenTaskName": [
+            "W1"
+          ],
+          "writtenTaskOver": [
+            20.0
+          ],
+          "writtenTaskPercent": 0.0
+        },
+        {
+          "finalGrade": 5.0,
+          "majorExam": [
+            0.0
+          ],
+          "majorExamName": [
+            "M1"
+          ],
+          "majorExamOver": [
+            80.0
+          ],
+          "majorExamPercent": 0.0,
+          "performanceTask": [
+            0.0
+          ],
+          "performanceTaskName": [
+            "P1"
+          ],
+          "performanceTaskOver": [
+            50.0
+          ],
+          "performanceTaskPercent": 0.0,
+          "studentID": 2500006,
           "writtenTask": [
             0.0
           ],
@@ -179,6 +214,7 @@
         "CC101: \"P1\" has been graded.",
         "CC101: \"W1\" has been graded.",
         "CC101: \"M1\" has been graded.",
+        "Grades in CC101 have been posted.",
         "Grades in CC101 have been posted."
       ],
       "password": "txngmKSKrCiP#Nk+02w^n3BjL006%qlHWWm6Y5U9ej#ti*J@zlg1rpI1!Xv*Hjj5yMi&+9cwVH#g$Gqsq9U#fcXfOLqaHK@XCRj2",
@@ -210,7 +246,9 @@
         "Nathalie DeCastro joined Math class.",
         "Sean Lei joined Science class.",
         "Sean Lei joined Math class.",
-        "Timothy joined CC101 class."
+        "Timothy joined CC101 class.",
+        "Secret joined CC101 class.",
+        "Den joined CC101 class."
       ],
       "password": "rSl54zFsL4H3Ar*R8g%7INOIUK8n*A7p+5UqLp@S_vRuDUJpnuh2n@2IgMHT6VX0VlydFf6MmH$H3cg^d9AhiNie*z$9_#ndCQp3",
       "program": "",
@@ -240,6 +278,7 @@
         "CC101: \"W1\" has been graded.",
         "CC101: \"W1\" has been updated.",
         "CC101: \"M1\" has been graded.",
+        "Grades in CC101 have been posted.",
         "Grades in CC101 have been posted."
       ],
       "password": "Kg3GnfAUsEeK4UyVItX1JB^HG@$zES6E@mfUB_$nO5yT8HGkRgOBZe*IN6#Sv0*P2obN#tCF8P%n*LCVc$dV+ofDUcLw1jDxZST4",
@@ -267,6 +306,7 @@
         "CC101: \"P1\" has been graded.",
         "CC101: \"W1\" has been graded.",
         "CC101: \"M1\" has been graded.",
+        "Grades in CC101 have been posted.",
         "Grades in CC101 have been posted."
       ],
       "password": "x5lrQ05fLHnE47Szrs+!^VP$3*+cGEIsCLNKWZtnqAzBZ_0W2EiUnCMVGnlpF@wJgJgWX@1UKS^5vgA8gy%%VhjOkQdVG5#V!N85",
@@ -291,6 +331,7 @@
       "id": 2500005,
       "notifications": [
         "You are now enrolled in CC101",
+        "Grades in CC101 have been posted.",
         "Grades in CC101 have been posted."
       ],
       "password": "^GiW#XUEohzvrVT64uxMJqPtPX#FGTDyL#ul2Ar2T9Wsk^*ajpK6hWa+xxyN&JUDIrLVVXlf8o&ngo1$NU5mE73%+nk5Ysk&%sj6",
@@ -299,6 +340,30 @@
       "section": "CS1-1",
       "space": 24,
       "username": "Timothy"
+    },
+    {
+      "GPA": -1.0,
+      "coursesEnrolled": [
+        0
+      ],
+      "coursesHandled": [],
+      "finalGrades": [
+        {
+          "courseName": "CC101",
+          "grade": 5.0
+        }
+      ],
+      "id": 2500006,
+      "notifications": [
+        "You are now enrolled in CC101",
+        "Grades in CC101 have been posted."
+      ],
+      "password": "Ekn5d+y#lFL9UUW+DGJlUDS^LYZ#R@d1Vp&FNNmqgE28A8k$Ble0*$CQa7SSmPH@$1iEhV2Bp5*5mXQTBwQAl246YOQaV5li@Ld7",
+      "program": "BSCS",
+      "role": "student",
+      "section": "CS1-1",
+      "space": 24,
+      "username": "Den"
     }
   ]
 }

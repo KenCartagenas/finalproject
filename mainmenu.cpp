@@ -94,6 +94,7 @@ void studentMenu()
   while (isLoggedIn)
   {
     c();
+    calculateAll();
     User &student = logInCredential[userIndex];
 
     // === DASHBOARD HEADER ===
@@ -352,7 +353,8 @@ void openClass()
       cout << "[D] Add or Remove Students" << endl;
       cout << "[E] Customize Grade Settings" << endl;
       cout << "[F] Release Grades" << endl;
-      cout << "[G] Return to Main Dashboard" << endl;
+      cout << "[G] View Messages" << endl;
+      cout << "[H] Return to Main Dashboard" << endl;
       cout << "-----------------------------------------" << endl;
       cout << "Enter choice: ";
       char optionOpen = getChar();
@@ -384,6 +386,9 @@ void openClass()
         c();
         releaseGrades(indexOfCourse);
       case 'g':
+        viewMessages(indexOfCourse);
+        break;
+      case 'h':
         cout << "Returning to main dashboard...." << endl;
         get();
         return;
@@ -489,18 +494,21 @@ void displayStudents(int indexOfCourse)
       cout << setprecision(0) << fixed << setw(8) << courses[indexOfCourse].studentRecords[i].performanceTask[j];
     }
     float p = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[i], 'a') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[i], 'c');
+    courses[indexOfCourse].studentRecords[i].performanceTaskPercent = p;
     cout << setprecision(2) << fixed << setw(8) << p * 100;
     for (int k = 0; k < courses[indexOfCourse].studentRecords[0].writtenTask.size(); k++)
     {
       cout << setprecision(0) << fixed << setw(8) << courses[indexOfCourse].studentRecords[i].writtenTask[k];
     }
     float w = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[i], 'b') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[i], 'd');
+    courses[indexOfCourse].studentRecords[i].writtenTaskPercent = w;
     cout << setprecision(2) << fixed << setw(8) << w * 100;
     for (int l = 0; l < courses[indexOfCourse].studentRecords[0].majorExam.size(); l++)
     {
       cout << setprecision(0) << fixed << setw(8) << courses[indexOfCourse].studentRecords[i].majorExam[l];
     }
     float m = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[i], 'e') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[i], 'f');
+    courses[indexOfCourse].studentRecords[i].majorExamPercent = m;
     float final = calculateGrade(indexOfCourse, p, w, m);
     float raw = calculateGradeRaw(indexOfCourse, p, w, m);
     cout << setprecision(2) << fixed << setw(8) << m * 100 << raw << " -> " << final;
@@ -879,7 +887,7 @@ void addOrRemove(int indexOfCourse)
   vector<int> &enrolled = courses[indexOfCourse].enrolledStudentID;
 
   c();
-  if (option == 'a')
+  if (tolower(option) == 'a')
   {
     cout << "=========================================" << endl;
     cout << "    Student Grades Management System" << endl;
@@ -888,8 +896,19 @@ void addOrRemove(int indexOfCourse)
     cout << "-----------------------------------------" << endl;
     studID = getInt();
 
-    if (find(enrolled.begin(), enrolled.end(), studID) == enrolled.end())
+    int index = indexFind(studID);
+    if (index != -1)
     {
+      for (int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
+      {
+        if (studID == courses[indexOfCourse].enrolledStudentID[i])
+        {
+          cout << "Student is already enrolled.\n";
+          get();
+          return;
+        }
+      }
+
       // Add GradeRecord
       GradeRecord newRecord;
       newRecord.studentID = studID;
@@ -931,14 +950,13 @@ void addOrRemove(int indexOfCourse)
       logInCredential[studID - BASE_ID].notifications.push_back(notif);
       get();
     }
-
     else
     {
-      cout << "Student is already enrolled.\n";
+      cout << "Student not found in course.\n";
       get();
     }
   }
-  else if (option == 'b')
+  else if (tolower(option) == 'b')
   {
     cout << "=========================================" << endl;
     cout << "    Student Grades Management System" << endl;
@@ -1072,8 +1090,8 @@ void searchStudentSummary()
     cout << "Search By ID[Enter ID]: " << endl;
     cout << "-----------------------------------------" << endl;
     int id = getInt();
-    index = id - BASE_ID;
-    if (id < logInCredential.size() && id >= 0)
+    index = indexFind(id);
+    if (index != -1)
     {
       if (logInCredential[index].role == "student")
       {
@@ -1088,10 +1106,9 @@ void searchStudentSummary()
     return;
   }
 
-  c();
-
-  if (studentFound = true)
+  if (studentFound == true)
   {
+    c();
     User user = logInCredential[index];
     cout << "-------------------------------------------------------" << endl;
     cout << "Student Name : " << user.username << endl;
@@ -1277,6 +1294,7 @@ void calculateTargetScore(const GradeRecord &record, const Course &course)
   cout << "\nCurrent Grade: " << currentScore * 100 << "%" << endl;
   cout << "To reach " << desiredGrade << ", you need " << needed << "% more." << endl;
   cout << "(Assuming future activities can still boost your grade.)\n";
+  get();
 }
 //
 void openCourse(const User &student)
@@ -1452,4 +1470,65 @@ void openNotif()
   }
   cout << "-----------------------------------------" << endl;
   get();
+}
+
+void viewMessages(int indexOfCourse)
+{
+  int index;
+  cout << "=========================================" << endl;
+  cout << "    Student Grades Management System" << endl;
+  cout << "=========================================" << endl;
+  cout << "Messages" << endl;
+  for (int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
+  {
+    index = indexFind(courses[indexOfCourse].enrolledStudentID[i]);
+    cout << to_string(i + 1) + ". " << logInCredential[index].username << endl;
+  }
+  cout << "-----------------------------------------" << endl;
+  int choice = getInt();
+  c();
+
+  index = indexFind(courses[indexOfCourse].enrolledStudentID[choice - 1]);
+  cout << "=========================================" << endl;
+  cout << "    Student Grades Management System" << endl;
+  cout << "=========================================" << endl;
+  cout << "Message: " << logInCredential[index].username << "\n" << endl;
+
+  if (courses[indexOfCourse].messages.size() != courses[indexOfCourse].enrolledStudentID.size())
+  {
+    for (int i = courses[indexOfCourse].messages.size(); i < courses[indexOfCourse].enrolledStudentID.size(); i++)
+    {
+      Message messageSlot;
+      courses[indexOfCourse].messages.push_back(messageSlot);
+    }
+  }
+
+  if (courses[indexOfCourse].messages[index].name.empty())
+  {
+    cout << "No available messsages" << endl;
+  }
+  for (int i = 0; i < courses[indexOfCourse].messages[index].name.size(); i++)
+  {
+    cout << courses[indexOfCourse].messages[index].name[i] << ": " << courses[indexOfCourse].messages[index].messages[i] << endl;
+  }
+  cout << "-----------------------------------------" << endl;
+  while (true)
+  {
+    cout << "Enter message(q to go back): ";
+    string message;
+    getline(cin, message);
+
+    if (message == "q")
+    {
+      break;
+    }
+    else
+    {
+      Message newMessage;
+
+      newMessage.name.push_back(logInCredential[userIndex].username);
+      newMessage.messages.push_back(message);
+      courses[indexOfCourse].messages.push_back(newMessage);
+    }
+  }
 }

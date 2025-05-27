@@ -28,6 +28,12 @@ struct GradeRecord
   float writtenTaskPercent;
 };
 
+struct Message
+{
+  vector<string> name;
+  vector<string> messages;
+};
+
 struct Course
 {
   int courseID;
@@ -40,6 +46,7 @@ struct Course
   float performanceTaskPercentage;
   float writtenTaskPercentage;
   vector<GradeRecord> studentRecords;
+  vector<Message> messages;
 };
 
 struct Grade

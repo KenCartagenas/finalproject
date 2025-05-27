@@ -195,6 +195,7 @@ void signUp()
         newUser.id = no;
         newUser.username = desiredUsername;
         newUser.role = role;
+        newUser.GPA = -1;
         if (role == "student")
         {
             newUser.program = tempprogram;

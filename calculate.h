@@ -2,6 +2,7 @@
 #define CALCULATE_H
 #include "data.h"
 
+void calculateAll();
 float calculateScore(int indexOfCourse, GradeRecord recordsToCalculate, char component);
 float calculateGrade(int indexOfCourse, float performanceGrade, float writtenGrade, float majorGrade);
 float calculateGradeRaw(int indexOfCourse, float performanceGrade, float writtenGrade, float majorGrade);

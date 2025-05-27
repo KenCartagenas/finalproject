@@ -1,6 +1,29 @@
 #include "calculate.h"
 #include "data.h"
 #include "utils.h"
+#include <iostream>
+using namespace std;
+
+void calculateAll()
+{
+    int index;
+    for (int i = 0; i < courses.size(); i++)
+    {
+        for (int j = 0; j < courses[i].enrolledStudentID.size(); j++)
+        {
+            index = indexFind(courses[i].enrolledStudentID[j]);
+            float p = calculateScore(i, courses[i].studentRecords[j], 'a') / calculateScore(i, courses[i].studentRecords[j], 'c');
+            courses[i].studentRecords[j].performanceTaskPercent = p;
+            float w = calculateScore(i, courses[i].studentRecords[j], 'b') / calculateScore(i, courses[i].studentRecords[j], 'd');
+            courses[i].studentRecords[j].writtenTaskPercent = w;
+            float m = calculateScore(i, courses[i].studentRecords[j], 'e') / calculateScore(i, courses[i].studentRecords[j], 'f');
+            courses[i].studentRecords[j].majorExamPercent = m;
+            float final = calculateGrade(i, p, w, m);
+            courses[i].studentRecords[j].finalGrade = final;
+        }
+    }
+    calculateGPA();
+}
 //
 float calculateScore(int indexOfCourse, GradeRecord recordsToCalculate, char component)
 {
@@ -48,7 +71,7 @@ float calculateScore(int indexOfCourse, GradeRecord recordsToCalculate, char com
             totalScore += recordsToCalculate.majorExamOver[i];
         }
     }
-    
+
     return totalScore;
 }
 //
@@ -61,35 +84,35 @@ float calculateGrade(int indexOfCourse, float performanceGrade, float writtenGra
     {
         systemGrade = 1.00;
     }
-    else if(withBase >= 96.0f)
+    else if (withBase >= 96.0f)
     {
         systemGrade = 1.25;
     }
-    else if(withBase >= 93)
+    else if (withBase >= 93)
     {
         systemGrade = 1.50;
     }
-    else if(withBase >= 90)
+    else if (withBase >= 90)
     {
         systemGrade = 1.75;
     }
-    else if(withBase >= 87)
+    else if (withBase >= 87)
     {
         systemGrade = 2.00;
     }
-    else if(withBase >= 84)
+    else if (withBase >= 84)
     {
         systemGrade = 2.25;
     }
-    else if(withBase >= 81)
+    else if (withBase >= 81)
     {
         systemGrade = 2.50;
     }
-    else if(withBase >= 78)
+    else if (withBase >= 78)
     {
         systemGrade = 2.75;
     }
-    else if(withBase >= 75)
+    else if (withBase >= 75)
     {
         systemGrade = 3.00;
     }
@@ -97,7 +120,7 @@ float calculateGrade(int indexOfCourse, float performanceGrade, float writtenGra
     {
         systemGrade = 5.00;
     }
-    
+
     return systemGrade;
 }
 
@@ -123,48 +146,51 @@ void calculateGPA()
                 gpa += logInCredential[i].finalGrades[j].grade;
                 gpaCount++;
             }
-            gpa /= (float) gpaCount;
-            logInCredential[i].GPA = gpa;
+            if (gpaCount > 0)
+            {
+                gpa /= (float)gpaCount;
+                logInCredential[i].GPA = gpa;
+            }
         }
     }
 }
 //
 float getFinal(int indexOfCourse, int j)
 {
-  float final;
+    float final;
     if (courses[indexOfCourse].studentRecords[j].performanceTask.size() > 0)
     {
-      courses[indexOfCourse].studentRecords[j].performanceTaskPercent = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'a') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'c');
+        courses[indexOfCourse].studentRecords[j].performanceTaskPercent = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'a') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'c');
     }
     else
     {
-      courses[indexOfCourse].studentRecords[j].performanceTaskPercent = 0.0;
+        courses[indexOfCourse].studentRecords[j].performanceTaskPercent = 0.0;
     }
 
     if (courses[indexOfCourse].studentRecords[j].writtenTask.size() > 0)
     {
-      courses[indexOfCourse].studentRecords[j].writtenTaskPercent = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'b') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'd');
+        courses[indexOfCourse].studentRecords[j].writtenTaskPercent = calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'b') / calculateScore(indexOfCourse, courses[indexOfCourse].studentRecords[j], 'd');
     }
     else
     {
-      courses[indexOfCourse].studentRecords[j].writtenTaskPercent = 0.0;
+        courses[indexOfCourse].studentRecords[j].writtenTaskPercent = 0.0;
     }
     if (courses[indexOfCourse].studentRecords[j].majorExam.size() > 0)
     {
-      courses[indexOfCourse].studentRecords[j].majorExamPercent = courses[indexOfCourse].studentRecords[j].majorExam[0] / courses[indexOfCourse].studentRecords[j].majorExamOver[0];
-      final = calculateGrade(indexOfCourse, courses[indexOfCourse].studentRecords[j].performanceTaskPercent, courses[indexOfCourse].studentRecords[j].writtenTaskPercent, courses[indexOfCourse].studentRecords[j].majorExamPercent);
+        courses[indexOfCourse].studentRecords[j].majorExamPercent = courses[indexOfCourse].studentRecords[j].majorExam[0] / courses[indexOfCourse].studentRecords[j].majorExamOver[0];
+        final = calculateGrade(indexOfCourse, courses[indexOfCourse].studentRecords[j].performanceTaskPercent, courses[indexOfCourse].studentRecords[j].writtenTaskPercent, courses[indexOfCourse].studentRecords[j].majorExamPercent);
     }
-  return final;
+    return final;
 }
 
 int calculateTotalstudents()
 {
     int students = 0;
-    for(int i = 0; i < courses.size(); i++)
+    for (int i = 0; i < courses.size(); i++)
     {
-        if(courses[i].teacherID == loggedInID)
+        if (courses[i].teacherID == loggedInID)
         {
-            for(int j = 0; j < courses[i].enrolledStudentID.size(); j++)
+            for (int j = 0; j < courses[i].enrolledStudentID.size(); j++)
             {
                 students++;
             }
@@ -178,11 +204,11 @@ float calculateAverageGrade()
     float grade = 0.0;
     int count = 0;
     int index;
-    for(int i = 0; i < courses.size(); i++)
+    for (int i = 0; i < courses.size(); i++)
     {
-        if(courses[i].teacherID == loggedInID)
+        if (courses[i].teacherID == loggedInID)
         {
-            for(int j = 0; j < courses[i].enrolledStudentID.size(); j++)
+            for (int j = 0; j < courses[i].enrolledStudentID.size(); j++)
             {
                 index = indexFind(courses[i].enrolledStudentID[j]);
                 for (int k = 0; k < logInCredential[index].finalGrades.size(); k++)
@@ -192,11 +218,9 @@ float calculateAverageGrade()
                         grade += logInCredential[index].finalGrades[k].grade;
                         count++;
                     }
-                    
                 }
-                
             }
         }
     }
-    return grade / (float) count;
+    return grade / (float)count;
 }

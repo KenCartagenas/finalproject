@@ -22,5 +22,6 @@ void editUserProfile();
 void openCourse(const User& student);
 void releaseGrades(int indexOfCourse);
 void openNotif();
+void viewMessages(int indexOfCourse);
 
 #endif
