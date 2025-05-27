@@ -87,7 +87,6 @@ void teacherMenu()
     }
     saveData();
   }
-  
 }
 //
 void studentMenu()
@@ -357,33 +356,39 @@ void openClass()
       cout << "-----------------------------------------" << endl;
       cout << "Enter choice: ";
       char optionOpen = getChar();
-      c();
 
       switch (tolower(optionOpen))
       {
       case 'a':
+        c();
         displayStudents(indexOfCourse);
         get();
         break;
       case 'b':
+        c();
         editStudent(indexOfCourse);
         break;
       case 'c':
+        c();
         generateReportCourse(indexOfCourse);
         break;
       case 'd':
+        c();
         addOrRemove(indexOfCourse);
         break;
       case 'e':
+        c();
         customizeGradeSettings(indexOfCourse);
         break;
       case 'f':
+        c();
         releaseGrades(indexOfCourse);
       case 'g':
         cout << "Returning to main dashboard...." << endl;
         get();
         return;
       default:
+        c();
         break;
       }
     }
@@ -472,7 +477,8 @@ void displayStudents(int indexOfCourse)
   }
   cout << setw(8) << "" << "";
 
-  cout << "\n" << endl;
+  cout << "\n"
+       << endl;
 
   for (int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
   {
@@ -631,7 +637,7 @@ void editScore(int indexOfCourse)
     c();
     return;
   }
-  
+
   int index = indexFind(courses[indexOfCourse].enrolledStudentID[chosenStudent - 1]);
   int chosenStudentIndex = chosenStudent - 1;
   string actName;
@@ -648,7 +654,7 @@ void editScore(int indexOfCourse)
   cout << "Enter new score: ";
   score = getFloat();
   int pos;
-  
+
   if (tolower(actName[0]) == 'p')
   {
     for (int i = 0; i < courses[indexOfCourse].studentRecords[chosenStudentIndex].performanceTaskName.size(); i++)
@@ -826,22 +832,25 @@ void generateReportGPA()
 
   if (outFile.is_open())
   {
-    outFile << "-----------------------------------------" << endl;
+
     for (int i = 0; i < logInCredential.size(); i++)
     {
       if (logInCredential[i].role == "student")
       {
-        outFile << logInCredential[i].id << ": " << endl;
+        outFile << "==========================================\n";
+        outFile << "Student Name: " << logInCredential[i].username << endl;
+        outFile << "Student ID: " << logInCredential[i].id << endl;
+        outFile << "------------------------------------------\n";
         for (int j = 0; j < logInCredential[i].finalGrades.size(); j++)
         {
-          outFile << setprecision(2) << fixed << "\t" << logInCredential[i].finalGrades[j].courseName << ": " << logInCredential[i].finalGrades[j].grade << endl;
+          outFile << setprecision(2) << fixed << logInCredential[i].finalGrades[j].courseName << ": \t\t" << logInCredential[i].finalGrades[j].grade << endl;
         }
-
-        outFile << "\nGPA: " << logInCredential[i].GPA << endl;
-        outFile << "==========================================\n"
-                << endl;
+        outFile << "\t\t\t" << endl;
+        outFile << "GPA: \t\t" << logInCredential[i].GPA << endl;
+        outFile << "==========================================\n>                                        <\n";
       }
     }
+
     outFile.close();
     cout << "File '" << filename << "' written successfully.\nPlease download the file immediately after generating the report." << endl;
   }
@@ -884,6 +893,27 @@ void addOrRemove(int indexOfCourse)
       // Add GradeRecord
       GradeRecord newRecord;
       newRecord.studentID = studID;
+      newRecord.performanceTaskName = courses[indexOfCourse].studentRecords[0].performanceTaskName;
+      newRecord.performanceTaskOver = courses[indexOfCourse].studentRecords[0].performanceTaskOver;
+      newRecord.writtenTaskName = courses[indexOfCourse].studentRecords[0].writtenTaskName;
+      newRecord.writtenTaskOver = courses[indexOfCourse].studentRecords[0].writtenTaskOver;
+      newRecord.majorExamName = courses[indexOfCourse].studentRecords[0].majorExamName;
+      newRecord.majorExamOver = courses[indexOfCourse].studentRecords[0].majorExamOver;
+      int size = courses[indexOfCourse].studentRecords[0].performanceTask.size();
+      for (int j = 0; j < size; j++)
+      {
+        newRecord.performanceTask.push_back(0.0);
+      }
+      size = courses[indexOfCourse].studentRecords[0].writtenTask.size();
+      for (int j = 0; j < size; j++)
+      {
+        newRecord.writtenTask.push_back(0.0);
+      }
+      size = courses[indexOfCourse].studentRecords[0].majorExam.size();
+      for (int j = 0; j < size; j++)
+      {
+        newRecord.majorExam.push_back(0.0);
+      }
       courses[indexOfCourse].studentRecords.push_back(newRecord);
 
       // Add course to student's enrolled list
@@ -1007,6 +1037,7 @@ void searchStudentSummary()
        << endl;
   cout << "[A] Search by Name: \n[B] Search by ID: " << endl;
   cout << "-----------------------------------------" << endl;
+  cout << "Enter choice: ";
   char option = getChar();
   bool studentFound = false;
   int index;
@@ -1020,14 +1051,14 @@ void searchStudentSummary()
     cout << "=========================================" << endl;
     cout << "Search By Name[Enter Name]: " << endl;
     cout << "-----------------------------------------" << endl;
-    cout << ">> ";
+    cout << "Enter name: ";
     getline(cin, name);
 
     for (int i = 0; i < logInCredential.size(); i++)
     {
       if (logInCredential[i].username == name)
       {
-        index = logInCredential[i].id - BASE_ID;
+        index = indexFind(logInCredential[i].id);
         studentFound = true;
         break;
       }
@@ -1365,39 +1396,43 @@ void releaseGrades(int indexOfCourse)
   for (int j = 0; j < courses[indexOfCourse].enrolledStudentID.size(); j++)
   {
     float final = getFinal(indexOfCourse, j);
-    if (logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.empty())
+    int index = indexFind(courses[indexOfCourse].enrolledStudentID[j]);
+    if (logInCredential[index].finalGrades.empty())
     {
       Grade grades;
       grades.grade = final;
       grades.courseName = courses[indexOfCourse].courseName;
 
-      logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.push_back(grades);
+      logInCredential[index].finalGrades.push_back(grades);
     }
 
-    for (int i = 0; i < logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.size(); i++)
+    for (int i = 0; i < logInCredential[index].finalGrades.size(); i++)
     {
-      if (logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i].courseName == courses[indexOfCourse].courseName)
+      if (logInCredential[index].finalGrades[i].courseName == courses[indexOfCourse].courseName)
       {
+        index = indexFind(courses[indexOfCourse].enrolledStudentID[j]);
         Grade grades;
         grades.grade = final;
         grades.courseName = courses[indexOfCourse].courseName;
 
-        logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i] = grades;
+        logInCredential[index].finalGrades[i] = grades;
       }
-      if (i == logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.size() - 1 && logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades[i].courseName != courses[indexOfCourse].courseName)
+      if (i == logInCredential[index].finalGrades.size() - 1 && logInCredential[index].finalGrades[i].courseName != courses[indexOfCourse].courseName)
       {
         Grade grades;
         grades.grade = final;
         grades.courseName = courses[indexOfCourse].courseName;
 
-        logInCredential[courses[indexOfCourse].enrolledStudentID[j] - BASE_ID].finalGrades.push_back(grades);
+        logInCredential[index].finalGrades.push_back(grades);
       }
     }
   }
   string notif = "Grades in " + courses[indexOfCourse].courseName + " have been posted.";
+  int index;
   for (int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
   {
-    logInCredential[courses[indexOfCourse].enrolledStudentID[i] - BASE_ID].notifications.push_back(notif);
+    index = indexFind(courses[indexOfCourse].enrolledStudentID[i]);
+    logInCredential[index].notifications.push_back(notif);
   }
 
   cout << "Grades are now posted." << endl;
