@@ -23,5 +23,6 @@ void openCourse(const User& student);
 void releaseGrades(int indexOfCourse);
 void openNotif();
 void viewMessages(int indexOfCourse);
+void viewMessageProf(int indexOfCourse);
 
 #endif

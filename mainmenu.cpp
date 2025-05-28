@@ -14,6 +14,7 @@ using namespace std;
 void mainMenu()
 {
   c();
+
   if (logInCredential[userIndex].role == "teacher")
   {
     teacherMenu();
@@ -1372,8 +1373,9 @@ void openCourse(const User &student)
     cout << "=========================================" << endl;
     cout << "Course: " << selectedCourse->courseName << endl;
     cout << "1. View Activities\n";
-    cout << "2. Calculate Target Score\n";
-    cout << "3. Back to Dashboard\n";
+    cout << "2. View Messages from Professor\n";
+    cout << "3. Calculate Target Score\n";
+    cout << "4. Back to Dashboard\n";
     cout << "-----------------------------------------" << endl;
     int opt = getInt();
 
@@ -1381,11 +1383,15 @@ void openCourse(const User &student)
     {
       viewActivities(*selectedRecord);
     }
-    else if (opt == 2)
+    else if (opt == 3)
     {
       calculateTargetScore(*selectedRecord, *selectedCourse);
     }
-    else if (opt == 3)
+    else if (opt == 2)
+    {
+      viewMessageProf(selectedCourseID);
+    }
+    else if (opt == 4)
     {
       break;
     }
@@ -1488,11 +1494,20 @@ void viewMessages(int indexOfCourse)
   int choice = getInt();
   c();
 
-  index = indexFind(courses[indexOfCourse].enrolledStudentID[choice - 1]);
+  for(int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
+  {
+    if(courses[indexOfCourse].enrolledStudentID[choice - 1] == courses[indexOfCourse].enrolledStudentID[i])
+    {
+      index = i;
+      break;
+    }
+  }
+
+  int indexHere = indexFind(courses[indexOfCourse].enrolledStudentID[index]);
   cout << "=========================================" << endl;
   cout << "    Student Grades Management System" << endl;
   cout << "=========================================" << endl;
-  cout << "Message: " << logInCredential[index].username << "\n" << endl;
+  cout << "Message: " << logInCredential[indexHere].username << "\n" << endl;
 
   if (courses[indexOfCourse].messages.size() != courses[indexOfCourse].enrolledStudentID.size())
   {
@@ -1524,11 +1539,62 @@ void viewMessages(int indexOfCourse)
     }
     else
     {
-      Message newMessage;
+      courses[indexOfCourse].messages[index].name.push_back(logInCredential[userIndex].username);
+      courses[indexOfCourse].messages[index].messages.push_back(message);
+    }
+  }
+}
 
-      newMessage.name.push_back(logInCredential[userIndex].username);
-      newMessage.messages.push_back(message);
-      courses[indexOfCourse].messages.push_back(newMessage);
+void viewMessageProf(int indexOfCourse)
+{
+  c();
+  int index;
+  for(int i = 0; i < courses[indexOfCourse].enrolledStudentID.size(); i++)
+  {
+    if(logInCredential[userIndex].id == courses[indexOfCourse].enrolledStudentID[i])
+    {
+      index = i;
+      break;
+    }
+  }
+  int indexHere = indexFind(courses[indexOfCourse].enrolledStudentID[index]);
+  cout << "=========================================" << endl;
+  cout << "    Student Grades Management System" << endl;
+  cout << "=========================================" << endl;
+  cout << "Message: " << logInCredential[indexHere].username << "\n" << endl;
+
+  if (courses[indexOfCourse].messages.size() != courses[indexOfCourse].enrolledStudentID.size())
+  {
+    for (int i = courses[indexOfCourse].messages.size(); i < courses[indexOfCourse].enrolledStudentID.size(); i++)
+    {
+      Message messageSlot;
+      courses[indexOfCourse].messages.push_back(messageSlot);
+    }
+  }
+
+  if (courses[indexOfCourse].messages[index].name.empty())
+  {
+    cout << "No available messsages" << endl;
+  }
+  for (int i = 0; i < courses[indexOfCourse].messages[index].name.size(); i++)
+  {
+    cout << courses[indexOfCourse].messages[index].name[i] << ": " << courses[indexOfCourse].messages[index].messages[i] << endl;
+  }
+  cout << "-----------------------------------------" << endl;
+  while (true)
+  {
+    cout << "Enter message(q to go back): ";
+    string message;
+    getline(cin, message);
+
+    if (message == "q")
+    {
+      break;
+    }
+    else
+    {
+      courses[indexOfCourse].messages[index].name.push_back(logInCredential[userIndex].username);
+      courses[indexOfCourse].messages[index].messages.push_back(message);
     }
   }
 }

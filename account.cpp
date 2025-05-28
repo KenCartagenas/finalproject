@@ -206,33 +206,45 @@ void signUp()
         logInCredential[index].password = encrypt(desiredPassword, no, index);
         for (int i = 0; i < courses.size(); i++)
         {
-            index = indexFind(courses[i].enrolledStudentID[0]);
+            if(!courses[i].enrolledStudentID.empty())
+            {
+                index = indexFind(courses[i].enrolledStudentID[0]);
+            }
             if (logInCredential[index].section == tempsection)
             {
-                GradeRecord records;
-                records.studentID = no;
-                records.performanceTaskName = courses[i].studentRecords[0].performanceTaskName;
-                records.performanceTaskOver = courses[i].studentRecords[0].performanceTaskOver;
-                records.writtenTaskName = courses[i].studentRecords[0].writtenTaskName;
-                records.writtenTaskOver = courses[i].studentRecords[0].writtenTaskOver;
-                records.majorExamName = courses[i].studentRecords[0].majorExamName;
-                records.majorExamOver = courses[i].studentRecords[0].majorExamOver;
-                int size = courses[i].studentRecords[0].performanceTask.size();
-                for (int j = 0; j < size; j++)
+                if(!courses[i].enrolledStudentID.empty())
                 {
-                    records.performanceTask.push_back(0.0);
+                    GradeRecord records;
+                    records.studentID = no;
+                    records.performanceTaskName = courses[i].studentRecords[0].performanceTaskName;
+                    records.performanceTaskOver = courses[i].studentRecords[0].performanceTaskOver;
+                    records.writtenTaskName = courses[i].studentRecords[0].writtenTaskName;
+                    records.writtenTaskOver = courses[i].studentRecords[0].writtenTaskOver;
+                    records.majorExamName = courses[i].studentRecords[0].majorExamName;
+                    records.majorExamOver = courses[i].studentRecords[0].majorExamOver;
+                    int size = courses[i].studentRecords[0].performanceTask.size();
+                    for (int j = 0; j < size; j++)
+                    {
+                        records.performanceTask.push_back(0.0);
+                    }
+                    size = courses[i].studentRecords[0].writtenTask.size();
+                    for (int j = 0; j < size; j++)
+                    {
+                        records.writtenTask.push_back(0.0);
+                    }
+                    size = courses[i].studentRecords[0].majorExam.size();
+                    for (int j = 0; j < size; j++)
+                    {
+                        records.majorExam.push_back(0.0);
+                    }
+                    courses[i].studentRecords.push_back(records);
                 }
-                size = courses[i].studentRecords[0].writtenTask.size();
-                for (int j = 0; j < size; j++)
+                else
                 {
-                    records.writtenTask.push_back(0.0);
+                    GradeRecord records;
+                    records.studentID = no;
+                    courses[i].studentRecords.push_back(records);
                 }
-                size = courses[i].studentRecords[0].majorExam.size();
-                for (int j = 0; j < size; j++)
-                {
-                    records.majorExam.push_back(0.0);
-                }
-                courses[i].studentRecords.push_back(records);
                 logInCredential.back().coursesEnrolled.push_back(courses[i].courseID);
                 courses[i].enrolledStudentID.push_back(logInCredential.back().id);
                 string notif = "You are now enrolled in " + courses[i].courseName;

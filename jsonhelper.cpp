@@ -5,6 +5,16 @@
 using namespace std;
 using json = nlohmann::json;
 
+// Messages
+void to_json(json& j, const Message& m) {
+    j = json{{"name", m.name}, {"messages", m.messages}};
+}
+
+void from_json(const json& j, Message& m) {
+    j.at("name").get_to(m.name);
+    j.at("messages").get_to(m.messages);
+}
+
 // Grade
 void to_json(json& j, const Grade& g) {
     j = json{{"courseName", g.courseName}, {"grade", g.grade}};
@@ -62,7 +72,8 @@ void to_json(json& j, const Course& c) {
         {"majorExamPercentage", c.majorExamPercentage},
         {"performanceTaskPercentage", c.performanceTaskPercentage},
         {"writtenTaskPercentage", c.writtenTaskPercentage},
-        {"studentRecords", c.studentRecords}
+        {"studentRecords", c.studentRecords},
+        {"messages", c.messages}
     };
 }
 void from_json(const json& j, Course& c) {
@@ -76,6 +87,7 @@ void from_json(const json& j, Course& c) {
     j.at("performanceTaskPercentage").get_to(c.performanceTaskPercentage);
     j.at("writtenTaskPercentage").get_to(c.writtenTaskPercentage);
     j.at("studentRecords").get_to(c.studentRecords);
+    j.at("messages").get_to(c.messages);
 }
 
 // User

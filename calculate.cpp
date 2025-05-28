@@ -13,11 +13,20 @@ void calculateAll()
         {
             index = indexFind(courses[i].enrolledStudentID[j]);
             float p = calculateScore(i, courses[i].studentRecords[j], 'a') / calculateScore(i, courses[i].studentRecords[j], 'c');
-            courses[i].studentRecords[j].performanceTaskPercent = p;
+            if(p > 0)
+            {
+                courses[i].studentRecords[j].performanceTaskPercent = p;
+            }
             float w = calculateScore(i, courses[i].studentRecords[j], 'b') / calculateScore(i, courses[i].studentRecords[j], 'd');
-            courses[i].studentRecords[j].writtenTaskPercent = w;
+            if (w > 0)
+            {
+                courses[i].studentRecords[j].writtenTaskPercent = w;
+            }
             float m = calculateScore(i, courses[i].studentRecords[j], 'e') / calculateScore(i, courses[i].studentRecords[j], 'f');
-            courses[i].studentRecords[j].majorExamPercent = m;
+            if (m > 0)
+            {
+                courses[i].studentRecords[j].majorExamPercent = m;
+            }
             float final = calculateGrade(i, p, w, m);
             courses[i].studentRecords[j].finalGrade = final;
         }

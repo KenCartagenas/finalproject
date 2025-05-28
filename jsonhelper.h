@@ -6,6 +6,8 @@
 #include "json.hpp"
 using json = nlohmann::json;
 
+void to_json(json& j, const Message& m);
+void from_json(const json& j, Message& m);
 // Grade
 void to_json(json& j, const Grade& g);
 void from_json(const json& j, Grade& g);
